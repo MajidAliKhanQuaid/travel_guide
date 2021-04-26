@@ -1,0 +1,106 @@
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+.busySpinner,
+.busySpinner div:not(.spinner-border) {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.busySpinner .modal-body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.busySpinner .spinner-border {
+  height: 200px !important;
+  width: 200px !important;
+}
+
+.dropdown-menu {
+  left: -100px !important;
+}
+/* 
+      .carousel .item {
+        height: 100px !important;
+      } */
+
+.carousel-item {
+  height: 50vh !important;
+}
+
+.item img {
+  position: absolute !important;
+  object-fit: cover !important;
+  top: 0 !important;
+  left: 0 !important;
+  min-height: 50vh !important;
+}
+
+/* Equal-height card images, cf. https://stackoverflow.com/a/47698201/1375163*/
+.card-img-top {
+  /*height: 11vw;*/
+  object-fit: cover;
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .card-img-top {
+    height: 19vw;
+  }
+}
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .card-img-top {
+    height: 16vw;
+  }
+}
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .card-img-top {
+    height: 20rem;
+  }
+}
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 992px) {
+  .card-img-top {
+    height: 20rem;
+  }
+}
+
+.card-region-link:hover {
+  text-decoration: none !important;
+}
+
+.card-region:hover img.card-img-top {
+  opacity: 0.7;
+}
+
+.map-container > iframe {
+  height: 100%;
+  width: 100%;
+}
+
+tr.searchResults img {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+td.map-container iframe {
+  height: 100%;
+}

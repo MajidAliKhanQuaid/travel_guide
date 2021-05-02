@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 // import Button from 'react-bootstrap/Button';
-import { Button, Container } from "react-bootstrap";
+import { Breadcrumb, Button, Container } from "react-bootstrap";
 import {
   Router,
   Switch,
@@ -54,12 +54,40 @@ import EditMosque from "./pages/mosque/Edit";
 import Mosque from "./pages/mosque/Mosque";
 import NewMosque from "./pages/mosque/New";
 import SearchMosques from "./pages/mosque/Mosque";
-
+import Park from "./pages/park/Park";
+import NewPark from "./pages/park/New";
+import ListParks from "./pages/park/List";
+import SearchParks from "./pages/mosque/Mosque";
+//import ListAccout from "./pages/accounts/List";
+import EditPark from "./pages/park/Edit";
+import Gym from "./pages/gym/Gym";
+import NewGym from "./pages/gym/New";
+import ListGyms from "./pages/gym/List";
+import SearchGyms from "./pages/mosque/Mosque";
+//import ListAccout from "./pages/accounts/List";
+import EditGym from "./pages/gym/Edit";
+import Cultural from "./pages/cultural/Cultural";
+import NewCultural from "./pages/cultural/New";
+import ListCulturals from "./pages/cultural/List";
+//import ListAccout from "./pages/accounts/List";
+import EditCultural from "./pages/cultural/Edit";
+import SearchCulturalS from "./pages/mosque/Mosque";
+import Historical from "./pages/historical/Historical";
+import NewHistorical from "./pages/historical/New";
+import ListHistoricals from "./pages/historical/List";
+//import ListAccout from "./pages/accounts/List";
+import SearchHistoricals from "./pages/mosque/Mosque";
+import EditHistorical from "./pages/historical/Edit";
+import SignUp from "./pages/accounts/SignUp";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((x) => x.userState.user);
   const displayNav = useSelector((x) => x.commonState.displayNav);
-
+  // const breadcrumbItems = useSelector((x) => x.commonState.breadcrumbItems);
+  const breadcrumbItems = [
+    { url: "/", text: "First" },
+    { url: "/second", text: "Second" },
+  ];
   const displaySearchBtn = useSelector((x) => x.commonState.showSearchBtn);
   const searchText = useSelector((x) => x.commonState.searchText);
   const searchCategory = useSelector((x) => x.commonState.searchCategory);
@@ -74,6 +102,14 @@ function App() {
       return searchPlaces();
     } else if (searchCategory == "20") {
       return searchMosques();
+    } else if (searchCategory == "30") {
+      return searchParks();
+    } else if (searchCategory == "40") {
+      return SearchHistoricals();
+    } else if (searchCategory == "50") {
+      return searchCulturals();
+    } else if (searchCategory == "60") {
+      return searchGyms();
     } else {
       return searchPlaces();
     }
@@ -97,6 +133,42 @@ function App() {
     });
   };
 
+  const searchParks = () => {
+    setSearchModalOptions({ ...searchModalOptions, show: false });
+    history.push({
+      pathname: "/parks/search",
+      // search: "?query=abc",
+      state: { query: query },
+    });
+  };
+
+  const SearchHistoricals = () => {
+    setSearchModalOptions({ ...searchModalOptions, show: false });
+    history.push({
+      pathname: "/historicals/search",
+      // search: "?query=abc",
+      state: { query: query },
+    });
+  };
+
+  const searchCulturals = () => {
+    setSearchModalOptions({ ...searchModalOptions, show: false });
+    history.push({
+      pathname: "/culturals/search",
+      // search: "?query=abc",
+      state: { query: query },
+    });
+  };
+
+  const searchGyms = () => {
+    setSearchModalOptions({ ...searchModalOptions, show: false });
+    history.push({
+      pathname: "/gyms/search",
+      // search: "?query=abc",
+      state: { query: query },
+    });
+  };
+
   return (
     <>
       <Router history={history}>
@@ -108,6 +180,27 @@ function App() {
           }}
           displaySearchBtn={displaySearchBtn}
         />
+        {/* <Breadcrumb>
+          {breadcrumbItems ? (
+            breadcrumbItems.map((x, i) => (
+              <li
+                className={`breadcrumb-item ${
+                  i == breadcrumbItems.length - 1 ? "active" : ""
+                }`}
+              >
+                {i == breadcrumbItems.length - 1 ? (
+                  <span>{x.text}</span>
+                ) : (
+                  <Link to={x.url}>{x.text}</Link>
+                )}
+              </li>
+            ))
+          ) : (
+            <li className="breadcrumb-item">
+              <Link to={"/"}>{"Home"}</Link>
+            </li>
+          )}
+        </Breadcrumb>*/}
         <Switch>
           <ProtectedRoute
             path="/"
@@ -119,6 +212,7 @@ function App() {
           />
 
           <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
           <Route path="/logout" component={Logout} />
 
           <Route path="/region/balouchistan" component={Balouchistan} />
@@ -139,6 +233,33 @@ function App() {
           <Route path="/mosques/edit/:identifier" component={EditMosque} />
           <Route path="/mosques/:identifier" component={Mosque} />
           <Route path="/mosques" component={ListMosques} />
+
+          <Route path="/parks/new" exact component={NewPark} />
+          <Route path="/parks/search" component={SearchParks} />
+          <Route path="/parks/edit/:identifier" component={EditPark} />
+          <Route path="/parks/:identifier" component={Park} />
+          <Route path="/parks" component={ListParks} />
+
+          <Route path="/gyms/new" exact component={NewGym} />
+          <Route path="/gyms/search" component={SearchGyms} />
+          <Route path="/gyms/edit/:identifier" component={EditGym} />
+          <Route path="/gyms/:identifier" component={Gym} />
+          <Route path="/gyms" component={ListGyms} />
+
+          <Route path="/culturals/new" exact component={NewCultural} />
+          <Route path="/culturals/search" component={SearchCulturalS} />
+          <Route path="/culturals/edit/:identifier" component={EditCultural} />
+          <Route path="/culturals/:identifier" component={Cultural} />
+          <Route path="/culturals" component={ListCulturals} />
+
+          <Route path="/historicals/new" exact component={NewHistorical} />
+          <Route path="/historicals/search" component={SearchHistoricals} />
+          <Route
+            path="/historicals/edit/:identifier"
+            component={EditHistorical}
+          />
+          <Route path="/historicals/:identifier" component={Historical} />
+          <Route path="/historicals" component={ListHistoricals} />
 
           <Route path="/accounts/new" component={NewAccount} />
           <Route path="/accounts" component={ListAccout} />
@@ -201,15 +322,15 @@ const SearchComponent = ({ display, searchClick, dismissClick }) => {
                 onChange={(e) => {
                   dispatch({
                     type: "CHANGE_SEARCH_CATEGORY",
-                    payload: "e.target.value",
+                    payload: e.target.value,
                   });
                 }}
               >
                 <option value="10">Places</option>
                 <option value="20">Mosques</option>
                 <option value="30">Parks</option>
-                <option value="40">Historical</option>
-                <option value="50">Cultural</option>
+                <option value="40">Historicals</option>
+                <option value="50">Culturals</option>
                 <option value="60">Gyms</option>
               </Form.Control>
             </Form.Group>
@@ -346,34 +467,55 @@ const NavbarComponent = ({
             Mosques
            </Link>*/}
 
-          <div class="dropdown">
-            <button class="dropbtn">Categories</button>
+          <NavDropdown title={"ABC "} id="user-nav-dropdown">
+            <Link to="/mosques" className="dropdown-item">
+              Mosques
+            </Link>
+            <Link to="/parks" className="dropdown-item">
+              Parks
+            </Link>
+            <Link to="/historicals" className="dropdown-item">
+              Historical
+            </Link>
+            <Link to="/culturals" className="dropdown-item">
+              Cultural
+            </Link>
+            <Link to="/meuseums" className="dropdown-item">
+              Meuseums
+            </Link>
+            <Link to="/gyms" className="dropdown-item">
+              Gyms
+            </Link>
+          </NavDropdown>
+
+          {/* <div class="dropdown">
+            <button class="dropbtn">Interests</button>
             <div class="dropdown-content">
               <Link to="/mosques" className="nav-link">
                 <span style={{ color: "rgba(0,0,0,.5)" }}>Mosque </span>
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/parks" className="nav-link">
                 {" "}
                 <span style={{ color: "rgba(0,0,0,.5)" }}>Park</span>
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/meuseums" className="nav-link">
                 {" "}
                 <span style={{ color: "rgba(0,0,0,.5)" }}>Meuseum </span>
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/historicals" className="nav-link">
                 {" "}
                 <span style={{ color: "rgba(0,0,0,.5)" }}>Historical</span>
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/culturals" className="nav-link">
                 {" "}
                 <span style={{ color: "rgba(0,0,0,.5)" }}>Cultural</span>
               </Link>
-              <Link to="/" className="nav-link">
+              <Link to="/gyms" className="nav-link">
                 {" "}
                 <span style={{ color: "rgba(0,0,0,.5)" }}>gym</span>
               </Link>
             </div>
-          </div>
+          </div> */}
 
           <Link to="/accounts" className="nav-link">
             Accounts

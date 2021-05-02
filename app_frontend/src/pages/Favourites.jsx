@@ -1,51 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Pagination } from "react-bootstrap";
-
+import axios from "./../interceptor";
 const Favouries = () => {
-  const [favs, setFavs] = useState([
-    {
-      identifier: "1",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "One",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-    {
-      identifier: "2",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "two",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-    {
-      identifier: "3",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "three",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-    {
-      identifier: "4",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "four",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-    {
-      identifier: "5",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "five",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-    {
-      identifier: "6",
-      imageUrl: "/slider_images/uch-sharif.jpg",
-      title: "six",
-      description:
-        "Some quick example text to build on the card title and make up the bulk of the card's content.",
-    },
-  ]);
+  useEffect(async () => {
+    const lstFavs = await axios.get(`/favourites`);
+    setFavs(lstFavs.data);
+  }, []);
+  const [favs, setFavs] = useState([]);
   return (
     <>
       <div
@@ -59,7 +20,14 @@ const Favouries = () => {
       >
         {favs.map((x) => (
           <Card style={{ width: "22rem", flexGrow: "1" }}>
-            <Card.Img variant="top" src={x.imageUrl} />
+            <Card.Img
+              variant="top"
+              src={
+                x.images.length > 0
+                  ? `${process.env.REACT_APP_API_BASE_URL}/uploads/${x.images[0]}`
+                  : ""
+              }
+            />
             <Card.Body>
               <Card.Title>{x.title}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">

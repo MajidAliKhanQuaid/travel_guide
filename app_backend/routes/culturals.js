@@ -45,12 +45,12 @@ const upload = multer({
   },
 });
 
-// loads all mosques
+// loads all  culturals
 router.get("/", function (req, res, next) {
-  const col = "mosques";
+  const col = "culturals";
 
   req.db
-    .collection("mosques")
+    .collection("culturals")
     .find()
     .toArray()
     .then((x) => res.send(x));
@@ -58,11 +58,11 @@ router.get("/", function (req, res, next) {
 
 // loads one place, based on query parameter `id`
 router.get("/get", function (req, res, next) {
-  const col = "mosques";
+  const col = "culturals";
   console.log(req.query);
   if (req.query && req.query.id) {
     req.db
-      .collection("mosques")
+      .collection("culturals")
       .findOne({ _id: ObjectID(req.query.id) })
       .then((x) => {
         if (x) {
@@ -76,10 +76,11 @@ router.get("/get", function (req, res, next) {
   }
 });
 
-// saves a mosques and save attachments as well
+// saves a  culturals and save attachments as well
 router.post("/save", upload.array("imagesField"), function (req, res, next) {
   console.log(req.body);
-  const col = "mosques";
+  
+  const col = "culturals";
   const formData = req.body;
   let images = [];
   for (var fileIndex in req.files) {
@@ -97,11 +98,11 @@ router.post("/save", upload.array("imagesField"), function (req, res, next) {
 
 // deletes one place, based on query parameter `id`
 router.post("/delete", function (req, res, next) {
-  const col = "mosques";
+  const col = "culturals";
   console.log(req.query);
   if (req.query && req.query.id) {
     req.db
-      .collection("mosques")
+      .collection("culturals")
       .findOneAndDelete({ _id: ObjectID(req.query.id) })
       .then((x) => {
         if (x) {
@@ -118,10 +119,10 @@ router.post("/delete", function (req, res, next) {
 
 // used for search filter
 router.post("/search", function (req, res, next) {
-  console.log("search mosque", req.body.query);
-  req.db.collection("mosques").find({name:{'$regex' : `${req.body.query}`, '$options' : 'i'}})
+  console.log("search cultural place", req.body.query);
+  req.db.collection("culturals").find({name:{'$regex' : `${req.body.query}`, '$options' : 'i'}})
   .toArray()
-  .then(( mosques) =>  res.send( mosques))
+  .then((culturals) =>  res.send(culturals))
   .catch((err) => res.send([]))
   //res.send([{name: "place one",}, {name: "place two"}, {name: req.body.query}]);
 });

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Container, Button, Form, Card } from "react-bootstrap";
 import GoogleLogin from "react-google-login";
+import FacebookLogin from "react-facebook-login";
 import { useDispatch, useSelector } from "react-redux";
 import authService from "./../../authService";
 import axios from "./../../interceptor";
 import history from "./../../History";
 import { toggleNav, toggleSpinner } from "./../../helper";
 import { Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
 
@@ -43,7 +45,6 @@ const Login = () => {
     authService
       .login(username, password)
       .then((loginData) => {
-        console.log("Login ", loginData);
         if (loginData) {
           if (loginData.isValid) {
             dispatch({
@@ -53,21 +54,30 @@ const Login = () => {
             axios
               .get("/account/info")
               .then(({ data }) => {
-                localStorage.setItem("userInfo", JSON.stringify(data));
-                dispatch({
-                  type: "USER_INFO_UPDATED",
-                  payload: data,
-                });
+                if (data.isInvalid == false) {
+                  localStorage.setItem("userInfo", JSON.stringify(data));
+                  dispatch({
+                    type: "USER_INFO_UPDATED",
+                    payload: data,
+                  });
+                }
                 toggleSpinner(dispatch, false);
                 // redirects to `/` page
                 history.push("/");
               })
               .catch((err) => {
                 toggleSpinner(dispatch, false);
+
                 // redirects to `/` page
                 history.push("/");
+                // setLoginAlert({
+                //   show: true,
+                //   text: "Failed due to system error, please try again",
+                //   class: "danger",
+                // });
               });
           } else {
+            toggleSpinner(dispatch, false);
             setLoginAlert({
               show: true,
               text: "Failed to Login \nPlease enter valid credenetials",
@@ -77,16 +87,37 @@ const Login = () => {
         }
       })
       .catch((err) => {
+        toggleSpinner(dispatch, false);
         setLoginAlert({
           show: true,
           text: "Failed due to system error, please try again",
           class: "danger",
         });
-        toggleSpinner(dispatch, false);
       });
   }
 
-  const handleLogin = async (googleData) => {
+  async function handleFacebookLogin(fbResponse) {
+    console.log("*************** FB RESPONSE *************** ");
+    toggleSpinner(dispatch, true);
+    if (fbResponse.accessToken) {
+      const payload = await authService.facebookLogin(fbResponse);
+      if (payload) {
+        localStorage.setItem("userInfo", JSON.stringify(payload));
+        await dispatch({
+          type: "USER_UPDATED",
+          payload: { token: payload.token, isLoggedIn: true },
+        });
+        await dispatch({
+          type: "USER_INFO_UPDATED",
+          payload: payload,
+        });
+        history.push("/");
+      }
+      toggleSpinner(dispatch, false);
+    }
+  }
+
+  const handleGoogleLogin = async (googleData) => {
     const res = await fetch("/accounts/auth/google", {
       method: "POST",
       body: JSON.stringify({
@@ -99,6 +130,11 @@ const Login = () => {
     const data = await res.json();
     // store returned user somehow
     console.log("Google Result", data);
+    //localStorage.setItem("userInfo", JSON.stringify(response.data));
+    // dispatch({
+    //   type: "USER_INFO_UPDATED",
+    //   payload: response.data,
+    // });
   };
 
   return (
@@ -136,7 +172,6 @@ const Login = () => {
                 <Form.Control
                   name="txtUsername"
                   type="text"
-                  value="usernadiakhan@gmail.com"
                   placeholder="Enter Username ..."
                 />
                 {/* <Form.Text className="text-muted">
@@ -149,7 +184,6 @@ const Login = () => {
                 <Form.Control
                   name="txtPassword"
                   type="password"
-                  value="12345"
                   placeholder="Enter Password ..."
                 />
                 {/* <Form.Text className="text-muted">
@@ -165,6 +199,12 @@ const Login = () => {
                 Submit
               </Button>
             </Form>
+            <span>
+              Don't have an account,&nbsp;
+              <Link className="" to="/signup">
+                register
+              </Link>
+            </span>
           </Card.Body>
         </Card>
       </Container>
@@ -178,11 +218,19 @@ const Login = () => {
           justifyContent: "center",
         }}
       >
+        <FacebookLogin
+          appId="801007487499371"
+          autoLoad={true}
+          fields="name,email,picture"
+          scope="public_profile,user_friends,email"
+          callback={handleFacebookLogin}
+        />
+
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
           buttonText="Log in with Google"
-          onSuccess={handleLogin}
-          onFailure={handleLogin}
+          onSuccess={handleGoogleLogin}
+          onFailure={handleGoogleLogin}
           cookiePolicy={"single_host_origin"}
         />
       </div>

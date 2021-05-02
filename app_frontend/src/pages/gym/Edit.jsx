@@ -3,16 +3,16 @@ import { useParams } from "react-router";
 import axios from "./../../interceptor";
 import history from "./../../History";
 import { Container, Form, Button, Figure } from "react-bootstrap";
-const EditPlace = () => {
+const Editgym = () => {
   const { identifier } = useParams();
-  const [place, setPlace] = useState({ name: "", location: "", images: [] });
+  const [gym, setgym] = useState({ name: "", location: "", images: [] });
   useEffect(() => {
     axios
-      .get(`/places/get?id=${identifier}`)
+      .get(`/gyms/get?id=${identifier}`)
       .then(function ({ data }) {
         //handle success
         console.log(data);
-        setPlace(data);
+        setgym(data);
         console.log(data);
       })
       .catch(function (response) {
@@ -31,20 +31,20 @@ const EditPlace = () => {
     // console.log(data);
     // let formData = $("form").serialize();
     // console.log(formData);
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
 
     axios({
-      url: "/places/update",
       method: "post",
+      url: "/gyms/update",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
         //handle success
         console.log(response);
-        history.push("/places");
+        history.push(["/gyms"]);
       })
       .catch(function (response) {
         //handle error
@@ -55,14 +55,7 @@ const EditPlace = () => {
   const imageRemoveContainer = (x) => {
     return (
       <>
-        <Button
-          onClick={() => {
-            // delete x
-            console.log("TEST");
-          }}
-        >
-          x
-        </Button>
+        <Button>x</Button>
         <Figure style={{ margin: "10px 10px 0px 0px" }}>
           <Figure.Image
             style={{ height: "80px", width: "100px" }}
@@ -78,17 +71,16 @@ const EditPlace = () => {
     <>
       <Container>
         <Form onSubmit={submitForm}>
-          <input type="hidden" name="_id" value={place._id} />
           <Form.Group controlId="txtName">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              name="name"
+              name="txtName"
               type="text"
-              value={place.name}
+              value={gym.name}
               onChange={(e) => {
-                setPlace({ ...place, name: e.target.value });
+                setgym({ ...gym, name: e.target.value });
               }}
-              placeholder="Enter Name ..."
+              gymholder="Enter Name ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -98,14 +90,14 @@ const EditPlace = () => {
           <Form.Group controlId="txtDescription">
             <Form.Label>Description</Form.Label>
             <Form.Control
-              name="description"
+              name="txtDescription"
               as="textarea"
               rows={3}
-              value={place.description}
+              value={gym.description}
               onChange={(e) => {
-                setPlace({ ...place, description: e.target.value });
+                setgym({ ...gym, description: e.target.value });
               }}
-              placeholder="Enter Description ..."
+              gymholder="Enter Description ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -115,13 +107,13 @@ const EditPlace = () => {
           <Form.Group controlId="txtLocation">
             <Form.Label>Location</Form.Label>
             <Form.Control
-              name="location"
+              name="txtLocation"
               type="text"
-              value={place.location}
+              value={gym.location}
               onChange={(e) => {
-                setPlace({ ...place, location: e.target.value });
+                setgym({ ...gym, location: e.target.value });
               }}
-              placeholder="Enter Location ..."
+              gymholder="Enter Location ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -135,10 +127,10 @@ const EditPlace = () => {
                 name="imagesField"
                 className="galleryImage"
                 type="file"
-                placeholder="Add Image file ..."
+                gymholder="Add Image file ..."
                 multiple="multiple"
               />
-              {place.images.map((imageName) => (
+              {gym.images.map((x) => (
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div style={{ position: "absolute" }}>
                     <Button
@@ -150,22 +142,6 @@ const EditPlace = () => {
                         left: "85px",
                         top: "-5px",
                       }}
-                      onClick={async () => {
-                        // alert x
-                        const response = await axios.post(`/places/deletepic`, {
-                          identifier: place._id,
-                          image: imageName,
-                        });
-                        if (response.data.success) {
-                          setPlace({
-                            ...place,
-                            images: place.images.filter((x) => x != imageName),
-                          });
-                          alert("Image has been deleted");
-                        } else {
-                          alert("Image could not be deleted");
-                        }
-                      }}
                     >
                       x
                     </Button>
@@ -174,8 +150,8 @@ const EditPlace = () => {
                   <Figure style={{ margin: "10px 10px 0px 0px" }}>
                     <Figure.Image
                       style={{ height: "80px", width: "100px" }}
-                      alt={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
-                      src={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
+                      alt={"http://localhost:4000/uploads/" + x}
+                      src={"http://localhost:4000/uploads/" + x}
                     />
                   </Figure>
                 </div>
@@ -188,7 +164,7 @@ const EditPlace = () => {
 
           {/* <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" gymholder="Password" />
           </Form.Group>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
@@ -202,4 +178,4 @@ const EditPlace = () => {
   );
 };
 
-export default EditPlace;
+export default Editgym;

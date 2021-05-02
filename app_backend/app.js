@@ -31,7 +31,8 @@ var placesRouter = require("./routes/places");
 var mosquesRouter = require("./routes/mosques");
 var accountRouter = require("./routes/account");
 var usersRouter = require("./routes/users");
-
+var parksRouter = require("./routes/parks");
+var favouritesRouter = require("./routes/favourites");
 var app = express();
 
 // make our db accessible to our router
@@ -66,6 +67,8 @@ app.use("/places", placesRouter);
 app.use("/mosques", mosquesRouter);
 app.use("/account", accountRouter);
 app.use("/users", usersRouter);
+app.use("/parks", parksRouter);
+app.use("/favourites", favouritesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

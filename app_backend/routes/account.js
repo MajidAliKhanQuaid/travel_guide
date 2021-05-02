@@ -20,7 +20,6 @@ router.get("/", function (req, res, next) {
     });
 });
 
-
 /* GET account listing. */
 router.get("/delete", function (req, res, next) {
   const col = "accounts";
@@ -40,7 +39,6 @@ router.get("/delete", function (req, res, next) {
     res.sendStatus(400);
   }
 });
-
 
 /* GET account listing. */
 router.get(
@@ -100,6 +98,59 @@ router.post("/create", function (req, res, next) {
 
 const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.CLIENT_ID);
+
+/* GET account listing. */
+router.post("/auth/facebook", async function (req, res, next) {
+  const { name, email, accessToken } = req.body;
+  if (name && email && accessToken) {
+    console.log("Fields are valid ");
+    await req.db.collection("accounts").updateOne(
+      { username: email },
+      {
+        $set: {
+          name: req.body.name,
+          username: req.body.email,
+          domain: "facebook",
+        },
+      },
+      { upsert: true }
+    );
+    const user = await req.db
+      .collection("accounts")
+      .findOne({ username: email });
+    console.log("User ", user);
+    if (user) {
+      const token = jwtHelper.generateAccessToken(user);
+      return res
+        .status(201)
+        .json({
+          success: true,
+          msg: "New account was registered",
+          token: token,
+          name: user.name,
+          firstname: user.name,
+          lastname: user.name,
+        })
+        .send();
+    } else {
+      return res
+        .status(200)
+        .json({
+          success: false,
+          message: "User could not be updated",
+        })
+        .send();
+    }
+  } else {
+    console.log("Fields are not valid");
+    return res
+      .status(200)
+      .json({
+        success: false,
+      })
+      .send();
+  }
+});
 
 /* GET account listing. */
 router.get("/auth/google", async function (req, res, next) {

@@ -3,7 +3,7 @@ import { Container, Figure, Accordion, Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
-const  Mosque = () => {
+const Mosque = () => {
   const { identifier } = useParams();
   const [mosque, setMosque] = useState({ images: [] });
   const [dp, setDp] = useState("");
@@ -25,7 +25,9 @@ const  Mosque = () => {
         console.log(data);
         setMosque(data);
         if (data.images && data.images.length > 0) {
-          setDp(`http://localhost:4000/uploads/${data.images[0]}`);
+          setDp(
+            `${process.env.REACT_APP_API_BASE_URL}/uploads/${data.images[0]}`
+          );
         }
         console.log(data);
 
@@ -62,7 +64,7 @@ const  Mosque = () => {
                 width={100}
                 height={100}
                 alt="171x180"
-                src={`http://localhost:4000/uploads/${x}`}
+                src={`${process.env.REACT_APP_API_BASE_URL}/uploads/${x}`}
               />
             </Figure>
           ))}
@@ -74,4 +76,4 @@ const  Mosque = () => {
   );
 };
 
-export default  Mosque;
+export default Mosque;

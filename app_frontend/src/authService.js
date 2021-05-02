@@ -46,6 +46,24 @@ class AuthService {
       });
   }
 
+  facebookLogin(fbResponse) {
+    return authaxios
+      .post("/account/auth/facebook", fbResponse)
+      .then(({ data }) => {
+        if (data.success && data.token) {
+          this.setToken(data);
+          // localStorage.setItem("user", "loggedas" + username);
+          return Promise.resolve(data);
+        } else {
+          return Promise.resolve(data);
+        }
+      })
+      .catch(function (error) {
+        console.log("Promise broken");
+        return Promise.reject(error);
+      });
+  }
+
   setToken(res) {
     console.log(res);
     // sessionStorage.setItem("activeSession", "true");

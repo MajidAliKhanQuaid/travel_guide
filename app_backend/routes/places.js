@@ -64,9 +64,20 @@ router.get("/get", function (req, res, next) {
     req.db
       .collection("places")
       .findOne({ _id: ObjectID(req.query.id) })
-      .then((x) => {
-        if (x) {
-          res.send(x);
+      .then((p) => {
+        if (p) {
+          req.db
+            .collection("favourites")
+            .findOne({ identifier: req.query.id, category: "place" })
+            .then((f) => {
+              if (f) {
+                p.is_fav = true;
+                res.send(p);
+              } else {
+                p.is_fav = false;
+                res.send(p);
+              }
+            });
         } else {
           res.send({ status: "not found" });
         }
@@ -79,13 +90,15 @@ router.get("/get", function (req, res, next) {
 // saves a places and save attachments as well
 router.post("/save", upload.array("imagesField"), function (req, res, next) {
   console.log(req.body);
-  
+
   const col = "places";
   const formData = req.body;
   let images = [];
-  for (var fileIndex in req.files) {
-    console.log(req.files[fileIndex].filename);
-    images.push(req.files[fileIndex].filename);
+  if (req.files) {
+    for (var fileIndex in req.files) {
+      console.log(req.files[fileIndex].filename);
+      images.push(req.files[fileIndex].filename);
+    }
   }
   req.db.collection(col).insertOne({
     name: formData.txtName,
@@ -116,17 +129,69 @@ router.post("/delete", function (req, res, next) {
   }
 });
 
-
 // used for search filter
 router.post("/search", function (req, res, next) {
-  console.log("serch place", req.body.query);
-  req.db.collection("places").find({name:{'$regex' : `${req.body.query}`, '$options' : 'i'}})
-  .toArray()
-  .then((places) =>  res.send(places))
-  .catch((err) => res.send([]))
+  console.log("search place", req.body.query);
+  req.db
+    .collection("places")
+    .find({ name: { $regex: `${req.body.query}`, $options: "i" } })
+    .toArray()
+    .then((places) => res.send(places))
+    .catch((err) => res.send([]));
   //res.send([{name: "place one",}, {name: "place two"}, {name: req.body.query}]);
 });
 
+// used for update
+router.post("/update", upload.array("imagesField"), function (req, res, next) {
+  console.log(req.body);
+  let images = [];
+  if (req.files) {
+    for (var fileIndex in req.files) {
+      console.log(req.files[fileIndex].filename);
+      images.push(req.files[fileIndex].filename);
+    }
+  }
+  req.db
+    .collection("places")
+    .updateOne(
+      { _id: ObjectID(req.body._id) },
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          location: req.body.location,
+        },
+        $push: {
+          images: {
+            $each: images,
+          },
+        },
+      },
+      { upsert: true }
+    )
+    .then((result) => res.send(result.ops))
+    .catch((err) => console.error("Something went wrong ", err));
+});
+
+// used for update
+router.post("/deletepic", function (req, res, next) {
+  console.log(req.body);
+  req.db
+    .collection("places")
+    .updateOne(
+      { _id: ObjectID(req.body.identifier) },
+      {
+        $pull: {
+          images: req.body.image,
+        },
+      }
+    )
+    .then((result) => {
+      console.log(result);
+      res.send({ success: true });
+    })
+    .catch((err) => console.error("Something went wrong ", err));
+});
 
 // exporting the module
 module.exports = router;

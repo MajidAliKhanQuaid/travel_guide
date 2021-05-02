@@ -2,7 +2,6 @@ var express = require("express");
 const cors = require("cors");
 var router = express.Router();
 var jwtHelper = require("./../jwtHelper");
-var accountQuery = require("./../queries/accountQuery");
 var seedQuery = require("./../queries/seedQuery");
 const { response } = require("express");
 var mongoHelper = require("./../mongoHelper");
@@ -10,23 +9,13 @@ var path = require("path");
 
 /* GET home page. */
 router.get("/"),
-  function (req, res, next) {
-    const userData = accountQuery
-      .findAccountByUsername(req.db, "usernadiakhan@gmail.com")
-      .then((success) => {
-        console.log("Success ", success);
-        // res.body = success;
-        res.status(200).json(success);
-        // next();
-      })
-      .catch((masla) => {
-        res.status(500).json({
-          status: "Request could be processed due to internal server error",
-        });
-        // next();
-      });
+  async function (req, res, next) {
+    const user = await req.db
+      .collection("accounts")
+      .findOne({ username: "usernadiakhan@gmail.com" });
 
-    // res.render("index"}, { title: userData });
+    res.send(user);
+    // res.render("index", { title: userData });
     // return res.send(res.body);
   };
 

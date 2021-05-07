@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import axios from "./../../interceptor";
 import history from "./../../History";
-const  NewHistorical = () => {
+const NewHistorical = () => {
   const [gallery, setGallery] = useState([uuidv4()]);
   const submitForm = (event) => {
     event.preventDefault();
@@ -28,10 +28,10 @@ const  NewHistorical = () => {
     <>
       <Container>
         <Form onSubmit={submitForm}>
-          <Form.Group controlId="txtName">
+          <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              name="txtName"
+              name="name"
               type="text"
               placeholder="Enter Name ..."
             />
@@ -40,10 +40,10 @@ const  NewHistorical = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="txtDescription">
+          <Form.Group controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
-              name="txtDescription"
+              name="description"
               as="textarea"
               rows={3}
               placeholder="Enter Description ..."
@@ -53,10 +53,10 @@ const  NewHistorical = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="txtLocation">
+          <Form.Group controlId="location">
             <Form.Label>Location</Form.Label>
             <Form.Control
-              name="txtLocation"
+              name="location"
               type="text"
               placeholder="Enter Location ..."
             />
@@ -65,11 +65,11 @@ const  NewHistorical = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="imagesField">
+          <Form.Group controlId="attachments">
             <Form.Label>Gallery</Form.Label>
             <div className="galleryContainer">
               <Form.Control
-                name="imagesField"
+                name="attachments"
                 className="galleryImage"
                 type="file"
                 placeholder="Add Image file ..."
@@ -97,4 +97,4 @@ const  NewHistorical = () => {
   );
 };
 
-export default  NewHistorical;
+export default NewHistorical;

@@ -467,7 +467,7 @@ const NavbarComponent = ({
             Mosques
            </Link>*/}
 
-          <NavDropdown title={"ABC "} id="user-nav-dropdown">
+          <NavDropdown title={"Types "} id="user-nav-dropdown">
             <Link to="/mosques" className="dropdown-item">
               Mosques
             </Link>

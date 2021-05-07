@@ -6,34 +6,20 @@ const { ObjectID } = require("bson");
 var router = express.Router();
 
 /* GET account listing. */
-router.get("/", function (req, res, next) {
-  req.db
-    .collection("accounts")
-    .find()
-    .toArray()
-    .then((x) => {
-      res.send(x);
-    })
-    .catch((x) => {
-      res.send(x);
-    });
+router.get("/", async function (req, res, next) {
+  const accounts = await req.db.collection("accounts").find().toArray();
+  res.send(accounts);
 });
 
 /* GET account listing. */
-router.get("/delete", function (req, res, next) {
+router.get("/delete", async function (req, res, next) {
   const col = "accounts";
   console.log(req.query);
   if (req.query && req.query.id) {
-    req.db
+    const result = await req.db
       .collection(col)
-      .findOneAndDelete({ _id: ObjectID(req.query.id) })
-      .then((x) => {
-        if (x) {
-          res.send(x);
-        } else {
-          res.send({ status: "not found" });
-        }
-      });
+      .findOneAndDelete({ _id: ObjectID(req.query.id) });
+    res.send(result);
   } else {
     res.sendStatus(400);
   }

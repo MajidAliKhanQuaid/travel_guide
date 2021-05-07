@@ -4,7 +4,7 @@ var router = express.Router();
 const { ObjectID } = require("bson");
 var path = require("path");
 
-const _collection = "gyms";
+const _collection = "meuseums";
 
 // multer is used for processing file attachements
 const multer = require("multer");

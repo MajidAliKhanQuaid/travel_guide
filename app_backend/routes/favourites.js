@@ -1,9 +1,6 @@
 var express = require("express");
 const cors = require("cors");
 var router = express.Router();
-var jwtHelper = require("./../jwtHelper");
-const { response } = require("express");
-var mongoHelper = require("./../mongoHelper");
 const { ObjectID } = require("bson");
 var path = require("path");
 

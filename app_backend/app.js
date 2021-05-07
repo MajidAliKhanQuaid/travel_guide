@@ -27,12 +27,17 @@ MongoClient.connect(
 );
 
 var indexRouter = require("./routes/index");
+var accountRouter = require("./routes/account");
+var favouritesRouter = require("./routes/favourites");
+
 var placesRouter = require("./routes/places");
 var mosquesRouter = require("./routes/mosques");
-var accountRouter = require("./routes/account");
-var usersRouter = require("./routes/users");
 var parksRouter = require("./routes/parks");
-var favouritesRouter = require("./routes/favourites");
+var historicalsRouter = require("./routes/historicals");
+var culturalsRouter = require("./routes/culturals");
+var meuseumsRouter = require("./routes/meuseums");
+var gymsRouter = require("./routes/gyms");
+
 var app = express();
 
 // make our db accessible to our router
@@ -64,11 +69,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/places", placesRouter);
+app.use("/culturals", culturalsRouter);
+app.use("/gyms", gymsRouter);
+app.use("/historicals", historicalsRouter);
 app.use("/mosques", mosquesRouter);
 app.use("/account", accountRouter);
-app.use("/users", usersRouter);
 app.use("/parks", parksRouter);
 app.use("/favourites", favouritesRouter);
+app.use("/meuseums", meuseumsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

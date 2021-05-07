@@ -28,10 +28,10 @@ const NewCultural = () => {
     <>
       <Container>
         <Form onSubmit={submitForm}>
-          <Form.Group controlId="txtName">
+          <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              name="txtName"
+              name="name"
               type="text"
               placeholder="Enter Name ..."
             />
@@ -40,10 +40,10 @@ const NewCultural = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="txtDescription">
+          <Form.Group controlId="description">
             <Form.Label>Description</Form.Label>
             <Form.Control
-              name="txtDescription"
+              name="description"
               as="textarea"
               rows={3}
               placeholder="Enter Description ..."
@@ -53,10 +53,10 @@ const NewCultural = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="txtLocation">
+          <Form.Group controlId="location">
             <Form.Label>Location</Form.Label>
             <Form.Control
-              name="txtLocation"
+              name="location"
               type="text"
               placeholder="Enter Location ..."
             />
@@ -65,11 +65,11 @@ const NewCultural = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="imagesField">
+          <Form.Group controlId="attachments">
             <Form.Label>Gallery</Form.Label>
             <div className="galleryContainer">
               <Form.Control
-                name="imagesField"
+                name="attachments"
                 className="galleryImage"
                 type="file"
                 placeholder="Add Image file ..."

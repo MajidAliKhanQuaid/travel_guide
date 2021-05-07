@@ -4,9 +4,9 @@ import axios from "./../../interceptor";
 import { Card, Modal, Pagination, Button, Container } from "react-bootstrap";
 import { toggleSpinner } from "./../../helper";
 import { Link } from "react-router-dom";
-const  ListCulturals = () => {
+const ListCulturals = () => {
   const [showDelModal, setShowDelModal] = useState({ show: false, id: null });
-  const [ culturals, setculturals] = useState([]);
+  const [culturals, setculturals] = useState([]);
   const dispatch = useDispatch();
   const handleClose = () => setShowDelModal({ ...showDelModal, show: false });
   const handleDelete = () => {
@@ -40,49 +40,7 @@ const  ListCulturals = () => {
     loadculturals();
   }, []);
 
-  const pagination = (pageNumber, pageSize, totalPages, totalRecords) => {
-    if (totalRecords === 0) {
-      return <></>;
-    }
-    return (
-      <Pagination>
-        <Pagination.First onClick={() => {}} />
-        {[...Array(1)].map(() => {
-          if (pageNumber > 1) {
-            return <Pagination.Prev key={-1} onClick={() => {}} />;
-          }
-          return <></>;
-        })}
-        {/* <Pagination.Item>{1}</Pagination.Item> */}
-        {/* <Pagination.Ellipsis /> */}
-
-        {[...Array(totalPages > 5 ? 5 : totalPages)].map((x, i) => {
-          let base = pageNumber % 5 === 0 ? pageNumber : 0;
-          let num = base + i + 1;
-          if (pageNumber === num) {
-            return <Pagination.Item onClick={() => {}}>{num}</Pagination.Item>;
-          } else {
-            return (
-              <Pagination.Item key={num}>
-                {num} onClick={() => {}}
-              </Pagination.Item>
-            );
-          }
-        })}
-        {/* <Pagination.Item>{10}</Pagination.Item>
-        <Pagination.Item>{11}</Pagination.Item>
-        <Pagination.Item active>{12}</Pagination.Item>
-        <Pagination.Item>{13}</Pagination.Item>
-        <Pagination.Item disabled>{14}</Pagination.Item> */}
-        {/* <Pagination.Ellipsis /> */}
-        {/* <Pagination.Item>{20}</Pagination.Item> */}
-        <Pagination.Next onClick={() => {}} />
-        <Pagination.Last onClick={() => {}} />
-      </Pagination>
-    );
-  };
-
-  if ( culturals.length == 0)
+  if (culturals.length == 0)
     return (
       <Container>
         <Link
@@ -92,7 +50,7 @@ const  ListCulturals = () => {
         >
           New Cultural
         </Link>
-        <h1>No  culturals saved !</h1>
+        <h1>No culturals saved !</h1>
       </Container>
     );
 
@@ -122,20 +80,20 @@ const  ListCulturals = () => {
         >
           New Cultural
         </Link>
-        <h1>List of  culturals</h1>
+        <h1>List of culturals</h1>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             flexFlow: "flex-wrap",
             flexWrap: "wrap",
-            justifyContent: "center",
+            justifyContent: "left",
             marginTop: "50px",
           }}
         >
-          { culturals.map((x, y) => (
+          {culturals.map((x, y) => (
             // <Card style={{ width: "20rem", flexGrow: "1" }}>
-            <Card style={{ width: "20rem" }}>
+            <Card style={{ flex: "0 1 30%", margin: "1.6%" }} key={x._id}>
               <Card.Img
                 variant="top"
                 src={
@@ -149,7 +107,15 @@ const  ListCulturals = () => {
                 <Card.Subtitle className="mb-2 text-muted">
                   {/*Card Subtitle*/}
                 </Card.Subtitle>
-                <Card.Text>{x.description}</Card.Text>
+                <Card.Text
+                  style={{
+                    textOverflow: "ellipsis",
+                    wordWrap: "break-word",
+                    overflow: "hidden",
+                  }}
+                >
+                  {x.description}
+                </Card.Text>
                 <Link to={"/culturals/" + x._id} className="card-link">
                   View
                 </Link>
@@ -170,8 +136,7 @@ const  ListCulturals = () => {
           ))}
         </div>
       </Container>
-      {/* {pagination(3, 12, 100, 1)} */}
     </>
   );
 };
-export default  ListCulturals;
+export default ListCulturals;

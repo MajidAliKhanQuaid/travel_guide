@@ -23,8 +23,8 @@ const AnonymousHome = () => {
     { url: "/region/khyber", text: "Khyber Pakhtunkhwa", image: "kumrat.jpg" },
     { url: "/region/punjab", text: "Punjab", image: "multan.jpg" },
     { url: "/region/sindh", text: "Sindh", image: "darawar.jpg" },
-    { url: "/region/gilgit", text: "Gilgit Baltistan", image: "naltar.jpg" },
-    { url: "/region/kashmir", text: "Kashmir", image: "lepa-valley.jpg" },
+    // { url: "/region/gilgit", text: "Gilgit Baltistan", image: "naltar.jpg" },
+    // { url: "/region/kashmir", text: "Kashmir", image: "lepa-valley.jpg" },
   ];
 
   useEffect(() => {
@@ -65,20 +65,18 @@ const AnonymousHome = () => {
           flexDirection: "row",
           flexFlow: "flex-wrap",
           flexWrap: "wrap",
-          justifyContent: "center",
+          alignContent: "left",
+          justifyContent: "left",
         }}
       >
         {regions.map((x, i) => (
           <Link
+            style={{ flex: "0 1 30%", margin: "1.6%" }}
             to={x.url}
             className="card-region-link"
             key={"region-cards" + i}
           >
-            <Card
-              className="card-region"
-              x={x.text}
-              style={{ width: "20rem", margin: "10px" }}
-            >
+            <Card className="card-region" x={x.text}>
               <Card.Img variant="top" src={x.image} />
               <Card.Body>
                 <Card.Title className="mb-2 text-center">{x.text}</Card.Title>

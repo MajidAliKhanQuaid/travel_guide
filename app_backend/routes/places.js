@@ -46,7 +46,11 @@ const upload = multer({
 
 // loads all places
 router.get("/", async function (req, res, next) {
-  const result = await req.db.collection(_collection).find().toArray();
+  const result = await req.db
+    .collection(_collection)
+    .find()
+    .limit(20000, function (e, d) {})
+    .toArray();
   res.send(result);
 });
 

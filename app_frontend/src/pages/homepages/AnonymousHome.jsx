@@ -23,8 +23,8 @@ const AnonymousHome = () => {
     { url: "/region/khyber", text: "Khyber Pakhtunkhwa", image: "kumrat.jpg" },
     { url: "/region/punjab", text: "Punjab", image: "multan.jpg" },
     { url: "/region/sindh", text: "Sindh", image: "darawar.jpg" },
-    // { url: "/region/gilgit", text: "Gilgit Baltistan", image: "naltar.jpg" },
-    // { url: "/region/kashmir", text: "Kashmir", image: "lepa-valley.jpg" },
+    { url: "/region/gilgit", text: "Gilgit Baltistan", image: "naltar.jpg" },
+    { url: "/region/kashmir", text: "Kashmir", image: "lepa-valley.jpg" },
   ];
 
   useEffect(() => {

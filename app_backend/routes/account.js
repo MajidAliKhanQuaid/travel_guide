@@ -37,6 +37,47 @@ router.get(
 /* GET account listing. */
 router.post("/create", async function (req, res, next) {
   console.log(req.body);
+  let { roles } = req.body;
+  if (!roles || (roles && roles.length == 0)) {
+    roles = ["traveler"];
+  }
+
+  const payload = { ...req.body, roles };
+  // if `req.username` is not valid
+  if (!payload.username)
+    return res.status(400).json({ msg: "Bad request" }).send();
+  // check if there's already user with `req.username`
+  const user = await req.db
+    .collection("accounts")
+    .findOne({ username: payload.username });
+  if (!user) {
+    const response = await req.db.collection("accounts").insertOne(payload);
+    var clone = Object.assign({}, response.ops[0]);
+    // delete clone._id;
+    console.log("Creating token for ", clone);
+    const token = jwtHelper.generateAccessToken(clone);
+    return res
+      .status(200)
+      .json({
+        success: true,
+        msg: "New account was registered",
+        token: token,
+        user: clone,
+      })
+      .send();
+  } else {
+    return res
+      .status(200)
+      .json({
+        success: false,
+        msg: "Username already exists",
+      })
+      .send();
+  }
+});
+
+router.post("/register", async function (req, res, next) {
+  console.log(req.body);
   // if `req.username` is not valid
   if (!req.body.username)
     return res.status(400).json({ msg: "Bad request" }).send();
@@ -45,7 +86,9 @@ router.post("/create", async function (req, res, next) {
     .collection("accounts")
     .findOne({ username: req.body.username });
   if (!user) {
-    const response = await req.db.collection("accounts").insertOne(req.body);
+    const response = await req.db
+      .collection("accounts")
+      .insertOne({ ...req.body, roles: ["traveler"] });
     var clone = Object.assign({}, response.ops[0]);
     // delete clone._id;
     console.log("Creating token for ", clone);

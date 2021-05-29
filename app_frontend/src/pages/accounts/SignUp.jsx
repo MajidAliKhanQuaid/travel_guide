@@ -17,7 +17,7 @@ const SignUp = () => {
     formData.forEach((value, key) => (object[key] = value));
 
     axios
-      .post("/account/create", object)
+      .post("/account/register", object)
       .then(function (response) {
         history.push("/login");
       })
@@ -26,7 +26,17 @@ const SignUp = () => {
 
   return (
     <>
-      <Container>
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "5vh",
+        }}
+      >
+        <div style={{ height: "100px", width: "100px" }}>
+          <img src="logo192.png" style={{ height: "100%", width: "100%" }} />
+        </div>
+
         <Form onSubmit={submitForm}>
           <Form.Group controlId="username">
             <Form.Label>Username</Form.Label>

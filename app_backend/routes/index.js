@@ -71,7 +71,7 @@ router.post("/login", async function (req, res, next) {
       refreshToken: refreshToken,
     });
   } else {
-    console.log("Failed to due to error ", er1);
+    console.log("Account not found");
     return res.send({
       isValid: false,
       errorMessage: "Failed due to error",

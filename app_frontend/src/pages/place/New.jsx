@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
-import $ from "jquery";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 import axios from "./../../interceptor";
 import history from "./../../History";
 const NewPlace = () => {
+  const dispatch = useDispatch();
   const [gallery, setGallery] = useState([uuidv4()]);
   const submitForm = (event) => {
     event.preventDefault();
@@ -24,6 +31,16 @@ const NewPlace = () => {
       })
       .catch(function (response) {});
   };
+
+  useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "New Place", url: "/places/new" },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
+  }, []);
+
   return (
     <>
       <Container>

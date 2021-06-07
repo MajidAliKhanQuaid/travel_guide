@@ -3,44 +3,33 @@ import { Container, Figure, Accordion, Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
+
 const Cultural = () => {
   const { identifier } = useParams();
   const [cultural, setCultural] = useState({ images: [] });
   const [dp, setDp] = useState("");
-  // const paths = [
-  //   "https://images.unsplash.com/photo-1611580338398-2a63a34c61f4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-  //   "https://images.unsplash.com/photo-1607455849506-2b56d8d9c2c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=667&q=80",
-  //   "https://images.unsplash.com/photo-1581983055134-6f93a59450ac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80",
-  // ];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({
-      type: "TOGGLE_SPINNER",
-      payload: true,
-    });
+    toggleSpinner(dispatch, true);
     axios
       .get(`/culturals/get?id=${identifier}`)
       .then(function ({ data }) {
-        //handle success
-        console.log(data);
         setCultural(data);
         if (data.images && data.images.length > 0) {
           setDp(
             `${process.env.REACT_APP_API_BASE_URL}/uploads/${data.images[0]}`
           );
         }
-        console.log(data);
-
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       })
       .catch((err) => {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       });
   }, []);
   return (

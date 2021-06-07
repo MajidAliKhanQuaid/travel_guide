@@ -4,10 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import authService from "./../../authService";
 import axios from "./../../interceptor";
 import history from "./../../History";
-import { toggleNav, toggleSpinner } from "./../../helper";
 import { Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
+
 const SignUp = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
   const submitForm = (event) => {
     event.preventDefault();
 
@@ -23,6 +32,11 @@ const SignUp = () => {
       })
       .catch(function (response) {});
   };
+
+  useEffect(() => {
+    toggleBreadcrumb(dispatch, false);
+    toggleNav(dispatch, false);
+  }, []);
 
   return (
     <>

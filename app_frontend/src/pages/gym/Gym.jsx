@@ -3,6 +3,12 @@ import { Container, Figure, Accordion, Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 const Gym = () => {
   const { identifier } = useParams();
   const [Gym, setGym] = useState({ images: [] });
@@ -14,10 +20,7 @@ const Gym = () => {
   // ];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({
-      type: "TOGGLE_SPINNER",
-      payload: true,
-    });
+    toggleSpinner(dispatch, true);
     axios
       .get(`/Gyms/get?id=${identifier}`)
       .then(function ({ data }) {
@@ -31,16 +34,10 @@ const Gym = () => {
         }
         console.log(data);
 
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       })
       .catch((err) => {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       });
   }, []);
   return (

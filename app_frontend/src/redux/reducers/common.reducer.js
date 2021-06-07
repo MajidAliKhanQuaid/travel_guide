@@ -1,14 +1,16 @@
 const initialState = {
-  displayNav: true,
+  showNav: true,
   showSpinner: false,
   showSearchBtn: true,
   searchText: "",
+  showBreadcrumb: false,
+  breadcrumbItems: [],
 };
 export default function commonReducer(state = initialState, action) {
   console.log("common.reducer  [state]", state, " [action] ", action);
   if (action.type == "TOGGLE_NAV") {
     const { payload } = action;
-    return { ...state, displayNav: payload };
+    return { ...state, showNav: payload };
   }
 
   if (action.type == "TOGGLE_SPINNER") {
@@ -29,6 +31,16 @@ export default function commonReducer(state = initialState, action) {
   if (action.type == "CHANGE_SEARCH_CATEGORY") {
     const { payload } = action;
     return { ...state, searchCategory: payload };
+  }
+
+  if (action.type == "TOGGLE_BREADCRUMB") {
+    const { payload } = action;
+    return { ...state, showBreadcrumb: payload };
+  }
+
+  if (action.type == "SET_BREADCRUMB") {
+    const { payload } = action;
+    return { ...state, breadcrumbItems: payload };
   }
 
   return state;

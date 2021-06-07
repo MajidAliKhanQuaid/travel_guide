@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import authService from "./../../authService";
 import axios from "./../../interceptor";
 import history from "./../../History";
-import { toggleNav, toggleSpinner } from "./../../helper";
+import { toggleNav, toggleSpinner, toggleBreadcrumb } from "./../../helper";
 import { Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 const Login = () => {
@@ -15,16 +15,17 @@ const Login = () => {
   const loggedInUser = useSelector((x) => x.userState.user);
   const [loginAlert, setLoginAlert] = useState({
     text: "",
-    show: true,
+    show: false,
     class: "light",
   });
 
   useEffect(() => {
+    toggleBreadcrumb(dispatch, false);
+    toggleNav(dispatch, false);
     if (loggedInUser) {
       history.push("/");
       return;
     }
-    toggleNav(dispatch, false);
   }, []);
 
   const [loginState, setState] = useState({
@@ -70,11 +71,6 @@ const Login = () => {
 
                 // redirects to `/` page
                 history.push("/");
-                // setLoginAlert({
-                //   show: true,
-                //   text: "Failed due to system error, please try again",
-                //   class: "danger",
-                // });
               });
           } else {
             toggleSpinner(dispatch, false);
@@ -98,22 +94,26 @@ const Login = () => {
 
   async function handleFacebookLogin(fbResponse) {
     console.log("*************** FB RESPONSE *************** ");
-    toggleSpinner(dispatch, true);
     if (fbResponse.accessToken) {
-      const payload = await authService.facebookLogin(fbResponse);
-      if (payload) {
-        localStorage.setItem("userInfo", JSON.stringify(payload));
-        await dispatch({
-          type: "USER_UPDATED",
-          payload: { token: payload.token, isLoggedIn: true },
-        });
-        await dispatch({
-          type: "USER_INFO_UPDATED",
-          payload: payload,
-        });
-        history.push("/");
+      try {
+        const payload = await authService.facebookLogin(fbResponse);
+        if (payload) {
+          localStorage.setItem("userInfo", JSON.stringify(payload));
+          await dispatch({
+            type: "USER_UPDATED",
+            payload: { token: payload.token, isLoggedIn: true },
+          });
+          await dispatch({
+            type: "USER_INFO_UPDATED",
+            payload: payload,
+          });
+          toggleSpinner(dispatch, false);
+          history.push("/");
+        }
+        toggleSpinner(dispatch, false);
+      } catch (error) {
+        toggleSpinner(dispatch, false);
       }
-      toggleSpinner(dispatch, false);
     }
   }
 
@@ -220,7 +220,7 @@ const Login = () => {
       >
         <FacebookLogin
           appId="801007487499371"
-          autoLoad={true}
+          autoLoad={false}
           fields="name,email,picture"
           scope="public_profile,user_friends,email"
           callback={handleFacebookLogin}

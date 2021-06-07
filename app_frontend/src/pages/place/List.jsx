@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 import axios from "./../../interceptor";
 import { Card, Modal, Pagination, Button, Container } from "react-bootstrap";
-import { toggleSpinner } from "./../../helper";
 import { Link } from "react-router-dom";
 const ListPlaces = () => {
   const [showDelModal, setShowDelModal] = useState({ show: false, id: null });
@@ -37,6 +42,13 @@ const ListPlaces = () => {
   };
 
   useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "Places", url: "/places" },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
+
     loadPlaces();
   }, []);
 

@@ -2,11 +2,27 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
 import history from "./../../History";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 import { Container, Form, Button, Figure } from "react-bootstrap";
 const EditPlace = () => {
   const { identifier } = useParams();
+  const dispatch = useDispatch();
+
   const [place, setPlace] = useState({ name: "", location: "", images: [] });
   useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "Places", url: "/places" },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
+
     axios
       .get(`/places/get?id=${identifier}`)
       .then(function ({ data }) {

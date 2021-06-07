@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Container,
@@ -10,11 +11,19 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
+import TravelPackages from "../../components/TravelPackages";
 const Place = () => {
   const { identifier } = useParams();
+  const loggedInUser = useSelector((x) => x.userState.user);
   const [place, setPlace] = useState({ images: [] });
   const [alert, setAlert] = useState({
     show: false,
@@ -22,17 +31,17 @@ const Place = () => {
     class: "success",
   });
   const [dp, setDp] = useState("");
-  // const paths = [
-  //   "https://images.unsplash.com/photo-1611580338398-2a63a34c61f4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
-  //   "https://images.unsplash.com/photo-1607455849506-2b56d8d9c2c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=667&q=80",
-  //   "https://images.unsplash.com/photo-1581983055134-6f93a59450ac?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80",
-  // ];
+  const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({
-      type: "TOGGLE_SPINNER",
-      payload: true,
-    });
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "Place", url: location.pathname },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
+    toggleSpinner(dispatch, true);
+
     axios
       .get(`/places/get?id=${identifier}`)
       .then(function ({ data }) {
@@ -46,16 +55,10 @@ const Place = () => {
         }
         console.log(data);
 
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       })
       .catch((err) => {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       });
   }, []);
 
@@ -67,10 +70,7 @@ const Place = () => {
     axios
       .get(url)
       .then(function ({ data }) {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
         if (data.added) {
           setAlert({
             ...alert,
@@ -90,10 +90,7 @@ const Place = () => {
         }
       })
       .catch((err) => {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
         setAlert({
           ...alert,
           class: "danger",
@@ -159,6 +156,7 @@ const Place = () => {
         </div>
 
         <p>{place.description}</p>
+        <TravelPackages isLoggedIn={loggedInUser} />
       </Container>
     </>
   );

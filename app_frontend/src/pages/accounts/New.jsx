@@ -1,8 +1,20 @@
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "./../../interceptor";
 import history from "./../../History";
+import { useEffect } from "react";
+
+import {
+  toggleSpinner,
+  addBreadcrumbItems,
+  toggleBreadcrumb,
+  toggleNav,
+} from "./../../helper";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router";
 
 const NewAccount = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
   const submitForm = (event) => {
     event.preventDefault();
 
@@ -18,6 +30,16 @@ const NewAccount = () => {
       })
       .catch(function (response) {});
   };
+
+  useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "New Account", url: location.pathname },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
+  }, []);
+
   return (
     <>
       <Container>

@@ -3,16 +3,20 @@ import { useParams } from "react-router";
 import axios from "./../../interceptor";
 import history from "./../../History";
 import { Container, Form, Button, Figure } from "react-bootstrap";
-const  EditCultural = () => {
+const EditCultural = () => {
   const { identifier } = useParams();
-  const [cultural,setcultural] = useState({ name: "", location: "", images: [] });
+  const [cultural, setCultural] = useState({
+    name: "",
+    location: "",
+    images: [],
+  });
   useEffect(() => {
     axios
       .get(`/culturals/get?id=${identifier}`)
       .then(function ({ data }) {
         //handle success
         console.log(data);
-         setcultural(data);
+        setCultural(data);
         console.log(data);
       })
       .catch(function (response) {
@@ -76,11 +80,11 @@ const  EditCultural = () => {
             <Form.Control
               name="txtName"
               type="text"
-              value={ cultural.name}
+              value={cultural.name}
               onChange={(e) => {
-                 setcultural({ ... cultural, name: e.target.value });
+                setCultural({ ...cultural, name: e.target.value });
               }}
-               culturalholder="Enter Name ..."
+              culturalholder="Enter Name ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -93,11 +97,11 @@ const  EditCultural = () => {
               name="txtDescription"
               as="textarea"
               rows={3}
-              value={ cultural.description}
+              value={cultural.description}
               onChange={(e) => {
-                 setcultural({ ... cultural, description: e.target.value });
+                setCultural({ ...cultural, description: e.target.value });
               }}
-               culturalholder="Enter Description ..."
+              culturalholder="Enter Description ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -109,11 +113,11 @@ const  EditCultural = () => {
             <Form.Control
               name="txtLocation"
               type="text"
-              value={ cultural.location}
+              value={cultural.location}
               onChange={(e) => {
-                 setcultural({ ... cultural, location: e.target.value });
+                setCultural({ ...cultural, location: e.target.value });
               }}
-               culturalholder="Enter Location ..."
+              culturalholder="Enter Location ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
@@ -127,10 +131,10 @@ const  EditCultural = () => {
                 name="imagesField"
                 className="galleryImage"
                 type="file"
-                 culturalholder="Add Image file ..."
+                culturalholder="Add Image file ..."
                 multiple="multiple"
               />
-              { cultural.images.map((x) => (
+              {cultural.images.map((x) => (
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <div style={{ position: "absolute" }}>
                     <Button
@@ -178,4 +182,4 @@ const  EditCultural = () => {
   );
 };
 
-export default  EditCultural;
+export default EditCultural;

@@ -18,3 +18,17 @@ export const toggleSearchButton = (_dispatch, _toggle) => {
     payload: _toggle,
   });
 };
+
+export const toggleBreadcrumb = (_dispatch, _toggle) => {
+  _dispatch({
+    type: "TOGGLE_BREADCRUMB",
+    payload: _toggle,
+  });
+};
+
+export const addBreadcrumbItems = (_dispatch, _toggle) => {
+  _dispatch({
+    type: "SET_BREADCRUMB",
+    payload: _toggle,
+  });
+};

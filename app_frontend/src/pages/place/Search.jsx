@@ -1,16 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 import axios from "./../../interceptor";
-import { toggleSearchButton, toggleSpinner } from "./../../helper";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleNav,
+  toggleSearchButton,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 
 const { useState, useEffect } = require("react");
 const { Container, Table } = require("react-bootstrap");
 
 const SearchPlaces = (props) => {
+  const location = useLocation();
   const query = useParams();
   const dispatch = useDispatch();
   const searchText = useSelector((x) => x.commonState.searchText);
-  // alert(searchText);
   const [places, setPlaces] = useState([]);
 
   const searchPlaces = () => {
@@ -31,6 +39,12 @@ const SearchPlaces = (props) => {
   };
 
   useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "Place", url: location.pathname },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
     searchPlaces();
     toggleSearchButton(dispatch, false);
   }, []);

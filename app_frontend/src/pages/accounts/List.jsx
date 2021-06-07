@@ -1,10 +1,17 @@
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Container, Table, Button, Pagination, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import axios from "./../../interceptor";
-import { toggleSpinner } from "./../../helper";
+import {
+  toggleSpinner,
+  addBreadcrumbItems,
+  toggleBreadcrumb,
+  toggleNav,
+} from "./../../helper";
 import { Link } from "react-router-dom";
 const ListAccount = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const [accounts, setAccouts] = useState([]);
   const [showDelModal, setShowDelModal] = useState({
@@ -39,6 +46,12 @@ const ListAccount = () => {
   };
 
   useEffect(() => {
+    addBreadcrumbItems(dispatch, [
+      { text: "Home", url: "/" },
+      { text: "Accounts", url: location.pathname },
+    ]);
+    toggleBreadcrumb(dispatch, true);
+    toggleNav(dispatch, true);
     loadAccounts();
   }, []);
 

@@ -3,6 +3,12 @@ import { Container, Figure, Accordion, Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addBreadcrumbItems,
+} from "./../../helper";
 const Mosque = () => {
   const { identifier } = useParams();
   const [mosque, setMosque] = useState({ images: [] });
@@ -14,10 +20,7 @@ const Mosque = () => {
   // ];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({
-      type: "TOGGLE_SPINNER",
-      payload: true,
-    });
+    toggleSpinner(dispatch, true);
     axios
       .get(`/mosques/get?id=${identifier}`)
       .then(function ({ data }) {
@@ -31,16 +34,10 @@ const Mosque = () => {
         }
         console.log(data);
 
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       })
       .catch((err) => {
-        dispatch({
-          type: "TOGGLE_SPINNER",
-          payload: false,
-        });
+        toggleSpinner(dispatch, false);
       });
   }, []);
   return (

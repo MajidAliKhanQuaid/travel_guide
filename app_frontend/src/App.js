@@ -82,12 +82,10 @@ import SignUp from "./pages/accounts/SignUp";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((x) => x.userState.user);
-  const displayNav = useSelector((x) => x.commonState.displayNav);
-  // const breadcrumbItems = useSelector((x) => x.commonState.breadcrumbItems);
-  const breadcrumbItems = [
-    { url: "/", text: "First" },
-    { url: "/second", text: "Second" },
-  ];
+  const showNav = useSelector((x) => x.commonState.showNav);
+  const displayBc = useSelector((x) => x.commonState.showBreadcrumb);
+  const breadcrumbItems = useSelector((x) => x.commonState.breadcrumbItems);
+
   const displaySearchBtn = useSelector((x) => x.commonState.showSearchBtn);
   const searchText = useSelector((x) => x.commonState.searchText);
   const searchCategory = useSelector((x) => x.commonState.searchCategory);
@@ -174,33 +172,38 @@ function App() {
       <Router history={history}>
         <NavbarComponent
           user={user}
-          displayNav={displayNav}
+          showNav={showNav}
           searchClick={() => {
             setSearchModalOptions({ ...searchModalOptions, show: true });
           }}
           displaySearchBtn={displaySearchBtn}
         />
-        {/* <Breadcrumb>
-          {breadcrumbItems ? (
-            breadcrumbItems.map((x, i) => (
-              <li
-                className={`breadcrumb-item ${
-                  i == breadcrumbItems.length - 1 ? "active" : ""
-                }`}
-              >
-                {i == breadcrumbItems.length - 1 ? (
-                  <span>{x.text}</span>
-                ) : (
-                  <Link to={x.url}>{x.text}</Link>
-                )}
+        {displayBc ? (
+          <Breadcrumb style={{ margin: "10px" }}>
+            {breadcrumbItems && breadcrumbItems.length > 0 ? (
+              breadcrumbItems.map((x, i) => (
+                <li
+                  className={`breadcrumb-item ${
+                    i == breadcrumbItems.length - 1 ? "active" : ""
+                  }`}
+                >
+                  {i == breadcrumbItems.length - 1 ? (
+                    <span>{x.text}</span>
+                  ) : (
+                    <Link to={x.url}>{x.text}</Link>
+                  )}
+                </li>
+              ))
+            ) : (
+              <li className="breadcrumb-item">
+                <Link to={"/"}>{"Home"}</Link>
               </li>
-            ))
-          ) : (
-            <li className="breadcrumb-item">
-              <Link to={"/"}>{"Home"}</Link>
-            </li>
-          )}
-        </Breadcrumb>*/}
+            )}
+          </Breadcrumb>
+        ) : (
+          <></>
+        )}
+
         <Switch>
           <ProtectedRoute
             path="/"
@@ -394,12 +397,7 @@ const SpinnerComponent = ({ busy }) => {
   );
 };
 
-const NavbarComponent = ({
-  user,
-  displayNav,
-  searchClick,
-  displaySearchBtn,
-}) => {
+const NavbarComponent = ({ user, showNav, searchClick, displaySearchBtn }) => {
   let userInfo = localStorage.getItem("userInfo");
   if (!userInfo) {
     userInfo = {};
@@ -448,7 +446,7 @@ const NavbarComponent = ({
     );
   };
 
-  if (displayNav === false) {
+  if (showNav === false) {
     return <></>;
   }
   return (

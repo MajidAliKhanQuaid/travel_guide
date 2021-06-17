@@ -226,13 +226,13 @@ const Login = () => {
           callback={handleFacebookLogin}
         />
 
-        <GoogleLogin
+        {/* <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
           buttonText="Log in with Google"
           onSuccess={handleGoogleLogin}
           onFailure={handleGoogleLogin}
           cookiePolicy={"single_host_origin"}
-        />
+        /> */}
       </div>
     </>
   );

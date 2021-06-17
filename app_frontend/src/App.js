@@ -47,6 +47,7 @@ import { Kashmir } from "./pages/region/kashmir";
 import { Khyber } from "./pages/region/khyber";
 import SearchPlaces from "./pages/place/Search";
 import NewAccount from "./pages/accounts/New";
+import Profile from "./pages/accounts/Profile";
 import axios from "./interceptor";
 import { toggleSpinner } from "./helper";
 import ListMosques from "./pages/mosque/List";
@@ -216,6 +217,7 @@ function App() {
 
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/profile" component={Profile} />
           <Route path="/logout" component={Logout} />
 
           <Route path="/region/balouchistan" component={Balouchistan} />
@@ -435,7 +437,7 @@ const NavbarComponent = ({ user, showNav, searchClick, displaySearchBtn }) => {
     }
     return (
       <NavDropdown title={userInfo.firstname} id="user-nav-dropdown">
-        <Link to="#action/3.1" className="dropdown-item">
+        <Link to="/profile" className="dropdown-item">
           Profile
         </Link>
         <NavDropdown.Divider />

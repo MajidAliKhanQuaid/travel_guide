@@ -74,13 +74,13 @@ const ListAccount = () => {
         </Modal.Footer>
       </Modal>
       <Container>
-        <Link
+        {/* <Link
           to="/accounts/new"
           className="btn btn-success float-right"
           style={{ margin: "20px 0px" }}
         >
           New User
-        </Link>
+        </Link> */}
         <Table striped bordered hover>
           <thead>
             <tr>

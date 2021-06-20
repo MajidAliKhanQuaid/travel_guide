@@ -211,7 +211,7 @@ function App() {
             exact
             user={user}
             rolesAllowed={[]}
-            successComponent={AdminHome}
+            successComponent={AnonymousHome}
             failureComponent={AnonymousHome}
           />
 

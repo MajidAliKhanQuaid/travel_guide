@@ -1,4 +1,2 @@
-app_backend\node_modules
-app_frontend\node_modules
-app_backend\public\uploads
-!app_backend\public\uploads\ReadMe.md
+node_modules
+public\uploads

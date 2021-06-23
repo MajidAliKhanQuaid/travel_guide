@@ -133,7 +133,7 @@ instance.interceptors.response.use(
                   "Updated the Bearer header " +
                     axios.defaults.headers.common["Authorization"]
                 );
-                console.log("New access token is:" + authService.getJwtToken());
+                // console.log("New access token is:" + authService.getJwtToken());
               }
 
               // 3) return originalRequest object with Axios.

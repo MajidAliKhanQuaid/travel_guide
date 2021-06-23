@@ -3,6 +3,7 @@ const cors = require("cors");
 var router = express.Router();
 var jwtHelper = require("./../jwtHelper");
 var path = require("path");
+const { ObjectID } = require("mongodb");
 
 /* GET home page. */
 router.get("/"),
@@ -77,6 +78,26 @@ router.post("/login", async function (req, res, next) {
       errorMessage: "Failed due to error",
     });
   }
+});
+
+router.post("/recentlyviewed", async function (req, res, next) {
+  const result = await req.db
+    .collection("recentlyviewed")
+    .find({ username: req.user.username })
+    .limit(20000, function (e, d) {})
+    .toArray();
+
+  for (var i = 0; i < result.length; i++) {
+    var element = result[i];
+    var place = await req.db
+      .collection("places")
+      .findOne({ _id: ObjectID(element.placeId) });
+    if (place) {
+      element.place = place;
+      console.log("FOUND PLACE", place);
+    }
+  }
+  res.send(result);
 });
 
 module.exports = router;

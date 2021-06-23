@@ -14,6 +14,8 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
+import ProfileViews from "../../components/ProfileViews";
+import RecentlyViewedPlaces from "../../components/RecentlyViewPlaces";
 import {
   toggleSpinner,
   addBreadcrumbItems,
@@ -42,7 +44,13 @@ const TouristHome = () => {
       </h1>
       <div className="row">
         <div className="col-md-12">
-          <p>Recently Viewed Places</p>
+          <RecentlyViewedPlaces />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <h1>Profile Views</h1>
+          <ProfileViews />
         </div>
       </div>
     </Container>

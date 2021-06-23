@@ -7,6 +7,8 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const dotenv = require("dotenv");
 
+var jwtHelper = require("./jwtHelper");
+
 // get config vars
 dotenv.config();
 
@@ -67,13 +69,29 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.all("*", (req, res, next) => {
+  var anonymousRoutes = [
+    "/login",
+    "/verifytoken",
+    "/account/register",
+    "/uploads",
+  ];
+  var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
+  console.log("-- NEW Http Request ", req.path);
+  if (matchingRoutes.length > 0) {
+    return next();
+  }
+
+  jwtHelper.authenticateAccessToken(req, res, next);
+});
+
 app.use("/", indexRouter);
+app.use("/account", accountRouter);
 app.use("/places", placesRouter);
 app.use("/culturals", culturalsRouter);
 app.use("/gyms", gymsRouter);
 app.use("/historicals", historicalsRouter);
 app.use("/mosques", mosquesRouter);
-app.use("/account", accountRouter);
 app.use("/parks", parksRouter);
 app.use("/favourites", favouritesRouter);
 app.use("/meuseums", meuseumsRouter);

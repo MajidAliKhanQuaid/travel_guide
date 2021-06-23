@@ -62,10 +62,28 @@ router.get("/get", async function (req, res, next) {
       .collection(_collection)
       .findOne({ _id: ObjectID(req.query.id) });
     if (result) {
+      // updating recently viewed
+      await req.db.collection("recentlyviewed").updateOne(
+        { username: req.user.username, placeId: req.query.id },
+        {
+          $set: {
+            placeId: req.query.id,
+            username: req.user.username,
+            dated: new Date(),
+          },
+        },
+        { upsert: true }
+      );
+      // checking if place is favourite or not
       const fav = await req.db
         .collection("favourites")
-        .findOne({ identifier: req.query.id, category: "place" });
+        .findOne({ placeId: req.query.id, username: req.user.username });
       if (fav) {
+        console.log("FAV found");
+        if (req.query.view) {
+          console.log("VIEW found");
+          // we'll upsert one record here
+        }
         res.send({ ...result, is_fav: true, success: true });
       } else {
         res.send({ ...result, is_fav: false, success: true });

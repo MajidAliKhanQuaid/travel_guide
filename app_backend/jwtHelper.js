@@ -25,16 +25,16 @@ module.exports.generateRefreshToken = (userData) => {
 };
 
 module.exports.authenticateAccessToken = (req, res, next) => {
-  console.log("Calling `authenticateAccessToken` ");
+  // console.log("Calling `authenticateAccessToken` ");
   // Gather the jwt access token from the request header
   const authHeader = req.headers["authorization"];
-  console.log("Header[authorization]", authHeader);
+  // console.log("Header[authorization]", authHeader);
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
     res.header("www-authenticate", "invalid_token");
     return res.sendStatus(401); // if there isn't any token
   }
-  console.log("Token is ", token);
+  // console.log("Token is ", token);
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     console.log(err);
     if (err) {
@@ -57,7 +57,7 @@ module.exports.authenticateRefreshToken = (req, res, next) => {
     res.header("www-authenticate", "invalid_token");
     return res.sendStatus(401); // if there isn't any token
   }
-  console.log("Token is ", token);
+  // console.log("Token is ", token);
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     console.log(err);
     if (err) {

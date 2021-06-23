@@ -8,14 +8,20 @@ const colName = "favourites";
 
 router.get("/", async function (req, res, next) {
   try {
-    const favs = await req.db.collection(colName).find({}).toArray();
+    const favs = await req.db
+      .collection(colName)
+      .find({ username: req.user.username })
+      .toArray();
+
     const objectIds = favs
-      .filter((x) => x.category == "place")
-      .map((x) => ObjectID(x.identifier));
+      .filter((x) => x.username.length > 0)
+      .map((x) => ObjectID(x.placeId));
+
     const favPlaces = await req.db
       .collection("places")
       .find({ _id: { $in: objectIds } })
       .toArray();
+
     res.send(favPlaces);
   } catch (err) {
     res.send({ message: err.message });
@@ -44,11 +50,15 @@ router.get("/add", function (req, res, next) {
   req.db
     .collection(colName)
     .updateOne(
-      { identifier: req.query.identifier, category: req.query.category },
+      {
+        placeId: req.query.identifier,
+        username: req.user.username,
+      },
       {
         $set: {
-          identifier: req.query.identifier,
-          category: req.query.category,
+          placeId: req.query.identifier,
+          username: req.user.username,
+          dated: new Date(),
         },
       },
       { upsert: true }
@@ -62,8 +72,8 @@ router.get("/remove", function (req, res, next) {
   req.db
     .collection(colName)
     .deleteOne({
-      identifier: req.query.identifier,
-      category: req.query.category,
+      placeId: req.query.identifier,
+      username: req.user.username,
     })
     .then((result) => res.send({ deleted: true }))
     .catch((err) => console.error("Something went wrong ", err));

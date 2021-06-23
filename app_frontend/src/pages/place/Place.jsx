@@ -43,7 +43,7 @@ const Place = () => {
     toggleSpinner(dispatch, true);
 
     axios
-      .get(`/places/get?id=${identifier}`)
+      .get(`/places/get?id=${identifier}&view=1`)
       .then(function ({ data }) {
         //handle success
         console.log(data);

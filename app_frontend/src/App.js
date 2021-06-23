@@ -80,6 +80,7 @@ import ListHistoricals from "./pages/historical/List";
 import SearchHistoricals from "./pages/mosque/Mosque";
 import EditHistorical from "./pages/historical/Edit";
 import SignUp from "./pages/accounts/SignUp";
+import TouristHome from "./pages/homepages/TouristHome";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((x) => x.userState.user);
@@ -211,8 +212,8 @@ function App() {
             exact
             user={user}
             rolesAllowed={[]}
-            successComponent={AnonymousHome}
-            failureComponent={AnonymousHome}
+            successComponent={TouristHome}
+            failureComponent={TouristHome}
           />
 
           <Route path="/login" component={Login} />

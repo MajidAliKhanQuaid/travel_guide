@@ -7,7 +7,10 @@ var router = express.Router();
 
 /* GET account listing. */
 router.get("/", async function (req, res, next) {
-  const accounts = await req.db.collection("accounts").find().toArray();
+  const accounts = await req.db
+    .collection("accounts")
+    .find({ deleted: false })
+    .toArray();
   res.send(accounts);
 });
 
@@ -16,10 +19,16 @@ router.get("/delete", async function (req, res, next) {
   const col = "accounts";
   console.log(req.query);
   if (req.query && req.query.id) {
-    const result = await req.db
-      .collection(col)
-      .findOneAndDelete({ _id: ObjectID(req.query.id) });
-    res.send(result);
+    const result = await req.db.collection(col).updateOne(
+      { _id: ObjectID(req.query.id) },
+      {
+        $set: {
+          deleted: true,
+          deletedOn: new Date(),
+        },
+      }
+    );
+    res.send({ success: true });
   } else {
     res.sendStatus(400);
   }
@@ -88,7 +97,12 @@ router.post("/register", async function (req, res, next) {
   if (!user) {
     const response = await req.db
       .collection("accounts")
-      .insertOne({ ...req.body, roles: ["traveler"] });
+      .insertOne({
+        ...req.body,
+        roles: ["traveler"],
+        deleted: false,
+        createdOn: new Date(),
+      });
     var clone = Object.assign({}, response.ops[0]);
     // delete clone._id;
     console.log("Creating token for ", clone);

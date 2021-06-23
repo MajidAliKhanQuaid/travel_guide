@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import axios from "./../../interceptor";
 import {
   Carousel,
   CarouselItem,
@@ -24,11 +25,16 @@ import {
 } from "./../../helper";
 
 const TouristHome = () => {
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+
   const [name, setName] = useState("Nadia Khan");
   const dispatch = useDispatch();
   const location = useLocation();
 
-  useEffect(() => {
+  useEffect(async () => {
+    const lstFavs = await axios.post(`/recentlyviewed`);
+    setRecentlyViewed(lstFavs.data);
+
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "Edit Account", url: location.pathname },
@@ -44,15 +50,15 @@ const TouristHome = () => {
       </h1>
       <div className="row">
         <div className="col-md-12">
-          <RecentlyViewedPlaces />
+          <RecentlyViewedPlaces places={recentlyViewed} />
         </div>
       </div>
-      <div className="row">
+      {/* <div className="row">
         <div className="col-md-12">
           <h1>Profile Views</h1>
           <ProfileViews />
         </div>
-      </div>
+      </div> */}
     </Container>
   );
 };

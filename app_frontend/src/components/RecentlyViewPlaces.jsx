@@ -3,15 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import history from "./../History";
 import axios from "./../interceptor";
 
-const RecentlyViewedPlaces = () => {
-  useEffect(async () => {
-    // recentlyviewed
-    const lstFavs = await axios.post(`/recentlyviewed`);
-    setPlaces(lstFavs.data);
-  }, []);
-
-  const [places, setPlaces] = useState([]);
-
+const RecentlyViewedPlaces = ({ places }) => {
   if (places.length == 0) return <></>;
 
   return (

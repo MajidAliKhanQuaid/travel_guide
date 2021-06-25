@@ -81,6 +81,8 @@ import SearchHistoricals from "./pages/mosque/Mosque";
 import EditHistorical from "./pages/historical/Edit";
 import SignUp from "./pages/accounts/SignUp";
 import TouristHome from "./pages/homepages/TouristHome";
+import ListCategory from "./pages/category/List";
+import NewCategory from "./pages/category/New";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((x) => x.userState.user);
@@ -227,6 +229,9 @@ function App() {
           <Route path="/region/gilgit" component={Gilgit} />
           <Route path="/region/kashmir" component={Kashmir} />
           <Route path="/region/khyber" component={Khyber} />
+
+          <Route path="/categories/new" exact component={NewCategory} />
+          <Route path="/categories" exact component={ListCategory} />
 
           <Route path="/places/new" exact component={NewPlace} />
           <Route path="/places/search" component={SearchPlaces} />
@@ -520,6 +525,9 @@ const NavbarComponent = ({ user, showNav, searchClick, displaySearchBtn }) => {
 
           <Link to="/accounts" className="nav-link">
             Accounts
+          </Link>
+          <Link to="/categories" className="nav-link">
+            Categories
           </Link>
           <Link to="/Favouries" className="nav-link">
             Favourites

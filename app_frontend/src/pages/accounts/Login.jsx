@@ -222,7 +222,7 @@ const Login = () => {
           appId="801007487499371"
           autoLoad={false}
           fields="name,email,picture"
-          scope="public_profile,user_friends,email"
+          scope="public_profile,email"
           callback={handleFacebookLogin}
         />
 

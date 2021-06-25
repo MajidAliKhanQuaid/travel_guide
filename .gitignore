@@ -1,3 +1,4 @@
 node_modules
 node_modules
-app_backend\public\uploads
+public\uploads\*.jpg
+app_backend\public\uploads\*.jpg

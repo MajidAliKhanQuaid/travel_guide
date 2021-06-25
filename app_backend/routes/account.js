@@ -48,7 +48,7 @@ router.post("/create", async function (req, res, next) {
   console.log(req.body);
   let { roles } = req.body;
   if (!roles || (roles && roles.length == 0)) {
-    roles = ["traveler"];
+    roles = ["tourist"];
   }
 
   const payload = { ...req.body, roles };
@@ -95,14 +95,13 @@ router.post("/register", async function (req, res, next) {
     .collection("accounts")
     .findOne({ username: req.body.username });
   if (!user) {
-    const response = await req.db
-      .collection("accounts")
-      .insertOne({
-        ...req.body,
-        roles: ["traveler"],
-        deleted: false,
-        createdOn: new Date(),
-      });
+    const response = await req.db.collection("accounts").insertOne({
+      ...req.body,
+      domain: "system",
+      roles: ["tourist"],
+      deleted: false,
+      createdOn: new Date(),
+    });
     var clone = Object.assign({}, response.ops[0]);
     // delete clone._id;
     console.log("Creating token for ", clone);
@@ -134,7 +133,6 @@ const client = new OAuth2Client(process.env.CLIENT_ID);
 router.post("/auth/facebook", async function (req, res, next) {
   const { name, email, accessToken } = req.body;
   if (name && email && accessToken) {
-    console.log("Fields are valid ");
     await req.db.collection("accounts").updateOne(
       { username: email },
       {
@@ -142,6 +140,9 @@ router.post("/auth/facebook", async function (req, res, next) {
           name: req.body.name,
           username: req.body.email,
           domain: "facebook",
+          roles: ["tourist"],
+          deleted: false,
+          createdOn: new Date(),
         },
       },
       { upsert: true }

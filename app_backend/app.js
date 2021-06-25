@@ -29,6 +29,7 @@ MongoClient.connect(
 );
 
 var indexRouter = require("./routes/index");
+var categoryRouter = require("./routes/category");
 var accountRouter = require("./routes/account");
 var favouritesRouter = require("./routes/favourites");
 
@@ -74,11 +75,13 @@ app.all("*", (req, res, next) => {
     "/login",
     "/verifytoken",
     "/account/register",
+    "/account/auth/facebook",
     "/uploads",
   ];
   var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
   console.log("-- NEW Http Request ", req.path);
   if (matchingRoutes.length > 0) {
+    console.log("-- MATCHED ", req.path);
     return next();
   }
 
@@ -86,6 +89,7 @@ app.all("*", (req, res, next) => {
 });
 
 app.use("/", indexRouter);
+app.use("/category", categoryRouter);
 app.use("/account", accountRouter);
 app.use("/places", placesRouter);
 app.use("/culturals", culturalsRouter);

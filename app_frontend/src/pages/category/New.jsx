@@ -25,8 +25,8 @@ const NewCategory = () => {
 
     axios
       .post("/category/create", object)
-      .then(function (response) {
-        if (response.success) {
+      .then(function ({ data }) {
+        if (data.success) {
           history.push("/categories");
         }
       })

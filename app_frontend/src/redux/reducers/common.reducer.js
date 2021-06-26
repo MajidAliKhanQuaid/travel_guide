@@ -7,7 +7,7 @@ const initialState = {
   breadcrumbItems: [],
 };
 export default function commonReducer(state = initialState, action) {
-  console.log("common.reducer  [state]", state, " [action] ", action);
+  //console.log("common.reducer  [state]", state, " [action] ", action);
   if (action.type == "TOGGLE_NAV") {
     const { payload } = action;
     return { ...state, showNav: payload };

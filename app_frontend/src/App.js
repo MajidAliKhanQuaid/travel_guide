@@ -215,7 +215,7 @@ function App() {
             user={user}
             rolesAllowed={[]}
             successComponent={TouristHome}
-            failureComponent={TouristHome}
+            failureComponent={AnonymousHome}
           />
 
           <Route path="/login" component={Login} />

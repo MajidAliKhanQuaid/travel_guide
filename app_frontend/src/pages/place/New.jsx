@@ -11,8 +11,27 @@ import {
 import axios from "./../../interceptor";
 import history from "./../../History";
 const NewPlace = () => {
+  const [categories, setCategories] = useState([]);
+  const [showDelModal, setShowDelModal] = useState({
+    show: false,
+    id: null,
+    name: "",
+  });
+  const handleClose = () => setShowDelModal({ ...showDelModal, show: false });
+  const loadCategories = () => {
+    return axios
+      .get("/category")
+      .then(function ({ data }) {
+        setCategories(data);
+        toggleSpinner(dispatch, false);
+      })
+      .catch(function (response) {
+        toggleSpinner(dispatch, false);
+      });
+  };
   const dispatch = useDispatch();
   const [gallery, setGallery] = useState([uuidv4()]);
+
   const submitForm = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -33,6 +52,7 @@ const NewPlace = () => {
   };
 
   useEffect(() => {
+    loadCategories();
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "New Place", url: "/places/new" },
@@ -65,6 +85,18 @@ const NewPlace = () => {
               rows={3}
               placeholder="Enter Description ..."
             />
+            {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+          </Form.Group>
+
+          <Form.Group controlId="category">
+            <Form.Label>Category</Form.Label>
+            <Form.Control name="category" as="select">
+              {categories.map((x) => (
+                <option value={x._id}>{x.name}</option>
+              ))}
+            </Form.Control>
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}

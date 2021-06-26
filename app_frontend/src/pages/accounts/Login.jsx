@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
 
-  const loggedInUser = useSelector((x) => x.userState.user);
+  // const loggedInUser = useSelector((x) => x.userState.user);
   const [loginAlert, setLoginAlert] = useState({
     text: "",
     show: false,
@@ -22,17 +22,17 @@ const Login = () => {
   useEffect(() => {
     toggleBreadcrumb(dispatch, false);
     toggleNav(dispatch, false);
-    if (loggedInUser) {
+    if (localStorage.getItem("token")) {
       history.push("/");
       return;
     }
   }, []);
 
-  const [loginState, setState] = useState({
-    username: "usernadiakhan@gmail.com",
-    password: "12345",
-    payload: null,
-  });
+  // const [loginState, setState] = useState({
+  //   username: "",
+  //   password: "",
+  //   payload: null,
+  // });
 
   function submitForm(event) {
     event.preventDefault();

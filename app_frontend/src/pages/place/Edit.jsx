@@ -11,10 +11,22 @@ import {
 } from "./../../helper";
 import { Container, Form, Button, Figure } from "react-bootstrap";
 const EditPlace = () => {
+  const [categories, setCategories] = useState([]);
   const { identifier } = useParams();
   const dispatch = useDispatch();
 
   const [place, setPlace] = useState({ name: "", location: "", images: [] });
+  const loadCategories = () => {
+    return axios
+      .get("/category")
+      .then(function ({ data }) {
+        setCategories(data);
+        toggleSpinner(dispatch, false);
+      })
+      .catch(function (response) {
+        toggleSpinner(dispatch, false);
+      });
+  };
   useEffect(() => {
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
@@ -26,6 +38,7 @@ const EditPlace = () => {
     axios
       .get(`/places/get?id=${identifier}`)
       .then(function ({ data }) {
+        loadCategories();
         //handle success
         console.log(data);
         setPlace(data);
@@ -123,6 +136,25 @@ const EditPlace = () => {
               }}
               placeholder="Enter Description ..."
             />
+            {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+          </Form.Group>
+
+          <Form.Group controlId="category">
+            <Form.Label>Category</Form.Label>
+            <Form.Control
+              name="category"
+              as="select"
+              value={place.category}
+              onChange={(e) => {
+                setPlace({ ...place, category: e.target.value });
+              }}
+            >
+              {categories.map((x) => (
+                <option value={x._id}>{x.name}</option>
+              ))}
+            </Form.Control>
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}

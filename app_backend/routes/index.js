@@ -1,8 +1,6 @@
 var express = require("express");
-const cors = require("cors");
 var router = express.Router();
 var jwtHelper = require("./../jwtHelper");
-var path = require("path");
 const { ObjectID } = require("mongodb");
 
 /* GET home page. */
@@ -81,22 +79,22 @@ router.post("/login", async function (req, res, next) {
 });
 
 router.post("/recentlyviewed", async function (req, res, next) {
-  const result = await req.db
+  const rvPlaces = await req.db
     .collection("recentlyviewed")
     .find({ username: req.user.username })
     .limit(20000, function (e, d) {})
     .toArray();
 
-  for (var i = 0; i < result.length; i++) {
-    var element = result[i];
+  for (var i = 0; i < rvPlaces.length; i++) {
+    var element = rvPlaces[i];
     var place = await req.db
       .collection("places")
       .findOne({ _id: ObjectID(element.placeId) });
     if (place) {
       element.place = place;
-      console.log("FOUND PLACE", place);
     }
   }
+  const result = rvPlaces.filter((x) => x.place);
   res.send(result);
 });
 

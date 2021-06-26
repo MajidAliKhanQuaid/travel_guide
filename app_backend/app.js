@@ -1,18 +1,19 @@
-var createError = require("http-errors");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-const dotenv = require("dotenv");
-
-var jwtHelper = require("./jwtHelper");
+var express = require("express"),
+  createError = require("http-errors"),
+  cors = require("cors"),
+  bodyParser = require("body-parser"),
+  path = require("path"),
+  cookieParser = require("cookie-parser"),
+  logger = require("morgan"),
+  dotenv = require("dotenv"),
+  mongo = require("mongodb"),
+  jwtHelper = require("./jwtHelper");
 
 // get config vars
 dotenv.config();
+let connection;
 
-const MongoClient = require("mongodb").MongoClient;
+const MongoClient = mongo.MongoClient;
 const MONGO_DB_NAME = process.env.MONGO_DB;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION;
 
@@ -28,19 +29,6 @@ MongoClient.connect(
   }
 );
 
-var indexRouter = require("./routes/index");
-var categoryRouter = require("./routes/category");
-var accountRouter = require("./routes/account");
-var favouritesRouter = require("./routes/favourites");
-
-var placesRouter = require("./routes/places");
-var mosquesRouter = require("./routes/mosques");
-var parksRouter = require("./routes/parks");
-var historicalsRouter = require("./routes/historicals");
-var culturalsRouter = require("./routes/culturals");
-var meuseumsRouter = require("./routes/meuseums");
-var gymsRouter = require("./routes/gyms");
-
 var app = express();
 
 // make our db accessible to our router
@@ -51,10 +39,6 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 app.options("*", cors());
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(bodyParser.raw());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -79,26 +63,42 @@ app.all("*", (req, res, next) => {
     "/uploads",
   ];
   var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
-  console.log("-- NEW Http Request ", req.path);
+  // console.log("-- NEW Http Request ", req.path);
   if (matchingRoutes.length > 0) {
-    console.log("-- MATCHED ", req.path);
+    // console.log("-- MATCHED ", req.path);
     return next();
   }
 
   jwtHelper.authenticateAccessToken(req, res, next);
 });
 
-app.use("/", indexRouter);
-app.use("/category", categoryRouter);
-app.use("/account", accountRouter);
-app.use("/places", placesRouter);
-app.use("/culturals", culturalsRouter);
-app.use("/gyms", gymsRouter);
-app.use("/historicals", historicalsRouter);
-app.use("/mosques", mosquesRouter);
-app.use("/parks", parksRouter);
-app.use("/favourites", favouritesRouter);
-app.use("/meuseums", meuseumsRouter);
+const routes = require("./server/route_config");
+app = routes(app);
+
+// var indexRouter = require("./routes/index");
+// var categoryRouter = require("./routes/category");
+// var accountRouter = require("./routes/account");
+// var favouritesRouter = require("./routes/favourites");
+
+// var placesRouter = require("./routes/places");
+// var mosquesRouter = require("./routes/mosques");
+// var parksRouter = require("./routes/parks");
+// var historicalsRouter = require("./routes/historicals");
+// var culturalsRouter = require("./routes/culturals");
+// var meuseumsRouter = require("./routes/meuseums");
+// var gymsRouter = require("./routes/gyms");
+
+// app.use("/", indexRouter);
+// app.use("/category", categoryRouter);
+// app.use("/account", accountRouter);
+// app.use("/places", placesRouter);
+// app.use("/culturals", culturalsRouter);
+// app.use("/gyms", gymsRouter);
+// app.use("/historicals", historicalsRouter);
+// app.use("/mosques", mosquesRouter);
+// app.use("/parks", parksRouter);
+// app.use("/favourites", favouritesRouter);
+// app.use("/meuseums", meuseumsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

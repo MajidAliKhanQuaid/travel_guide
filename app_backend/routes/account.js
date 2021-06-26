@@ -1,6 +1,5 @@
-const { response } = require("express");
-var express = require("express");
-var jwtHelper = require("./../jwtHelper");
+const express = require("express");
+const jwtHelper = require("./../jwtHelper");
 const { ObjectID } = require("bson");
 
 var router = express.Router();
@@ -86,7 +85,7 @@ router.post("/create", async function (req, res, next) {
 });
 
 router.post("/register", async function (req, res, next) {
-  console.log(req.body);
+  // console.log(req.body);
   // if `req.username` is not valid
   if (!req.body.username)
     return res.status(400).json({ msg: "Bad request" }).send();
@@ -104,7 +103,7 @@ router.post("/register", async function (req, res, next) {
     });
     var clone = Object.assign({}, response.ops[0]);
     // delete clone._id;
-    console.log("Creating token for ", clone);
+    // console.log("Creating token for ", clone);
     const token = jwtHelper.generateAccessToken(clone);
     return res
       .status(200)
@@ -150,7 +149,7 @@ router.post("/auth/facebook", async function (req, res, next) {
     const user = await req.db
       .collection("accounts")
       .findOne({ username: email });
-    console.log("User ", user);
+    // console.log("User ", user);
     if (user) {
       const token = jwtHelper.generateAccessToken(user);
       return res
@@ -174,7 +173,7 @@ router.post("/auth/facebook", async function (req, res, next) {
         .send();
     }
   } else {
-    console.log("Fields are not valid");
+    // console.log("Fields are not valid");
     return res
       .status(200)
       .json({

@@ -27,16 +27,16 @@ if (localStorage.getItem("token")) {
     });
 }
 export default function userReducer(state = initalState, action) {
-  console.log("user.reducer  [state]", state, " [action] ", action);
+  //console.log("user.reducer  [state]", state, " [action] ", action);
   if (action.type === "USER_UPDATED") {
     const { payload } = action;
-    console.log("--> user.reducer [payload] ", payload);
+    //console.log("--> user.reducer [payload] ", payload);
     return { ...state, user: payload };
   }
 
   if (action.type === "USER_INFO_UPDATED") {
     const { payload } = action;
-    console.log("--> user.reducer [payload] ", payload);
+    //console.log("--> user.reducer [payload] ", payload);
     return { ...state, userInfo: payload };
   }
 

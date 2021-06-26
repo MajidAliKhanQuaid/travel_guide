@@ -46,6 +46,15 @@ const upload = multer({
 
 // loads all places
 router.get("/", async function (req, res, next) {
+  var test = await await req.db.collection(_collection).find().toArray();
+  for (var i = 0; i < test.length; i++) {
+    var element = test[i];
+    element.placeCategory = await req.db
+      .collection("categories")
+      .findOne({ _id: ObjectID(element.category) });
+  }
+
+  console.log("TEST ", test);
   const result = await req.db
     .collection(_collection)
     .find()
@@ -79,9 +88,9 @@ router.get("/get", async function (req, res, next) {
         .collection("favourites")
         .findOne({ placeId: req.query.id, username: req.user.username });
       if (fav) {
-        console.log("FAV found");
+        // console.log("FAV found");
         if (req.query.view) {
-          console.log("VIEW found");
+          // console.log("VIEW found");
           // we'll upsert one record here
         }
         res.send({ ...result, is_fav: true, success: true });
@@ -101,6 +110,7 @@ router.post(
   "/save",
   upload.array("attachments"),
   async function (req, res, next) {
+    const { name, description, location, category } = req.body;
     console.log(req.body);
     const formData = req.body;
     let images = [];
@@ -111,9 +121,10 @@ router.post(
       }
     }
     await req.db.collection(_collection).insertOne({
-      name: formData.name,
-      description: formData.description,
-      location: formData.location,
+      name: name,
+      description: description,
+      location: location,
+      category: category,
       images: images,
     });
     res.send({ success: true });
@@ -148,6 +159,7 @@ router.post(
   "/update",
   upload.array("attachments"),
   async function (req, res, next) {
+    const { _id, name, description, location, category } = req.body;
     console.log(req.body);
     let images = [];
     if (req.files) {
@@ -157,12 +169,15 @@ router.post(
       }
     }
     const result = req.db.collection(_collection).updateOne(
-      { _id: ObjectID(req.body._id) },
+      { _id: ObjectID(_id) },
       {
         $set: {
-          name: req.body.name,
-          description: req.body.description,
-          location: req.body.location,
+          name: name,
+          description: description,
+          location: location,
+          category: category,
+          updatedBy: req.user.username,
+          updatedOn: new Date(),
         },
         $push: {
           images: {

@@ -101,7 +101,7 @@ class AuthService {
     //localStorage.removeItem("refreshToken");
     //localStorage.setItem("logout-event", "logout" + Math.random());
     //localStorage.removeItem("logout-event");
-
+    localStorage.clear();
     sessionStorage.clear();
   }
 

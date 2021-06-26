@@ -79,6 +79,7 @@ router.post(
   "/save",
   upload.array("attachments"),
   async function (req, res, next) {
+    const { name, description, location, category } = req.body;
     console.log(req.body);
     const formData = req.body;
     let images = [];
@@ -89,9 +90,10 @@ router.post(
       }
     }
     await req.db.collection(_collection).insertOne({
-      name: formData.name,
-      description: formData.description,
-      location: formData.location,
+      name: name,
+      description: description,
+      location: location,
+      category: category,
       images: images,
     });
     res.send({ success: true });

@@ -33,7 +33,7 @@ const EditPlace = () => {
       { text: "Places", url: "/places" },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
 
     axios
       .get(`/places/get?id=${identifier}`)

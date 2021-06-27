@@ -7,12 +7,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "popper.js";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import {
+  Router,
+  Switch,
+  Route,
+  useParams,
+  Redirect,
+  Link,
+} from "react-router-dom";
+import { useLocation } from "react-router";
+import history from "./History";
 
 ReactDOM.render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
-    <App />
-    {/* </React.StrictMode> */}
+    {/* Router is added here, to use useLocation you need to have <Router> tag in
+    parent, wanted to use useLocation in App.js .. But wasn't allowed so did this
+    */}
+    <Router history={history}>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

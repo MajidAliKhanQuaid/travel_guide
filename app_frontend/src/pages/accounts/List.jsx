@@ -51,7 +51,7 @@ const ListAccount = () => {
       { text: "Accounts", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
     loadAccounts();
   }, []);
 
@@ -86,7 +86,6 @@ const ListAccount = () => {
             <tr>
               <th>#</th>
               <th>First Name</th>
-              <th>Last Name</th>
               <th>Username</th>
               <th></th>
             </tr>
@@ -95,8 +94,7 @@ const ListAccount = () => {
             {accounts.map((x, index) => (
               <tr>
                 <td>{index + 1}</td>
-                <td>{x.firstname}</td>
-                <td>{x.lastname}</td>
+                <td>{x.name}</td>
                 <td>{x.username}</td>
                 <td>
                   <Button

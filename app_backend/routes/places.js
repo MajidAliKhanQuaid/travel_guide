@@ -54,10 +54,9 @@ router.get("/", async function (req, res, next) {
       .findOne({ _id: ObjectID(element.category) });
   }
 
-  console.log("TEST ", test);
   const result = await req.db
     .collection(_collection)
-    .find()
+    .find({ deleted: false })
     .limit(20000, function (e, d) {})
     .toArray();
   res.send(result);
@@ -126,6 +125,9 @@ router.post(
       location: location,
       category: category,
       images: images,
+      deleted: false,
+      createdBy: req.user.username,
+      createdOn: new Date(),
     });
     res.send({ success: true });
   }
@@ -135,9 +137,16 @@ router.post(
 router.post("/delete", async function (req, res, next) {
   console.log(req.query);
   if (req.query && req.query.id) {
-    const result = await req.db
-      .collection(_collection)
-      .findOneAndDelete({ _id: ObjectID(req.query.id) });
+    const result = await req.db.collection(_collection).updateOne(
+      { _id: ObjectID(req.query.id) },
+      {
+        $set: {
+          deleted: true,
+          deletedOn: new Date(),
+        },
+      }
+    );
+    // .findOneAndDelete({ _id: ObjectID(req.query.id) });
     res.send({ success: true });
   } else {
     res.send({ success: false, message: "invalid request" });
@@ -149,7 +158,10 @@ router.post("/search", async function (req, res, next) {
   console.log("search place", req.body.query);
   const result = await req.db
     .collection(_collection)
-    .find({ name: { $regex: `${req.body.query}`, $options: "i" } })
+    .find({
+      deleted: false,
+      name: { $regex: `${req.body.query}`, $options: "i" },
+    })
     .toArray();
   res.send(result);
 });

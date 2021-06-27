@@ -38,7 +38,7 @@ router.get(
   "/info",
   jwtHelper.authenticateAccessToken,
   function (req, res, next) {
-    res.send({ firstname: req.user.firstname, lastname: req.user.lastname });
+    res.send({ firstname: req.user.name });
   }
 );
 
@@ -136,15 +136,14 @@ router.post("/auth/facebook", async function (req, res, next) {
       { username: email },
       {
         $set: {
-          name: req.body.name,
-          username: req.body.email,
+          name: name,
+          username: email,
           domain: "facebook",
           roles: ["tourist"],
           deleted: false,
           createdOn: new Date(),
         },
-      },
-      { upsert: true }
+      }
     );
     const user = await req.db
       .collection("accounts")
@@ -178,6 +177,7 @@ router.post("/auth/facebook", async function (req, res, next) {
       .status(200)
       .json({
         success: false,
+        message: "Fields are not valid",
       })
       .send();
   }

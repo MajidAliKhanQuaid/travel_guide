@@ -17,7 +17,7 @@ const EditAccount = () => {
       { text: "Edit Account", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
   }, []);
   return (
     <>

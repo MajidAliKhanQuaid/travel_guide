@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     toggleBreadcrumb(dispatch, false);
-    toggleNav(dispatch, false);
+    //toggleNav(dispatch, false);
     if (localStorage.getItem("token")) {
       history.push("/");
       return;

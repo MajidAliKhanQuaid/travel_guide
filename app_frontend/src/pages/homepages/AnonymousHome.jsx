@@ -28,7 +28,7 @@ const AnonymousHome = () => {
   ];
 
   useEffect(() => {
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
     toggleSearchButton(dispatch, true);
   }, []);
 

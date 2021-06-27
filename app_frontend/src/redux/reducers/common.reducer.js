@@ -1,9 +1,9 @@
 const initialState = {
   showNav: true,
   showSpinner: false,
-  showSearchBtn: true,
+  toggleSearchBtn: true,
   searchText: "",
-  showBreadcrumb: false,
+  toggleBreadcrumb: false,
   breadcrumbItems: [],
 };
 export default function commonReducer(state = initialState, action) {
@@ -25,7 +25,7 @@ export default function commonReducer(state = initialState, action) {
 
   if (action.type == "TOGGLE_SEARCH_BTN") {
     const { payload } = action;
-    return { ...state, showSearchBtn: payload };
+    return { ...state, toggleSearchBtn: payload };
   }
 
   if (action.type == "CHANGE_SEARCH_CATEGORY") {
@@ -35,7 +35,7 @@ export default function commonReducer(state = initialState, action) {
 
   if (action.type == "TOGGLE_BREADCRUMB") {
     const { payload } = action;
-    return { ...state, showBreadcrumb: payload };
+    return { ...state, toggleBreadcrumb: payload };
   }
 
   if (action.type == "SET_BREADCRUMB") {

@@ -19,7 +19,7 @@ const Profile = () => {
       { text: "Profile", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
   }, []);
   return (
     <Container>

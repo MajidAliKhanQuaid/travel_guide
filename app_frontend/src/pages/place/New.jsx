@@ -58,7 +58,7 @@ const NewPlace = () => {
       { text: "New Place", url: "/places/new" },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
   }, []);
 
   return (

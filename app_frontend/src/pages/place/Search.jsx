@@ -44,7 +44,7 @@ const SearchPlaces = (props) => {
       { text: "Place", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
     searchPlaces();
     toggleSearchButton(dispatch, false);
   }, []);

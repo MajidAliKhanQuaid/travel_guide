@@ -51,8 +51,10 @@ router.post("/login", async function (req, res, next) {
     return;
   }
   const account = await req.db.collection("accounts").findOne({
+    deleted: false,
     username: loginData.Username,
     password: loginData.Password,
+    domain: "system",
   });
   if (account) {
     console.log(

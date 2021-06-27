@@ -51,7 +51,7 @@ const ListCategory = () => {
       { text: "Accounts", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
     loadCategories();
   }, []);
 

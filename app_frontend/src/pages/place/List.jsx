@@ -47,7 +47,7 @@ const ListPlaces = () => {
       { text: "Places", url: "/places" },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
 
     loadPlaces();
   }, []);

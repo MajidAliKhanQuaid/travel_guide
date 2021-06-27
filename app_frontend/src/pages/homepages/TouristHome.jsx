@@ -22,12 +22,13 @@ import {
   addBreadcrumbItems,
   toggleBreadcrumb,
   toggleNav,
+  toggleSearchButton,
 } from "./../../helper";
 
 const TouristHome = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);
 
-  const [name, setName] = useState("Nadia Khan");
+  const [name, setName] = useState("??");
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -39,8 +40,10 @@ const TouristHome = () => {
       { text: "Home", url: "/" },
       { text: "Edit Account", url: location.pathname },
     ]);
+
+    //toggleNav(dispatch, true);
+    toggleSearchButton(dispatch, true);
     toggleBreadcrumb(dispatch, false);
-    toggleNav(dispatch, true);
   }, []);
 
   return (

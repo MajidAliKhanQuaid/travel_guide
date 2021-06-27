@@ -34,8 +34,9 @@ const SignUp = () => {
   };
 
   useEffect(() => {
+    console.log("CHILDD");
     toggleBreadcrumb(dispatch, false);
-    toggleNav(dispatch, false);
+    //toggleNav(dispatch, false);
   }, []);
 
   return (
@@ -64,25 +65,24 @@ const SignUp = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="firstname">
-            <Form.Label>First Name</Form.Label>
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
             <Form.Control
-              name="firstname"
+              name="name"
               type="text"
-              placeholder="Enter First Name ..."
+              placeholder="Enter Name ..."
             />
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="lastname">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              name="lastname"
-              type="text"
-              placeholder="Enter Last Name ..."
-            />
+          <Form.Group controlId="role">
+            <Form.Label>Role</Form.Label>
+            <Form.Control name="role" as="select">
+              <option value={1}>Tourist</option>
+              <option value={2}>Guide</option>
+            </Form.Control>
             {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
@@ -95,9 +95,9 @@ const SignUp = () => {
               type="password"
               placeholder="Enter Password ..."
             />
-            {/* <Form.Text className="text-muted">
+            <Form.Text className="text-muted">
               We'll never share your email with anyone else.
-            </Form.Text> */}
+            </Form.Text>
           </Form.Group>
 
           <Button variant="primary" type="submit">

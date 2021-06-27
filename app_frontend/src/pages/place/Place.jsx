@@ -39,7 +39,7 @@ const Place = () => {
       { text: "Place", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    toggleNav(dispatch, true);
+    //toggleNav(dispatch, true);
     toggleSpinner(dispatch, true);
 
     axios

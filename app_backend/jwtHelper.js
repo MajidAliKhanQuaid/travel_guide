@@ -8,7 +8,7 @@ module.exports.generateAccessToken = (userData) => {
     userData
   );
   return jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: 1800,
+    expiresIn: "7d",
   });
 };
 

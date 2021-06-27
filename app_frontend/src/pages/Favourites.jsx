@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, Container, Pagination } from "react-bootstrap";
 import axios from "./../interceptor";
-const Favouries = () => {
+import favService from "../services/favservice";
+
+const Favourites = () => {
   useEffect(async () => {
     const lstFavs = await axios.get(`/favourites`);
     setFavs(lstFavs.data);
@@ -41,8 +43,18 @@ const Favouries = () => {
                   Card Subtitle
                 </Card.Subtitle>
                 <Card.Text>{x.description}</Card.Text>
-                <Card.Link href="#">Remove</Card.Link>
-                <Card.Link href="#">Details</Card.Link>
+                <Card.Link
+                  onClick={async () => {
+                    const result = await favService.removeFromFavs(x._id);
+                    if (result.deleted) {
+                      const favPlaces = await favService.getFavs();
+                      setFavs(favPlaces);
+                    }
+                  }}
+                >
+                  Remove
+                </Card.Link>
+                <Card.Link href={`/places/${x._id}`}>Details</Card.Link>
               </Card.Body>
             </Card>
           ))}
@@ -52,4 +64,4 @@ const Favouries = () => {
   );
 };
 
-export default Favouries;
+export default Favourites;

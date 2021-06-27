@@ -43,7 +43,7 @@ import TouristHome from "./pages/homepages/TouristHome";
 // Pages -> *
 import Login from "./pages/accounts/Login";
 import Logout from "./pages/accounts/Logout";
-import Favouries from "./pages/Favourites";
+import Favourites from "./pages/Favourites";
 import Place from "./pages/place/Place";
 import NewPlace from "./pages/place/New";
 import ListPlaces from "./pages/place/List";
@@ -64,6 +64,8 @@ import SignUp from "./pages/accounts/SignUp";
 
 import ListCategory from "./pages/category/List";
 import NewCategory from "./pages/category/New";
+
+import categoryService from "./services/categoryservice";
 
 import {
   toggleNav,
@@ -86,12 +88,20 @@ function App() {
   const breadcrumbItems = useSelector((x) => x.commonState.breadcrumbItems);
   const toggleSearchBtn = useSelector((x) => x.commonState.toggleSearchBtn);
   const searchText = useSelector((x) => x.commonState.searchText);
+  // services
+
   // const searchCategory = useSelector((x) => x.commonState.searchCategory);
   // state
   const [query, setQuery] = useState(searchText);
+  const [categories, setCategories] = useState([]);
   const [searchModalOptions, setSearchModalOptions] = useState({
     show: false,
   });
+
+  useEffect(() => {
+    const categories = categoryService.getCategories();
+    setCategories(categories);
+  }, []);
 
   useEffect(() => {
     console.log("PARENTT");
@@ -124,6 +134,7 @@ function App() {
           setSearchModalOptions({ ...searchModalOptions, show: true });
         }}
         toggleSearchBtn={toggleSearchBtn}
+        categories={categories}
       />
       {toggleBreadcrumb ? (
         <Breadcrumb style={{ margin: "10px" }}>
@@ -185,7 +196,7 @@ function App() {
         <Route path="/accounts/new" component={NewAccount} />
         <Route path="/accounts" component={ListAccout} />
         <Route path="/test" component={Place} />
-        <Route path="/Favouries" component={Favouries} />
+        <Route path="/Favs" component={Favourites} />
       </Switch>
 
       <SearchComponent

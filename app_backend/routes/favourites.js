@@ -67,7 +67,6 @@ router.get("/add", function (req, res, next) {
     .catch((err) => console.error("Something went wrong ", err));
 });
 
-// add to favourites
 router.get("/remove", function (req, res, next) {
   req.db
     .collection(colName)
@@ -76,7 +75,7 @@ router.get("/remove", function (req, res, next) {
       username: req.user.username,
     })
     .then((result) => res.send({ deleted: true }))
-    .catch((err) => console.error("Something went wrong ", err));
+    .catch((err) => res.send({ deleted: false }));
 });
 
 // exporting the module

@@ -25,7 +25,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
 
-const NavbarComponent = ({ user, showNav, searchClick, toggleSearchBtn }) => {
+const NavbarComponent = ({
+  user,
+  showNav,
+  searchClick,
+  toggleSearchBtn,
+  categories,
+}) => {
   let userInfo = localStorage.getItem("userInfo");
   if (!userInfo) {
     userInfo = {};
@@ -149,7 +155,7 @@ const NavbarComponent = ({ user, showNav, searchClick, toggleSearchBtn }) => {
           <Link to="/categories" className="nav-link">
             Categories
           </Link>
-          <Link to="/Favouries" className="nav-link">
+          <Link to="/Favs" className="nav-link">
             Favourites
           </Link>
           {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">

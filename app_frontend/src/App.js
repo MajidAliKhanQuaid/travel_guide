@@ -69,6 +69,7 @@ import categoryService from "./services/categoryservice";
 
 import {
   toggleNav,
+  toggleSearchButton,
   toggleSpinner,
   toggleBreadcrumb,
   addBreadcrumbItems,
@@ -98,14 +99,14 @@ function App() {
     show: false,
   });
 
-  useEffect(() => {
-    const categories = categoryService.getCategories();
-    setCategories(categories);
+  useEffect(async () => {
+    const cats = await categoryService.getCategories();
+    setCategories(cats);
   }, []);
 
   useEffect(() => {
     console.log("PARENTT");
-    // here we can define the routes, where we've to show navbar, search button etc.
+    // hide nav-bar on login and signup
     if (
       location.pathname.startsWith("/login") ||
       location.pathname.startsWith("/signup")
@@ -113,6 +114,13 @@ function App() {
       toggleNav(dispatch, false);
     } else {
       toggleNav(dispatch, true);
+    }
+
+    // hide search button on search page
+    if (location.pathname.startsWith("/places/search")) {
+      toggleSearchButton(dispatch, false);
+    } else {
+      toggleSearchButton(dispatch, true);
     }
   }, [location.pathname]);
 
@@ -190,6 +198,7 @@ function App() {
         <Route path="/places/new" exact component={NewPlace} />
         <Route path="/places/search" component={SearchPlaces} />
         <Route path="/places/edit/:identifier" component={EditPlace} />
+        <Route path="/places/category/:identifier" component={ListPlaces} />
         <Route path="/places/:identifier" component={Place} />
         <Route path="/places" component={ListPlaces} />
 

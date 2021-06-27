@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
-import history from "./../History";
-import axios from "./../interceptor";
 
 const RecentlyViewedPlaces = ({ places }) => {
   if (places.length == 0) return <></>;

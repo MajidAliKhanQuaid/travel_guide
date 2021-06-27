@@ -46,20 +46,34 @@ const upload = multer({
 
 // loads all places
 router.get("/", async function (req, res, next) {
-  var test = await await req.db.collection(_collection).find().toArray();
-  for (var i = 0; i < test.length; i++) {
-    var element = test[i];
-    element.placeCategory = await req.db
-      .collection("categories")
-      .findOne({ _id: ObjectID(element.category) });
+  let places;
+  if (req.query.category) {
+    console.log("Request for Category ", req.query.category);
+    places = await await req.db
+      .collection(_collection)
+      .find({ category: req.query.category })
+      .toArray();
+    console.log("Found ", places.length, " Records");
+  } else {
+    places = await await req.db
+      .collection(_collection)
+      .find({ deleted: false })
+      .toArray();
   }
 
-  const result = await req.db
-    .collection(_collection)
-    .find({ deleted: false })
-    .limit(20000, function (e, d) {})
-    .toArray();
-  res.send(result);
+  // for (var i = 0; i < places.length; i++) {
+  //   var element = places[i];
+  //   element.placeCategory = await req.db
+  //     .collection("categories")
+  //     .findOne({ _id: ObjectID(element.category) });
+  // }
+
+  // const result = await req.db
+  //   .collection(_collection)
+  //   .find({ deleted: false })
+  //   .limit(20000, function (e, d) {})
+  //   .toArray();
+  res.send(places);
 });
 
 // loads one place, based on query parameter `id`

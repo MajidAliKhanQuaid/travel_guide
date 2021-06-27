@@ -99,26 +99,22 @@ const NavbarComponent = ({
               Mosques
              </Link>*/}
 
-          <NavDropdown title={"Types "} id="user-nav-dropdown">
-            <Link to="/mosques" className="dropdown-item">
-              Mosques
-            </Link>
-            <Link to="/parks" className="dropdown-item">
-              Parks
-            </Link>
-            <Link to="/historicals" className="dropdown-item">
-              Historical
-            </Link>
-            <Link to="/culturals" className="dropdown-item">
-              Cultural
-            </Link>
-            <Link to="/meuseums" className="dropdown-item">
-              Meuseums
-            </Link>
-            <Link to="/gyms" className="dropdown-item">
-              Gyms
-            </Link>
-          </NavDropdown>
+          {categories && categories.length > 0 ? (
+            <>
+              <NavDropdown title={"Types "} id="user-nav-dropdown">
+                {categories.map((x) => (
+                  <Link
+                    to={`/places/category/${x._id}`}
+                    className="dropdown-item"
+                  >
+                    {x.name}
+                  </Link>
+                ))}
+              </NavDropdown>
+            </>
+          ) : (
+            <></>
+          )}
 
           {/* <div class="dropdown">
               <button class="dropbtn">Interests</button>

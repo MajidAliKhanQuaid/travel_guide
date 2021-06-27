@@ -9,7 +9,11 @@ import {
 import axios from "./../../interceptor";
 import { Card, Modal, Pagination, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router";
+import placeService from "../../services/placeservice";
 const ListPlaces = () => {
+  const { identifier } = useParams();
+  const { categoryQuery, setCategoryQuery } = useState(identifier);
   const [showDelModal, setShowDelModal] = useState({ show: false, id: null });
   const [places, setPlaces] = useState([]);
   const dispatch = useDispatch();
@@ -28,20 +32,25 @@ const ListPlaces = () => {
   };
   const handleShow = () => setShowDelModal({ ...showDelModal, show: true });
 
-  const loadPlaces = () => {
+  const loadPlaces = async () => {
     toggleSpinner(dispatch, true);
-    axios
-      .get("/places")
-      .then(function ({ data }) {
-        setPlaces(data);
-        toggleSpinner(dispatch, false);
-      })
-      .catch(function (response) {
-        toggleSpinner(dispatch, false);
-      });
+    let placesResult;
+    try {
+      if (identifier) {
+        placesResult = await placeService.getPlacesByCategory(identifier);
+        setPlaces(placesResult);
+      } else {
+        placesResult = await placeService.getPlaces();
+        setPlaces(placesResult);
+      }
+      toggleSpinner(dispatch, false);
+    } catch (error) {
+      toggleSpinner(dispatch, false);
+    }
   };
 
   useEffect(() => {
+    console.log("CALLING PARAMETERIZED USE EFFECT");
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "Places", url: "/places" },
@@ -50,7 +59,7 @@ const ListPlaces = () => {
     //toggleNav(dispatch, true);
 
     loadPlaces();
-  }, []);
+  }, [identifier]);
 
   if (places.length == 0)
     return (

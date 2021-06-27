@@ -24,17 +24,22 @@ import {
   toggleNav,
   toggleSearchButton,
 } from "./../../helper";
-
+import favService from "../../services/favservice";
+import recentlyViewedService from "../../services/recentlyviewedservice";
 const TouristHome = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [favs, setFavs] = useState([]);
 
   const [name, setName] = useState("??");
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(async () => {
-    const lstFavs = await axios.post(`/recentlyviewed`);
-    setRecentlyViewed(lstFavs.data);
+    const viewedPlaces = await recentlyViewedService.getAll();
+    setRecentlyViewed(viewedPlaces);
+
+    const favPlaces = await favService.getFavs();
+    // setFavs(favPlaces);
 
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
@@ -54,6 +59,7 @@ const TouristHome = () => {
       <div className="row">
         <div className="col-md-12">
           <RecentlyViewedPlaces places={recentlyViewed} />
+          <RecentlyViewedPlaces places={favs} />
         </div>
       </div>
       {/* <div className="row">

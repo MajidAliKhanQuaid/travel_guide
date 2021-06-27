@@ -5,8 +5,8 @@ import favService from "../services/favservice";
 
 const Favourites = () => {
   useEffect(async () => {
-    const lstFavs = await axios.get(`/favourites`);
-    setFavs(lstFavs.data);
+    const favPlaces = await favService.getFavs();
+    setFavs(favPlaces);
   }, []);
   const [favs, setFavs] = useState([]);
   return (
@@ -38,7 +38,7 @@ const Favourites = () => {
                 }
               />
               <Card.Body>
-                <Card.Title>{x.title}</Card.Title>
+                <Card.Title>{x.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle>

@@ -9,19 +9,30 @@ import {
   toggleBreadcrumb,
   toggleNav,
 } from "./../../helper";
-import { Link } from "react-router-dom";
+import accountService from "../../services/accountservice";
+
 const ListAccount = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const [accounts, setAccouts] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [showDelModal, setShowDelModal] = useState({
     show: false,
     id: null,
     name: "",
   });
   const handleClose = () => setShowDelModal({ ...showDelModal, show: false });
-  const handleDelete = () => {
+  const handleDelete = async () => {
     toggleSpinner(dispatch, true);
+    try {
+      toggleSpinner(dispatch, true);
+      const result = await accountService.deleteAccount(showDelModal.id);
+      // result not checked
+      //
+      loadAccounts();
+      handleClose();
+    } catch (error) {
+      toggleSpinner(dispatch, false);
+    }
     axios
       .get(`/account/delete?id=${showDelModal.id}`)
       .then(function ({ data }) {
@@ -33,16 +44,17 @@ const ListAccount = () => {
       });
   };
 
-  const loadAccounts = () => {
-    return axios
-      .get("/account")
-      .then(function ({ data }) {
-        setAccouts(data);
-        toggleSpinner(dispatch, false);
-      })
-      .catch(function (response) {
-        toggleSpinner(dispatch, false);
-      });
+  const loadAccounts = async () => {
+    try {
+      toggleSpinner(dispatch, true);
+      //
+      const accts = await accountService.getAccounts();
+      setAccounts(accts);
+      //
+      toggleSpinner(dispatch, false);
+    } catch (error) {
+      toggleSpinner(dispatch, false);
+    }
   };
 
   useEffect(() => {

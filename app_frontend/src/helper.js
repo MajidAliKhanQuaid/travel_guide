@@ -32,3 +32,10 @@ export const addBreadcrumbItems = (_dispatch, _toggle) => {
     payload: _toggle,
   });
 };
+
+export const addCategories = (_dispatch, _categories) => {
+  _dispatch({
+    type: "SET_CATEGORIES",
+    payload: _categories,
+  });
+};

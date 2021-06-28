@@ -1,33 +1,70 @@
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 const RecentlyViewedPlaces = ({ places }) => {
   if (places.length == 0) return <></>;
 
   return (
     <>
-      <h1>Recently Viewed Places</h1>
-      {places.map((x) => (
-        <Card style={{ marginTop: "10px" }}>
-          <Card.Body>
-            <div className="row">
-              <h1 className="col-md-6 col-xs-6">{x.place.name}</h1>
-              <h1 className="col-md-6 col-xs-6">
-                <Button
-                  className="float-right"
-                  onClick={() => {
-                    alert("Working");
-                  }}
+      {places && places.length > 0 ? (
+        <>
+          <div className="row">
+            <h1 className="col-md-6">Recently Viewed Places</h1>
+            <Link to="" className="col-md-6 text-right">
+              See all
+            </Link>
+          </div>
+          <div
+            style={{
+              margin: "10px",
+              display: "flex",
+              flexDirection: "row",
+              flexFlow: "flex-wrap",
+              flexWrap: "wrap",
+              alignContent: "left",
+              justifyContent: "left",
+            }}
+          >
+            {places.slice(0, 3).map((x, i) => (
+              <Link
+                style={{ flex: "0 1 30%", margin: "1.6%" }}
+                to={`/places/${x.place._id}`}
+                className="card-region-link"
+                key={"region-cards" + i}
+              >
+                <Animated
+                  animationIn="wobble"
+                  animationOut="fadeOut"
+                  isVisible={true}
                 >
-                  Buy Tickets
-                </Button>
-              </h1>
-            </div>
-            <h5 className="text-muted">{x.tagline}</h5>
-            <div></div>
-          </Card.Body>
-        </Card>
-      ))}
+                  <Card className="card-region" x={x.text}>
+                    <Card.Img
+                      variant="top"
+                      src={
+                        x.place.images && x.place.images.length > 0
+                          ? `http://localhost:4000/uploads/${x.place.images[0]}`
+                          : ""
+                      }
+                    />
+                    <Card.Body>
+                      <Card.Title className="mb-2 text-center">
+                        {x.place.name}
+                      </Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted text-center">
+                        Card Subtitle
+                      </Card.Subtitle>
+                    </Card.Body>
+                  </Card>
+                </Animated>
+              </Link>
+            ))}
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 };

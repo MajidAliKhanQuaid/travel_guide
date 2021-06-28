@@ -91,7 +91,7 @@ router.post("/recentlyviewed", async function (req, res, next) {
     var element = rvPlaces[i];
     var place = await req.db
       .collection("places")
-      .findOne({ _id: ObjectID(element.placeId) });
+      .findOne({ _id: ObjectID(element.placeId), deleted: false });
     if (place) {
       element.place = place;
     }

@@ -10,6 +10,11 @@ const placeService = {
     const payload = await axios.get(`/places?category=${_identifier}`);
     return payload.data;
   },
+
+  getPlacesByRegion: async (_identifier) => {
+    const payload = await axios.get(`/places?region=${_identifier}`);
+    return payload.data;
+  },
 };
 
 export default placeService;

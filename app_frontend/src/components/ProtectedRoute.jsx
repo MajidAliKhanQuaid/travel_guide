@@ -19,8 +19,8 @@ const ProtectedRoute = ({
       {...rest}
       render={(props) => {
         if (user) {
-          var decoded = jwt_decode(user.token);
-          console.log("#### DECODED", decoded);
+          // var decoded = jwt_decode(user.token);
+          // console.log("#### DECODED", decoded);
           // if (decoded.roles && decoded.roles.indexOf("") - 1) {
           //   return <TouristHome />;
           // } else {

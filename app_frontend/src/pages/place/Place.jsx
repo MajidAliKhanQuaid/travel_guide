@@ -106,27 +106,16 @@ const Place = () => {
         <Alert variant={alert.class} show={alert.show}>
           {alert.message}
         </Alert>
+
+        <Button onClick={toggle} style={{ marginBottom: "15px" }}>
+          {place.is_fav ? "Remove from Favourites" : "Add To Favourites"}
+        </Button>
         <div className="row">
           <div className="col-sm-6">
             <Figure>
               <Figure.Image width={500} height={500} alt="171x180" src={dp} />
               <Figure.Caption>{place.name}</Figure.Caption>
             </Figure>
-            <FontAwesomeIcon
-              onClick={toggle}
-              icon={faHeart}
-              style={
-                place.is_fav
-                  ? {
-                      fontSize: "50px",
-                      color: "red",
-                    }
-                  : {
-                      fontSize: "50px",
-                      color: "black",
-                    }
-              }
-            />
           </div>
           <div className="col-sm-6 map-container">
             <div
@@ -156,7 +145,7 @@ const Place = () => {
         </div>
 
         <p>{place.description}</p>
-        <TravelPackages isLoggedIn={loggedInUser} />
+        {/* <TravelPackages isLoggedIn={loggedInUser} /> */}
       </Container>
     </>
   );

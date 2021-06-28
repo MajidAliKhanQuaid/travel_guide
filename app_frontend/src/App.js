@@ -73,6 +73,7 @@ import {
   toggleSpinner,
   toggleBreadcrumb,
   addBreadcrumbItems,
+  addCategories,
 } from "./helper";
 
 function App() {
@@ -94,18 +95,12 @@ function App() {
   // const searchCategory = useSelector((x) => x.commonState.searchCategory);
   // state
   const [query, setQuery] = useState(searchText);
-  const [categories, setCategories] = useState([]);
+  const categories = useSelector((x) => x.commonState.categories);
   const [searchModalOptions, setSearchModalOptions] = useState({
     show: false,
   });
 
   useEffect(async () => {
-    const cats = await categoryService.getCategories();
-    setCategories(cats);
-  }, []);
-
-  useEffect(() => {
-    console.log("PARENTT");
     // hide nav-bar on login and signup
     if (
       location.pathname.startsWith("/login") ||
@@ -121,6 +116,14 @@ function App() {
       toggleSearchButton(dispatch, false);
     } else {
       toggleSearchButton(dispatch, true);
+    }
+
+    // loading categories on main-component load
+    if (location.pathname == "/") {
+      if (categories.length == 0) {
+        const lCats = await categoryService.getCategories();
+        addCategories(dispatch, lCats);
+      }
     }
   }, [location.pathname]);
 

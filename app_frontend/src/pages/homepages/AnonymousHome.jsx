@@ -15,17 +15,9 @@ import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { toggleNav, toggleSearchButton } from "./../../helper";
-
+import { regions } from "../../conts";
 const AnonymousHome = () => {
   const dispatch = useDispatch();
-  const regions = [
-    { url: "/region/balouchistan", text: "Balouchistan", image: "gwadar.jpg" },
-    { url: "/region/khyber", text: "Khyber Pakhtunkhwa", image: "kumrat.jpg" },
-    { url: "/region/punjab", text: "Punjab", image: "multan.jpg" },
-    { url: "/region/sindh", text: "Sindh", image: "darawar.jpg" },
-    { url: "/region/gilgit", text: "Gilgit Baltistan", image: "naltar.jpg" },
-    { url: "/region/kashmir", text: "Kashmir", image: "lepa-valley.jpg" },
-  ];
 
   useEffect(() => {
     //toggleNav(dispatch, true);

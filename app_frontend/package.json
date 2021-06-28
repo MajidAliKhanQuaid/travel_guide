@@ -18,6 +18,7 @@
     "jwt-decode": "^3.1.2",
     "popper.js": "^1.16.1",
     "react": "^17.0.2",
+    "react-animated-css": "^1.2.1",
     "react-azure-maps": "^0.3.0",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",

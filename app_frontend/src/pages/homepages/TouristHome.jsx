@@ -59,7 +59,6 @@ const TouristHome = () => {
       <div className="row">
         <div className="col-md-12">
           <RecentlyViewedPlaces places={recentlyViewed} />
-          <RecentlyViewedPlaces places={favs} />
         </div>
       </div>
       {/* <div className="row">

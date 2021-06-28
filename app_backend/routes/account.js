@@ -34,13 +34,9 @@ router.get("/delete", async function (req, res, next) {
 });
 
 /* GET account listing. */
-router.get(
-  "/info",
-  jwtHelper.authenticateAccessToken,
-  function (req, res, next) {
-    res.send({ firstname: req.user.name });
-  }
-);
+router.get("/info", function (req, res, next) {
+  res.send({ name: req.user.name });
+});
 
 /* GET account listing. */
 router.post("/create", async function (req, res, next) {
@@ -158,8 +154,6 @@ router.post("/auth/facebook", async function (req, res, next) {
           msg: "New account was registered",
           token: token,
           name: user.name,
-          firstname: user.name,
-          lastname: user.name,
         })
         .send();
     } else {

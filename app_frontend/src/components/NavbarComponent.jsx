@@ -25,6 +25,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
 
+import { regions } from "../conts";
+
 const NavbarComponent = ({
   user,
   showNav,
@@ -68,7 +70,7 @@ const NavbarComponent = ({
       return <></>;
     }
     return (
-      <NavDropdown title={userInfo.firstname} id="user-nav-dropdown">
+      <NavDropdown title={userInfo.name} id="user-nav-dropdown">
         <Link to="/profile" className="dropdown-item">
           Profile
         </Link>
@@ -108,6 +110,20 @@ const NavbarComponent = ({
                     className="dropdown-item"
                   >
                     {x.name}
+                  </Link>
+                ))}
+              </NavDropdown>
+            </>
+          ) : (
+            <></>
+          )}
+
+          {regions && regions.length > 0 ? (
+            <>
+              <NavDropdown title={"Regions "} id="user-nav-dropdown">
+                {regions.map((x) => (
+                  <Link to={`${x.url}`} className="dropdown-item">
+                    {x.text}
                   </Link>
                 ))}
               </NavDropdown>

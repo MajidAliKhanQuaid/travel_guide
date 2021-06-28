@@ -11,6 +11,36 @@ import {
 import axios from "./../../interceptor";
 import history from "./../../History";
 const NewPlace = () => {
+  const [regions, setRegions] = useState([
+    {
+      key: "fed",
+      value: "Federal",
+    },
+    {
+      key: "pu",
+      value: "Punjab",
+    },
+    {
+      key: "sd",
+      value: "Sindh",
+    },
+    {
+      key: "bl",
+      value: "Balouchistan",
+    },
+    {
+      key: "kp",
+      value: "KPK",
+    },
+    {
+      key: "gt",
+      value: "Gilgit",
+    },
+    {
+      key: "kh",
+      value: "Kashmir",
+    },
+  ]);
   const [categories, setCategories] = useState([]);
   const [showDelModal, setShowDelModal] = useState({
     show: false,
@@ -95,6 +125,18 @@ const NewPlace = () => {
             <Form.Control name="category" as="select">
               {categories.map((x) => (
                 <option value={x._id}>{x.name}</option>
+              ))}
+            </Form.Control>
+            {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+          </Form.Group>
+
+          <Form.Group controlId="region">
+            <Form.Label>Region</Form.Label>
+            <Form.Control name="region" as="select">
+              {regions.map((x) => (
+                <option value={x.key}>{x.value}</option>
               ))}
             </Form.Control>
             {/* <Form.Text className="text-muted">

@@ -1,3 +1,6 @@
+import store from "./../store";
+import categoryService from "../../services/categoryservice";
+
 const initialState = {
   showNav: true,
   showSpinner: false,
@@ -5,7 +8,19 @@ const initialState = {
   searchText: "",
   toggleBreadcrumb: false,
   breadcrumbItems: [],
+  categories: [],
 };
+
+categoryService
+  .getCategories()
+  .then((categories) => {
+    store.dispatch({
+      type: "SET_CATEGORIES",
+      payload: categories,
+    });
+  })
+  .catch((err) => {});
+
 export default function commonReducer(state = initialState, action) {
   //console.log("common.reducer  [state]", state, " [action] ", action);
   if (action.type == "TOGGLE_NAV") {
@@ -41,6 +56,11 @@ export default function commonReducer(state = initialState, action) {
   if (action.type == "SET_BREADCRUMB") {
     const { payload } = action;
     return { ...state, breadcrumbItems: payload };
+  }
+
+  if (action.type == "SET_CATEGORIES") {
+    const { payload } = action;
+    return { ...state, categories: payload };
   }
 
   return state;

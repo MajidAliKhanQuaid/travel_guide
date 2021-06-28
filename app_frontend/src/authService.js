@@ -25,25 +25,42 @@ class AuthService {
       });
   }
 
-  login(username, password) {
-    return authaxios
-      .post("/login", {
+  async login(username, password) {
+    try {
+      const user = await authaxios.post("/login", {
         Username: username,
         Password: password,
-      })
-      .then(({ data }) => {
-        if (data.isValid && data.token) {
-          this.setToken(data);
-          // localStorage.setItem("user", "loggedas" + username);
-          return Promise.resolve(data);
-        } else {
-          return Promise.resolve(data);
-        }
-      })
-      .catch(function (error) {
-        console.log("Promise broken");
-        return Promise.reject(error);
       });
+      if (user.data.isValid && user.data.token) {
+        this.setToken(user.data);
+        return { result: true, message: "", token: user.data.token };
+      } else
+        return {
+          result: false,
+          message: "Enter valid Username/Password",
+        };
+    } catch (error) {
+      return { result: false, message: "Failed due to system error" };
+    }
+
+    // return authaxios
+    //   .post("/login", {
+    //     Username: username,
+    //     Password: password,
+    //   })
+    //   .then(({ data }) => {
+    //     if (data.isValid && data.token) {
+    //       this.setToken(data);
+    //       // localStorage.setItem("user", "loggedas" + username);
+    //       return Promise.resolve(data);
+    //     } else {
+    //       return Promise.resolve(data);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Promise broken");
+    //     return Promise.reject(error);
+    //   });
   }
 
   facebookLogin(fbResponse) {

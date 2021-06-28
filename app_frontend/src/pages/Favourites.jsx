@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Container, Pagination } from "react-bootstrap";
 import axios from "./../interceptor";
 import favService from "../services/favservice";
-
+import { Link } from "react-router-dom";
 const Favourites = () => {
   useEffect(async () => {
     const favPlaces = await favService.getFavs();
@@ -38,11 +38,12 @@ const Favourites = () => {
                 }
               />
               <Card.Body>
-                <Card.Title>{x.name}</Card.Title>
+                <Link to={`/places/${x._id}`}>
+                  <Card.Title>{x.name}</Card.Title>
+                </Link>
                 <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
+                  {x.category}
                 </Card.Subtitle>
-                <Card.Text>{x.description}</Card.Text>
                 <Card.Link
                   onClick={async () => {
                     const result = await favService.removeFromFavs(x._id);
@@ -54,7 +55,9 @@ const Favourites = () => {
                 >
                   Remove
                 </Card.Link>
-                <Card.Link href={`/places/${x._id}`}>Details</Card.Link>
+                <Link className="card-link" to={`/places/${x._id}`}>
+                  Details
+                </Link>
               </Card.Body>
             </Card>
           ))}

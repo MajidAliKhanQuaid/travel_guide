@@ -10,6 +10,8 @@ import {
   addBreadcrumbItems,
 } from "./../../helper";
 import { Container, Form, Button, Figure } from "react-bootstrap";
+import { regions } from "./../../conts";
+
 const EditPlace = () => {
   const [categories, setCategories] = useState([]);
   const { identifier } = useParams();
@@ -153,6 +155,25 @@ const EditPlace = () => {
             >
               {categories.map((x) => (
                 <option value={x._id}>{x.name}</option>
+              ))}
+            </Form.Control>
+            {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+          </Form.Group>
+
+          <Form.Group controlId="region">
+            <Form.Label>Region</Form.Label>
+            <Form.Control
+              name="region"
+              as="select"
+              value={place.region}
+              onChange={(e) => {
+                setPlace({ ...place, region: e.target.value });
+              }}
+            >
+              {regions.map((x) => (
+                <option value={x.key}>{x.text}</option>
               ))}
             </Form.Control>
             {/* <Form.Text className="text-muted">

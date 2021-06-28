@@ -19,7 +19,7 @@ router.get("/", async function (req, res, next) {
 
     const favPlaces = await req.db
       .collection("places")
-      .find({ _id: { $in: objectIds } })
+      .find({ _id: { $in: objectIds }, deleted: false })
       .toArray();
 
     res.send(favPlaces);

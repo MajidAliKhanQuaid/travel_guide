@@ -6,9 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import authService from "./../../authService";
 import axios from "./../../interceptor";
 import history from "./../../History";
-import { toggleNav, toggleSpinner, toggleBreadcrumb } from "./../../helper";
+import {
+  toggleNav,
+  toggleSpinner,
+  toggleBreadcrumb,
+  addCategories,
+} from "./../../helper";
 import { Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import accountService from "./../../services/accountservice";
+import categoryService from "./../../services/categoryservice";
+
 const Login = () => {
   const dispatch = useDispatch();
 
@@ -34,7 +42,7 @@ const Login = () => {
   //   payload: null,
   // });
 
-  function submitForm(event) {
+  const submitForm = async (event) => {
     event.preventDefault();
     console.log("Fired button click event");
     const formData = new FormData(event.target);
@@ -42,55 +50,32 @@ const Login = () => {
     const password = document.getElementById("txtPassword").value;
 
     toggleSpinner(dispatch, true);
-
-    authService
-      .login(username, password)
-      .then((loginData) => {
-        if (loginData) {
-          if (loginData.isValid) {
-            dispatch({
-              type: "USER_UPDATED",
-              payload: { token: loginData.token, isLoggedIn: true },
-            });
-            axios
-              .get("/account/info")
-              .then(({ data }) => {
-                if (data.isInvalid == false) {
-                  localStorage.setItem("userInfo", JSON.stringify(data));
-                  dispatch({
-                    type: "USER_INFO_UPDATED",
-                    payload: data,
-                  });
-                }
-                toggleSpinner(dispatch, false);
-                // redirects to `/` page
-                history.push("/");
-              })
-              .catch((err) => {
-                toggleSpinner(dispatch, false);
-
-                // redirects to `/` page
-                history.push("/");
-              });
-          } else {
-            toggleSpinner(dispatch, false);
-            setLoginAlert({
-              show: true,
-              text: "Failed to Login \nPlease enter valid credenetials",
-              class: "danger",
-            });
-          }
-        }
-      })
-      .catch((err) => {
-        toggleSpinner(dispatch, false);
-        setLoginAlert({
-          show: true,
-          text: "Failed due to system error, please try again",
-          class: "danger",
-        });
+    const loginResult = await accountService.login(username, password);
+    if (loginResult.result) {
+      dispatch({
+        type: "USER_UPDATED",
+        payload: { token: loginResult.token, isLoggedIn: true },
       });
-  }
+      const info = await accountService.info();
+      if (info) {
+        dispatch({
+          type: "USER_INFO_UPDATED",
+          payload: { name: info.name },
+        });
+        localStorage.setItem("userInfo", JSON.stringify(info));
+        toggleSpinner(dispatch, false);
+        history.push("/");
+      }
+      toggleSpinner(dispatch, false);
+      history.push("/");
+    } else {
+      setLoginAlert({
+        show: true,
+        text: loginResult.message,
+        class: "danger",
+      });
+    }
+  };
 
   async function handleFacebookLogin(fbResponse) {
     console.log("*************** FB RESPONSE *************** ");
@@ -98,16 +83,17 @@ const Login = () => {
       try {
         const payload = await authService.facebookLogin(fbResponse);
         if (payload) {
-          localStorage.setItem("userInfo", JSON.stringify(payload));
           await dispatch({
             type: "USER_UPDATED",
             payload: { token: payload.token, isLoggedIn: true },
           });
+          localStorage.setItem("userInfo", JSON.stringify(payload));
           await dispatch({
             type: "USER_INFO_UPDATED",
             payload: payload,
           });
           toggleSpinner(dispatch, false);
+
           history.push("/");
         }
         toggleSpinner(dispatch, false);
@@ -148,8 +134,8 @@ const Login = () => {
           marginTop: "5vh",
         }}
       >
-        <div style={{ height: "100px", width: "100px" }}>
-          <img src="logo192.png" style={{ height: "100%", width: "100%" }} />
+        <div style={{ height: "200px", width: "200px" }}>
+          <img src="logo.png" style={{ height: "100%", width: "100%" }} />
         </div>
         <Card
           style={{

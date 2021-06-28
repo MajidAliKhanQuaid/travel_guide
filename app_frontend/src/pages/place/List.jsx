@@ -124,17 +124,19 @@ const ListPlaces = () => {
               <Card.Img
                 variant="top"
                 src={
-                  x.images.length > 0
-                    ? "http://localhost:4000/uploads/" + x.images[0]
+                  x.images && x.images.length > 0
+                    ? `http://localhost:4000/uploads/${x.images[0]}`
                     : ""
                 }
               />
               <Card.Body>
-                <Card.Title>{x.name}</Card.Title>
+                <Link to={"/places/edit/" + x._id} className="card-link">
+                  <Card.Title>{x.name}</Card.Title>
+                </Link>
                 <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle>
-                <Card.Text>{x.description}</Card.Text>
+                {/* <Card.Text>{x.description}</Card.Text> */}
                 <Link to={"/places/" + x._id} className="card-link">
                   View
                 </Link>

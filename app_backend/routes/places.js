@@ -48,12 +48,15 @@ const upload = multer({
 router.get("/", async function (req, res, next) {
   let places;
   if (req.query.category) {
-    console.log("Request for Category ", req.query.category);
     places = await await req.db
       .collection(_collection)
       .find({ category: req.query.category })
       .toArray();
-    console.log("Found ", places.length, " Records");
+  } else if (req.query.region) {
+    places = await await req.db
+      .collection(_collection)
+      .find({ region: req.query.region })
+      .toArray();
   } else {
     places = await await req.db
       .collection(_collection)
@@ -123,7 +126,7 @@ router.post(
   "/save",
   upload.array("attachments"),
   async function (req, res, next) {
-    const { name, description, location, category } = req.body;
+    const { name, description, location, category, region } = req.body;
     console.log(req.body);
     const formData = req.body;
     let images = [];
@@ -138,6 +141,7 @@ router.post(
       description: description,
       location: location,
       category: category,
+      region: region,
       images: images,
       deleted: false,
       createdBy: req.user.username,
@@ -185,7 +189,7 @@ router.post(
   "/update",
   upload.array("attachments"),
   async function (req, res, next) {
-    const { _id, name, description, location, category } = req.body;
+    const { _id, name, description, location, category, region } = req.body;
     console.log(req.body);
     let images = [];
     if (req.files) {
@@ -202,6 +206,7 @@ router.post(
           description: description,
           location: location,
           category: category,
+          region: region,
           updatedBy: req.user.username,
           updatedOn: new Date(),
         },

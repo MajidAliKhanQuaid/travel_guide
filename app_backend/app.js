@@ -7,6 +7,7 @@ var express = require("express"),
   logger = require("morgan"),
   dotenv = require("dotenv"),
   mongo = require("mongodb"),
+  mongoose = require("mongoose"),
   jwtHelper = require("./jwtHelper");
 
 // get config vars
@@ -16,6 +17,8 @@ let connection;
 const MongoClient = mongo.MongoClient;
 const MONGO_DB_NAME = process.env.MONGO_DB;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION;
+
+mongoose.connect(process.env.MONGOOSE_CONNECTION);
 
 let db;
 

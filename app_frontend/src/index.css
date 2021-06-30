@@ -105,6 +105,8 @@ tr.searchResults img {
   max-width: 200px;
 }
 
-td.map-container iframe {
-  height: 100%;
+div.map-container iframe {
+  width: 100%;
+  min-height: 400px;
+  height: 400px;
 }

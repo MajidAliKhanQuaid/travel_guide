@@ -4,6 +4,9 @@ var router = express.Router();
 const { ObjectID } = require("bson");
 var path = require("path");
 
+const mongoose = require("mongoose");
+const Place = require("../models/place.model");
+
 const _collection = "places";
 
 // multer is used for processing file attachements
@@ -81,6 +84,13 @@ router.get("/", async function (req, res, next) {
 
 // loads one place, based on query parameter `id`
 router.get("/get", async function (req, res, next) {
+  try {
+    let place = await Place.findById(req.query.id).exec();
+    res.send(200).json({ success: true, place });
+  } catch (err) {
+    res.send(500).json({ success: false, err });
+  }
+
   console.log(req.query);
   if (req.query && req.query.id) {
     const result = await req.db
@@ -136,7 +146,8 @@ router.post(
         images.push(req.files[fileIndex].filename);
       }
     }
-    await req.db.collection(_collection).insertOne({
+    var place = new Place({
+      _id: new mongoose.Types.ObjectId(),
       name: name,
       description: description,
       location: location,
@@ -147,7 +158,24 @@ router.post(
       createdBy: req.user.username,
       createdOn: new Date(),
     });
-    res.send({ success: true });
+    try {
+      var response = await place.save();
+      res.status(201).json({ success: true, created: response });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false, err });
+    }
+    // await req.db.collection(_collection).insertOne({
+    //   name: name,
+    //   description: description,
+    //   location: location,
+    //   category: category,
+    //   region: region,
+    //   images: images,
+    //   deleted: false,
+    //   createdBy: req.user.username,
+    //   createdOn: new Date(),
+    // });
   }
 );
 

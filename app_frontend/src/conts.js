@@ -1,3 +1,14 @@
+export const commonStyles = {
+  heading: {
+    fontSize: "42px",
+    fontFamily: "Sans-Serif",
+    fontStyle: "normal",
+    fontWeight: "bold",
+    lineHeight: "120%",
+    margin: "0 0 20px 0",
+    padding: 0,
+  },
+};
 export const regions = [
   {
     url: "/region/balouchistan",

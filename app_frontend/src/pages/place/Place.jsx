@@ -21,6 +21,7 @@ import {
 import { useParams } from "react-router";
 import axios from "./../../interceptor";
 import TravelPackages from "../../components/TravelPackages";
+import { commonStyles } from "../../conts";
 const Place = () => {
   const { identifier } = useParams();
   const loggedInUser = useSelector((x) => x.userState.user);
@@ -82,7 +83,7 @@ const Place = () => {
         } else if (data.deleted) {
           setAlert({
             ...alert,
-            class: "success",
+            class: "danger",
             show: true,
             message: "Place removed from favourites",
           });
@@ -103,48 +104,64 @@ const Place = () => {
   return (
     <>
       <Container>
-        <Alert variant={alert.class} show={alert.show}>
+        <Alert
+          variant={alert.class}
+          show={alert.show}
+          onClose={() => setAlert({ ...alert, show: false })}
+          dismissible
+        >
           {alert.message}
         </Alert>
 
-        <Button onClick={toggle} style={{ marginBottom: "15px" }}>
-          {place.is_fav ? "Remove from Favourites" : "Add To Favourites"}
-        </Button>
+        <h1 style={commonStyles.heading}>
+          {place.name}{" "}
+          <Button onClick={toggle} style={{ marginBottom: "15px" }}>
+            {place.is_fav ? "Remove from Favourites" : "Add To Favourites"}
+          </Button>
+        </h1>
+
         <div className="row">
-          <div className="col-sm-6">
-            <Figure>
-              <Figure.Image width={500} height={500} alt="171x180" src={dp} />
-              <Figure.Caption>{place.name}</Figure.Caption>
-            </Figure>
-          </div>
           <div className="col-sm-6 map-container">
-            <div
-              style={{ height: "100%", width: "100%" }}
-              dangerouslySetInnerHTML={{ __html: place.location }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: place.location }} />
+          </div>
+          <div className="col-sm-6">
+            <Figure style={{ minHeight: "400px", height: "400px" }}>
+              <Figure.Image
+                style={{ height: "100%", width: "100%" }}
+                src={dp}
+              />
+            </Figure>
           </div>
         </div>
 
         <div>
           {place.images.map((x) => (
             <Figure
-              style={{ marginRight: "5px" }}
+              style={{ marginRight: "5px", height: "100px", width: "100px" }}
               onClick={(ev) => {
                 console.log(ev.target.src);
                 setDp(ev.target.src);
               }}
             >
               <Figure.Image
-                width={100}
-                height={100}
-                alt="171x180"
+                style={{ height: "100%", width: "100%" }}
                 src={`${process.env.REACT_APP_API_BASE_URL}/uploads/${x}`}
               />
             </Figure>
           ))}
         </div>
+        <div className="row">
+          <div className="col-md-12">
+            <h4>About</h4>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8">
+            <p style={{ textAlign: "justify" }}>{place.description}</p>
+          </div>
 
-        <p>{place.description}</p>
+          <div className="col-md-4"></div>
+        </div>
         {/* <TravelPackages isLoggedIn={loggedInUser} /> */}
       </Container>
     </>

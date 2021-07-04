@@ -1,4 +1,5 @@
 import store from "./../store";
+import accountService from "../../services/accountservice";
 import axios from "./../../interceptor";
 let initalState = {};
 if (localStorage.getItem("token")) {
@@ -9,10 +10,9 @@ if (localStorage.getItem("token")) {
       isLoggedIn: true,
     },
   };
-
-  axios
-    .get("/account/info")
-    .then(({ data }) => {
+  accountService
+    .info()
+    .then((data) => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       store.dispatch({
         type: "USER_INFO_UPDATED",
@@ -25,6 +25,21 @@ if (localStorage.getItem("token")) {
         payload: null,
       });
     });
+  // axios
+  //   .get("/account/info")
+  //   .then(({ data }) => {
+  //     localStorage.setItem("userInfo", JSON.stringify(data));
+  //     store.dispatch({
+  //       type: "USER_INFO_UPDATED",
+  //       payload: JSON.stringify(data),
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     store.dispatch({
+  //       type: "USER_INFO_UPDATED",
+  //       payload: null,
+  //     });
+  //   });
 }
 export default function userReducer(state = initalState, action) {
   //console.log("user.reducer  [state]", state, " [action] ", action);

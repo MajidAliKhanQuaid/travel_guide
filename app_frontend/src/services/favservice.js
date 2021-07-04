@@ -7,16 +7,16 @@ const favService = {
   },
 
   addToFavs: async (_identifier) => {
-    const payload = await axios.get("/category");
+    const payload = await axios.get(
+      `/favourites/add?identifier=${_identifier}&category=place`
+    );
     return payload.data;
   },
 
   removeFromFavs: async (_identifier) => {
-    const payload = await axios.get("/favourites/remove", {
-      params: {
-        identifier: _identifier,
-      },
-    });
+    const payload = await axios.get(
+      `/favourites/remove?identifier=${_identifier}&category=place`
+    );
     return payload.data;
   },
 };

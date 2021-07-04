@@ -5,6 +5,7 @@ const accountSchema = mongoose.Schema({
   username: String,
   domain: String,
   roles: [String],
+  password: String,
   createdOn: Date,
   createdBy: String,
   updatedOn: Date,

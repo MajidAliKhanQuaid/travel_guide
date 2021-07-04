@@ -15,7 +15,7 @@ class AuthService {
 
   _checkStatus() {
     return authaxios
-      .post("/verifytoken")
+      .post("/account/verifytoken")
       .then(({ data }) => {
         console.log("_checkStatus ", data);
         return Promise.resolve(data);
@@ -27,9 +27,9 @@ class AuthService {
 
   async login(username, password) {
     try {
-      const user = await authaxios.post("/login", {
-        Username: username,
-        Password: password,
+      const user = await authaxios.post("/account/login", {
+        username: username,
+        password: password,
       });
       if (user.data.isValid && user.data.token) {
         this.setToken(user.data);

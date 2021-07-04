@@ -6,8 +6,8 @@ const categoryService = {
     return payload.data;
   },
 
-  getCategory: async (_identifier) => {
-    const payload = await axios.get("/category");
+  deleteCategory: async (_identifier) => {
+    const payload = await axios.get(`/category/delete?id=${_identifier}`);
     return payload.data;
   },
 };

@@ -21,7 +21,7 @@ const ListPlaces = () => {
   const handleDelete = () => {
     toggleSpinner(dispatch, true);
     axios
-      .post(`/places/delete?id=${showDelModal.id}`)
+      .delete(`/places/delete?id=${showDelModal.id}`)
       .then(function ({ data }) {
         loadPlaces();
         handleClose();

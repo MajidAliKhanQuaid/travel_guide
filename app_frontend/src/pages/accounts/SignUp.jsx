@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Container, Button, Form, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import authService from "./../../authService";
-import axios from "./../../interceptor";
 import history from "./../../History";
 import { Alert } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-
+import accountService from "../../services/accountservice";
 import {
   toggleNav,
   toggleSpinner,
@@ -15,26 +13,43 @@ import {
 } from "./../../helper";
 
 const SignUp = () => {
+  const [loginAlert, setLoginAlert] = useState({
+    text: "random text here",
+    show: false,
+    class: "danger",
+  });
   const location = useLocation();
   const dispatch = useDispatch();
-  const submitForm = (event) => {
+
+  const submitForm = async (event) => {
     event.preventDefault();
 
     // converting `form data` to json
-    var object = {};
+    var rData = {};
     const formData = new FormData(event.target);
-    formData.forEach((value, key) => (object[key] = value));
+    formData.forEach((value, key) => (rData[key] = value));
 
-    axios
-      .post("/account/register", object)
-      .then(function (response) {
+    try {
+      const response = await accountService.register(rData);
+      if (response.success) {
         history.push("/login");
-      })
-      .catch(function (response) {});
+      } else {
+        setLoginAlert({
+          show: true,
+          text: response.message,
+          class: "danger",
+        });
+      }
+    } catch (err) {
+      setLoginAlert({
+        show: true,
+        text: "Failed due to system error, Please try again",
+        class: "danger",
+      });
+    }
   };
 
   useEffect(() => {
-    console.log("CHILDD");
     toggleBreadcrumb(dispatch, false);
     //toggleNav(dispatch, false);
   }, []);
@@ -49,8 +64,17 @@ const SignUp = () => {
         }}
       >
         <div style={{ height: "100px", width: "100px" }}>
-          <img src="logo192.png" style={{ height: "100%", width: "100%" }} />
+          <img src="logo.png" style={{ height: "100%", width: "100%" }} />
         </div>
+
+        <Alert
+          show={loginAlert.show}
+          onClose={() => setLoginAlert({ ...loginAlert, show: false })}
+          dismissible
+          variant={loginAlert.class}
+        >
+          {loginAlert.text}
+        </Alert>
 
         <Form onSubmit={submitForm}>
           <Form.Group controlId="username">

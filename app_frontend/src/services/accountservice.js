@@ -12,10 +12,10 @@ const accountService = {
   //   return payload.data;
   // },
 
-  // getAccountById: async (_identifier) => {
-  //   const payload = await axios.get("/category");
-  //   return payload.data;
-  // },
+  register: async (_data) => {
+    const payload = await axios.post("/account/register", _data);
+    return payload.data;
+  },
 
   deleteAccount: async (_identifier) => {
     const payload = await axios.get(`/account/delete?id=${_identifier}`);

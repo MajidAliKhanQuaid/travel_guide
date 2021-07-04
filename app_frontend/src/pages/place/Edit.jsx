@@ -11,6 +11,7 @@ import {
 } from "./../../helper";
 import { Container, Form, Button, Figure } from "react-bootstrap";
 import { regions } from "./../../conts";
+import placeService from "../../services/placeservice";
 
 const EditPlace = () => {
   const [categories, setCategories] = useState([]);
@@ -44,7 +45,6 @@ const EditPlace = () => {
         //handle success
         console.log(data);
         setPlace(data);
-        console.log(data);
       })
       .catch(function (response) {
         //handle error
@@ -197,11 +197,11 @@ const EditPlace = () => {
             </Form.Text> */}
           </Form.Group>
 
-          <Form.Group controlId="imagesField">
+          <Form.Group controlId="attachments">
             <Form.Label>Gallery</Form.Label>
             <div className="galleryContainer">
               <Form.Control
-                name="imagesField"
+                name="attachments"
                 className="galleryImage"
                 type="file"
                 placeholder="Add Image file ..."
@@ -221,10 +221,14 @@ const EditPlace = () => {
                       }}
                       onClick={async () => {
                         // alert x
-                        const response = await axios.post(`/places/deletepic`, {
-                          identifier: place._id,
-                          image: imageName,
-                        });
+                        const response = await placeService.deletePic(
+                          place._id,
+                          imageName
+                        );
+                        // const response = await axios.post(`/places/deletepic`, {
+                        //   identifier: place._id,
+                        //   image: imageName,
+                        // });
                         if (response.data.success) {
                           setPlace({
                             ...place,

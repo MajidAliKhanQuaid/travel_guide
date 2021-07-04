@@ -59,7 +59,6 @@ import { Khyber } from "./pages/region/khyber";
 import SearchPlaces from "./pages/place/Search";
 import NewAccount from "./pages/accounts/New";
 import Profile from "./pages/accounts/Profile";
-import axios from "./interceptor";
 import SignUp from "./pages/accounts/SignUp";
 
 import ListCategory from "./pages/category/List";

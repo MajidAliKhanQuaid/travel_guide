@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
-import axios from "./../../interceptor";
-
+import placeService from "../../services/placeservice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleNav,
@@ -21,18 +20,12 @@ const SearchPlaces = (props) => {
   const searchText = useSelector((x) => x.commonState.searchText);
   const [places, setPlaces] = useState([]);
 
-  const searchPlaces = () => {
+  const searchPlaces = async () => {
     if (searchText) {
       toggleSpinner(dispatch, true);
-      axios
-        .post("/places/search", { query: searchText })
-        .then(({ data }) => {
-          setPlaces(data);
-          toggleSpinner(dispatch, false);
-        })
-        .catch((err) => {
-          toggleSpinner(dispatch, false);
-        });
+      const response = await placeService.search(searchText);
+      setPlaces(response);
+      toggleSpinner(dispatch, false);
     } else {
       console.error("Search Text ", searchText);
     }

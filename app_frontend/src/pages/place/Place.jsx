@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-
+import favService from "../../services/favservice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleNav,
@@ -19,8 +19,7 @@ import {
   addBreadcrumbItems,
 } from "./../../helper";
 import { useParams } from "react-router";
-import axios from "./../../interceptor";
-import TravelPackages from "../../components/TravelPackages";
+import placeService from "../../services/placeservice";
 import { commonStyles } from "../../conts";
 const Place = () => {
   const { identifier } = useParams();
@@ -34,71 +33,54 @@ const Place = () => {
   const [dp, setDp] = useState("");
   const location = useLocation();
   const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(async () => {
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "Place", url: location.pathname },
     ]);
     toggleBreadcrumb(dispatch, true);
-    //toggleNav(dispatch, true);
     toggleSpinner(dispatch, true);
 
-    axios
-      .get(`/places/get?id=${identifier}&view=1`)
-      .then(function ({ data }) {
-        //handle success
-        console.log(data);
-        setPlace(data);
-        if (data.images && data.images.length > 0) {
-          setDp(
-            `${process.env.REACT_APP_API_BASE_URL}/uploads/${data.images[0]}`
-          );
-        }
-        console.log(data);
+    const place = await placeService.getPlaceById(identifier, true);
+    setPlace(place);
+    if (place.images && place.images.length > 0) {
+      setDp(`${process.env.REACT_APP_API_BASE_URL}/uploads/${place.images[0]}`);
+    }
 
-        toggleSpinner(dispatch, false);
-      })
-      .catch((err) => {
-        toggleSpinner(dispatch, false);
-      });
+    toggleSpinner(dispatch, false);
   }, []);
 
-  const toggle = () => {
-    let url = `/favourites/remove?identifier=${identifier}&category=place`;
+  const toggle = async () => {
+    let isAddCall = false;
+    // let url = `/favourites/remove?identifier=${identifier}&category=place`;
     if (place.is_fav == false) {
-      url = `/favourites/add?identifier=${identifier}&category=place`;
+      isAddCall = true;
+      // url = `/favourites/add?identifier=${identifier}&category=place`;
     }
-    axios
-      .get(url)
-      .then(function ({ data }) {
-        toggleSpinner(dispatch, false);
-        if (data.added) {
-          setAlert({
-            ...alert,
-            class: "success",
-            show: true,
-            message: "Place added to favourites",
-          });
-          setPlace({ ...place, is_fav: true });
-        } else if (data.deleted) {
-          setAlert({
-            ...alert,
-            class: "danger",
-            show: true,
-            message: "Place removed from favourites",
-          });
-          setPlace({ ...place, is_fav: false });
-        }
-      })
-      .catch((err) => {
-        toggleSpinner(dispatch, false);
-        setAlert({
-          ...alert,
-          class: "danger",
-          show: true,
-          message: "Please try again",
-        });
+    let response;
+    if (isAddCall) {
+      response = await favService.addToFavs(identifier);
+    } else {
+      response = await favService.removeFromFavs(identifier);
+    }
+    toggleSpinner(dispatch, false);
+    if (response.added) {
+      setAlert({
+        ...alert,
+        class: "success",
+        show: true,
+        message: "Place added to favourites",
       });
+      setPlace({ ...place, is_fav: true });
+    } else if (response.deleted) {
+      setAlert({
+        ...alert,
+        class: "danger",
+        show: true,
+        message: "Place removed from favourites",
+      });
+      setPlace({ ...place, is_fav: false });
+    }
   };
 
   return (
@@ -125,12 +107,16 @@ const Place = () => {
             <div dangerouslySetInnerHTML={{ __html: place.location }} />
           </div>
           <div className="col-sm-6">
-            <Figure style={{ minHeight: "400px", height: "400px" }}>
-              <Figure.Image
-                style={{ height: "100%", width: "100%" }}
-                src={dp}
-              />
-            </Figure>
+            {dp ? (
+              <Figure style={{ minHeight: "400px", height: "400px" }}>
+                <Figure.Image
+                  style={{ height: "100%", width: "100%" }}
+                  src={dp}
+                />
+              </Figure>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 

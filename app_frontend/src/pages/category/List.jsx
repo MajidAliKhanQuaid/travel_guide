@@ -10,6 +10,8 @@ import {
   toggleNav,
 } from "./../../helper";
 import { Link } from "react-router-dom";
+import categoryService from "../../services/categoryservice";
+
 const ListCategory = () => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -22,27 +24,24 @@ const ListCategory = () => {
   const handleClose = () => setShowDelModal({ ...showDelModal, show: false });
   const handleDelete = () => {
     toggleSpinner(dispatch, true);
-    axios
-      .get(`/category/delete?id=${showDelModal.id}`)
-      .then(function ({ data }) {
-        loadCategories();
-        handleClose();
-      })
-      .catch(function (response) {
-        toggleSpinner(dispatch, false);
-      });
+    loadCategories();
+    handleClose();
   };
 
-  const loadCategories = () => {
-    return axios
-      .get("/category")
-      .then(function ({ data }) {
-        setCategories(data);
-        toggleSpinner(dispatch, false);
-      })
-      .catch(function (response) {
-        toggleSpinner(dispatch, false);
-      });
+  const loadCategories = async () => {
+    const categories = await categoryService.getCategories();
+    setCategories(categories);
+    toggleSpinner(dispatch, false);
+
+    // return axios
+    //   .get("/category")
+    //   .then(function ({ data }) {
+    //     setCategories(data);
+    //     toggleSpinner(dispatch, false);
+    //   })
+    //   .catch(function (response) {
+    //     toggleSpinner(dispatch, false);
+    //   });
   };
 
   useEffect(() => {

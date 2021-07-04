@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const recentlyViewedSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  placeId: { type: mongoose.Schema.Types.ObjectId, ref: "Place" },
+  place: { type: mongoose.Schema.Types.ObjectId, ref: "Place" },
   username: String,
+  lastViewed: Date,
   createdOn: Date,
   createdBy: String,
   updatedOn: Date,

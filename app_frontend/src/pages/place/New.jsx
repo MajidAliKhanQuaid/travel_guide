@@ -10,6 +10,9 @@ import {
 } from "./../../helper";
 import axios from "./../../interceptor";
 import history from "./../../History";
+import categoryService from "../../services/categoryservice";
+import placeService from "../../services/placeservice";
+
 const NewPlace = () => {
   const [regions, setRegions] = useState([
     {
@@ -48,37 +51,23 @@ const NewPlace = () => {
     name: "",
   });
   const handleClose = () => setShowDelModal({ ...showDelModal, show: false });
-  const loadCategories = () => {
-    return axios
-      .get("/category")
-      .then(function ({ data }) {
-        setCategories(data);
-        toggleSpinner(dispatch, false);
-      })
-      .catch(function (response) {
-        toggleSpinner(dispatch, false);
-      });
+  const loadCategories = async () => {
+    const categories = await categoryService.getCategories();
+    setCategories(categories);
+    toggleSpinner(dispatch, false);
   };
   const dispatch = useDispatch();
   const [gallery, setGallery] = useState([uuidv4()]);
 
-  const submitForm = (event) => {
+  const submitForm = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
 
-    axios({
-      method: "post",
-      url: "/places/save",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        history.push("/places");
-      })
-      .catch(function (response) {});
+    const response = await placeService.savePlace(formData);
+    history.push("/places");
   };
 
   useEffect(() => {

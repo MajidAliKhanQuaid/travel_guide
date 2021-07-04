@@ -18,7 +18,11 @@ const MongoClient = mongo.MongoClient;
 const MONGO_DB_NAME = process.env.MONGO_DB;
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION;
 
-mongoose.connect(process.env.MONGOOSE_CONNECTION);
+mongoose.connect(process.env.MONGOOSE_CONNECTION, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
 let db;
 
@@ -59,16 +63,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.all("*", (req, res, next) => {
   var anonymousRoutes = [
-    "/login",
-    "/verifytoken",
+    "/account/login",
     "/account/register",
+    "/account/verifytoken",
     "/account/auth/facebook",
     "/uploads",
   ];
   var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
-  // console.log("-- NEW Http Request ", req.path);
   if (matchingRoutes.length > 0) {
-    // console.log("-- MATCHED ", req.path);
     return next();
   }
 
@@ -77,31 +79,6 @@ app.all("*", (req, res, next) => {
 
 const routes = require("./server/route_config");
 app = routes(app);
-
-// var indexRouter = require("./routes/index");
-// var categoryRouter = require("./routes/category");
-// var accountRouter = require("./routes/account");
-// var favouritesRouter = require("./routes/favourites");
-
-// var placesRouter = require("./routes/places");
-// var mosquesRouter = require("./routes/mosques");
-// var parksRouter = require("./routes/parks");
-// var historicalsRouter = require("./routes/historicals");
-// var culturalsRouter = require("./routes/culturals");
-// var meuseumsRouter = require("./routes/meuseums");
-// var gymsRouter = require("./routes/gyms");
-
-// app.use("/", indexRouter);
-// app.use("/category", categoryRouter);
-// app.use("/account", accountRouter);
-// app.use("/places", placesRouter);
-// app.use("/culturals", culturalsRouter);
-// app.use("/gyms", gymsRouter);
-// app.use("/historicals", historicalsRouter);
-// app.use("/mosques", mosquesRouter);
-// app.use("/parks", parksRouter);
-// app.use("/favourites", favouritesRouter);
-// app.use("/meuseums", meuseumsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

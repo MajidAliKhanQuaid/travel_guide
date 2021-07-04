@@ -4,7 +4,6 @@ import GoogleLogin from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import { useDispatch, useSelector } from "react-redux";
 import authService from "./../../authService";
-import axios from "./../../interceptor";
 import history from "./../../History";
 import {
   toggleNav,
@@ -87,10 +86,10 @@ const Login = () => {
             type: "USER_UPDATED",
             payload: { token: payload.token, isLoggedIn: true },
           });
-          localStorage.setItem("userInfo", JSON.stringify(payload));
+          localStorage.setItem("userInfo", JSON.stringify(payload.user));
           await dispatch({
             type: "USER_INFO_UPDATED",
-            payload: payload,
+            payload: payload.user,
           });
           toggleSpinner(dispatch, false);
 

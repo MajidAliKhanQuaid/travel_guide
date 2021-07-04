@@ -1,11 +1,11 @@
 const express = require("express");
 app = express();
 
-var indexRouter = require("./../routes/index"),
-  categoryRouter = require("./../routes/category"),
-  accountRouter = require("./../routes/account"),
-  favouritesRouter = require("./../routes/favourites"),
-  placesRouter = require("./../routes/places");
+var indexRouter = require("./../routes/index.route"),
+  categoryRouter = require("./../routes/category.route"),
+  accountRouter = require("./../routes/account.route"),
+  favouritesRouter = require("./../routes/favourites.route"),
+  placesRouter = require("./../routes/places.route");
 
 module.exports = function (app) {
   app.use("/", indexRouter);

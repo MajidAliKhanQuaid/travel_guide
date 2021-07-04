@@ -1,7 +1,7 @@
 import axios from "./../interceptor";
 
 const placeService = {
-  savePlace: async (_data) => {
+  savePlace: async (_data, _source) => {
     const payload = await axios({
       method: "post",
       url: "/places/save",
@@ -21,7 +21,11 @@ const placeService = {
     return payload.data;
   },
 
-  getPlacesByRegion: async (_identifier) => {
+  getPlacesByRegion: async (_identifier, _source) => {
+    // see balouchistan file, for cancellation source usage
+    // const payload = await axios.get(`/places?region=${_identifier}`, {
+    //   cancelToken: _source.token,
+    // });
     const payload = await axios.get(`/places?region=${_identifier}`);
     return payload.data;
   },

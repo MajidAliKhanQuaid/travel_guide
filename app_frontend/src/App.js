@@ -146,7 +146,7 @@ function App() {
         toggleSearchBtn={toggleSearchBtn}
         categories={categories}
       />
-      {toggleBreadcrumb ? (
+      {toggleBreadcrumb && (
         <Breadcrumb style={{ margin: "10px" }}>
           {breadcrumbItems && breadcrumbItems.length > 0 ? (
             breadcrumbItems.map((x, i) => (
@@ -168,8 +168,6 @@ function App() {
             </li>
           )}
         </Breadcrumb>
-      ) : (
-        <></>
       )}
 
       <Switch>

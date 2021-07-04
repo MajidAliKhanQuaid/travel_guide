@@ -158,12 +158,14 @@ router.delete("/delete", async function (req, res, next) {
 
 // used for search filter
 router.post("/search", async function (req, res, next) {
+  console.log("SEARCH | Request", req.body);
   try {
-    const places = Place.find({
+    const places = await Place.find({
       deleted: false,
       name: { $regex: `${req.body.query}`, $options: "i" },
     }).exec();
 
+    console.log("SEARCH | Response", places);
     res.status(200).json(places);
   } catch (err) {
     res.status(500).json(err);

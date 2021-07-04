@@ -30,7 +30,9 @@ const TouristHome = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [favs, setFavs] = useState([]);
 
-  const [name, setName] = useState("??");
+  const [name, setName] = useState(
+    JSON.parse(localStorage.getItem("userInfo")).name
+  );
   const dispatch = useDispatch();
   const location = useLocation();
 

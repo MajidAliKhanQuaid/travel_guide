@@ -1,31 +1,13 @@
-import {
-  Carousel,
-  CarouselItem,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavDropdown,
-  Form,
-  FormControl,
-  Spinner,
-  Modal,
-  Breadcrumb,
-  Button,
-  Container,
-} from "react-bootstrap";
-import {
-  Router,
-  Switch,
-  Route,
-  useParams,
-  Redirect,
-  Link,
-} from "react-router-dom";
+import { Nav, Navbar, NavDropdown, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
 
 import { regions } from "../conts";
+
+import jwt_decode from "jwt-decode";
+import { useEffect, useState } from "react";
 
 const NavbarComponent = ({
   user,
@@ -34,6 +16,7 @@ const NavbarComponent = ({
   toggleSearchBtn,
   categories,
 }) => {
+  const [roles, setRoles] = useState([]);
   let userInfo = localStorage.getItem("userInfo");
   if (!userInfo) {
     userInfo = {};
@@ -41,98 +24,62 @@ const NavbarComponent = ({
     userInfo = JSON.parse(userInfo);
   }
 
-  const searchButton = (_toggleSearchBtn, _searchClick) => {
-    if (!_toggleSearchBtn) return <></>;
-    return (
-      <Form inline>
-        <Button onClick={_searchClick} variant="default">
-          <FontAwesomeIcon icon={faSearchLocation} /> &nbsp; Search
-        </Button>
-      </Form>
-    );
-  };
+  useEffect(() => {
+    try {
+      const tokenInfo = jwt_decode(user.token);
+      console.log(tokenInfo);
+      const userRoles = tokenInfo.roles;
+      setRoles(userRoles);
+    } catch (err) {}
+  }, [user]);
 
-  const userLoginOption = (_user) => {
-    if (!_user) {
-      return (
-        <>
-          <Link className="nav-link" to="/login">
-            Login
-          </Link>
-        </>
-      );
-    }
-    return <></>;
-  };
-
-  const userAvatar = (_user) => {
-    if (!_user) {
-      return <></>;
-    }
-    return (
-      <NavDropdown title={userInfo.name} id="user-nav-dropdown">
-        <Link to="/profile" className="dropdown-item">
-          Profile
-        </Link>
-        <NavDropdown.Divider />
-        <Link to="/logout" className="dropdown-item">
-          Logout
-        </Link>
-      </NavDropdown>
-    );
-  };
-
-  if (showNav === false) {
-    return <></>;
-  }
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Travel Guide</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-          <Link to="/places" className="nav-link">
-            Places
-          </Link>
-          {/*<Link to="/mosques" className="nav-link">
+    showNav && (
+      <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="/">Travel Guide</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/places" className="nav-link">
+              Places
+            </Link>
+            {/*<Link to="/mosques" className="nav-link">
               Mosques
              </Link>*/}
 
-          {categories && categories.length > 0 ? (
-            <>
-              <NavDropdown title={"Types "} id="user-nav-dropdown">
-                {categories.map((x) => (
-                  <Link
-                    to={`/places/category/${x._id}`}
-                    className="dropdown-item"
-                  >
-                    {x.name}
-                  </Link>
-                ))}
-              </NavDropdown>
-            </>
-          ) : (
-            <></>
-          )}
+            {roles.indexOf("admin") > -1 &&
+              categories &&
+              categories.length > 0 && (
+                <>
+                  <NavDropdown title={"Types "} id="user-nav-dropdown">
+                    {categories.map((x) => (
+                      <Link
+                        to={`/places/category/${x._id}`}
+                        className="dropdown-item"
+                      >
+                        {x.name}
+                      </Link>
+                    ))}
+                  </NavDropdown>
+                </>
+              )}
 
-          {regions && regions.length > 0 ? (
-            <>
-              <NavDropdown title={"Regions "} id="user-nav-dropdown">
-                {regions.map((x) => (
-                  <Link to={`${x.url}`} className="dropdown-item">
-                    {x.text}
-                  </Link>
-                ))}
-              </NavDropdown>
-            </>
-          ) : (
-            <></>
-          )}
+            {regions && regions.length > 0 && (
+              <>
+                <NavDropdown title={"Regions "} id="user-nav-dropdown">
+                  {regions.map((x) => (
+                    <Link to={`${x.url}`} className="dropdown-item">
+                      {x.text}
+                    </Link>
+                  ))}
+                </NavDropdown>
+              </>
+            )}
 
-          {/* <div class="dropdown">
+            {/* <div class="dropdown">
               <button class="dropbtn">Interests</button>
               <div class="dropdown-content">
                 <Link to="/mosques" className="nav-link">
@@ -161,16 +108,15 @@ const NavbarComponent = ({
               </div>
             </div> */}
 
-          <Link to="/accounts" className="nav-link">
-            Accounts
-          </Link>
-          <Link to="/categories" className="nav-link">
-            Categories
-          </Link>
-          <Link to="/Favs" className="nav-link">
-            Favourites
-          </Link>
-          {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+            {roles.indexOf("admin") > -1 && (
+              <Link to="/accounts" className="nav-link">
+                Accounts
+              </Link>
+            )}
+            <Link to="/Favs" className="nav-link">
+              Favourites
+            </Link>
+            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Another action
@@ -181,12 +127,36 @@ const NavbarComponent = ({
                 Separated link
               </NavDropdown.Item>
             </NavDropdown> */}
-        </Nav>
-        {searchButton(toggleSearchBtn, searchClick)}
-        {userAvatar(user)}
-        {userLoginOption(user)}
-      </Navbar.Collapse>
-    </Navbar>
+          </Nav>
+          {toggleSearchBtn && (
+            <>
+              <Form inline>
+                <Button onClick={searchClick} variant="default">
+                  <FontAwesomeIcon icon={faSearchLocation} /> &nbsp; Search
+                </Button>
+              </Form>
+            </>
+          )}
+          {/* {searchButton(toggleSearchBtn, searchClick)} */}
+          {user && (
+            <NavDropdown title={userInfo.name} id="user-nav-dropdown">
+              <Link to="/profile" className="dropdown-item">
+                Profile
+              </Link>
+              <NavDropdown.Divider />
+              <Link to="/logout" className="dropdown-item">
+                Logout
+              </Link>
+            </NavDropdown>
+          )}
+          {!user && (
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          )}
+        </Navbar.Collapse>
+      </Navbar>
+    )
   );
 };
 

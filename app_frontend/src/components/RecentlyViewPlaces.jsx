@@ -8,7 +8,7 @@ const RecentlyViewedPlaces = ({ places }) => {
 
   return (
     <>
-      {places && places.length > 0 ? (
+      {places && places.length > 0 && (
         <>
           <div className="row">
             <h1 className="col-md-6">Recently Viewed Places</h1>
@@ -62,8 +62,6 @@ const RecentlyViewedPlaces = ({ places }) => {
             ))}
           </div>
         </>
-      ) : (
-        ""
       )}
     </>
   );

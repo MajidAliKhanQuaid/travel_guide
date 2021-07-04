@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
 import placeservice from "./../../services/placeservice";
-import { Link } from "react-router-dom";
+import axios from "axios";
 
 export const Balouchistan = () => {
   const [places, setPlaces] = useState([]);
   useEffect(async () => {
-    const rPlaces = await placeservice.getPlacesByRegion("bl");
-    setPlaces(rPlaces);
+    // const CancelToken = axios.CancelToken;
+    // const source = CancelToken.source();
+
+    try {
+      // const rPlaces = await placeservice.getPlacesByRegion("bl", source);
+      const rPlaces = await placeservice.getPlacesByRegion("bl");
+      setPlaces(rPlaces);
+    } catch (err) {
+      console.log(err);
+    }
+
+    return () => {
+      // source.cancel();
+    };
   }, []);
 
   return (

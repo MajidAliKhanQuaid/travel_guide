@@ -24,6 +24,7 @@ const SearchPlaces = (props) => {
     if (searchText) {
       toggleSpinner(dispatch, true);
       const response = await placeService.search(searchText);
+      console.error("Search Text ", response);
       setPlaces(response);
       toggleSpinner(dispatch, false);
     } else {

@@ -50,11 +50,13 @@ router.post("/login", async function (req, res, next) {
         _id: account._id,
         name: account.name,
         username: account.username,
+        roles: account.roles,
       });
       const refreshToken = jwtHelper.generateRefreshToken({
         _id: account._id,
         name: account.name,
         username: account.username,
+        roles: account.roles,
         refresh: "is_refresh_token",
       });
       res.status(200).json({
@@ -135,6 +137,7 @@ router.post("/register", async function (req, res, next) {
       _id: result._id,
       name: result.name,
       username: result.username,
+      roles: roles,
     });
     res.status(201).json({ success: true, token: token, user: result });
   } catch (err) {
@@ -161,6 +164,7 @@ router.post("/auth/facebook", async function (req, res, next) {
       _id: result._id,
       name: result.name,
       username: result.username,
+      roles: roles,
     });
     console.log("Result ", result);
     res.status(201).json({ success: true, token: token, user: result });
@@ -190,7 +194,12 @@ router.get("/auth/google", async function (req, res, next) {
       },
       { upsert: true, new: true, setDefaultsOnInsert: true }
     ).exec();
-    const appToken = jwtHelper.generateAccessToken(result);
+    const appToken = jwtHelper.generateAccessToken({
+      _id: result._id,
+      name: result.name,
+      username: result.username,
+      roles: result.roles,
+    });
     res.status(201).json({ success: true, token: appToken, user: result });
   } catch (err_update) {
     res.status(500).json(err_update);
@@ -198,11 +207,9 @@ router.get("/auth/google", async function (req, res, next) {
 });
 
 router.post("/verifytoken", function (req, res, next) {
-  console.log("Calling `verifytoken` ");
   try {
     jwtHelper.authenticateAccessToken(req, res, next);
   } catch (err) {
-    console.error("Error is ", err);
     return res.sendStatus(500);
   }
 });

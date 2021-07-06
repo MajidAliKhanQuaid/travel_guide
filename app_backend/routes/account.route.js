@@ -104,7 +104,7 @@ router.post("/register", async function (req, res, next) {
   if (!password || (password && password.length < 5)) {
     res.status(200).json({
       success: false,
-      message: "password must have at least 4 letters",
+      message: "password must have at least 5 letters",
     });
     return;
   }

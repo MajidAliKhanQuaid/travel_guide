@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
-import placeService from "../../services/placeservice";
+import placeService from "../../services/place.service";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleNav,

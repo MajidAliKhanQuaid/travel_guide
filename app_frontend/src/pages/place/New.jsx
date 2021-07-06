@@ -10,8 +10,8 @@ import {
 } from "./../../helper";
 import axios from "./../../interceptor";
 import history from "./../../History";
-import categoryService from "../../services/categoryservice";
-import placeService from "../../services/placeservice";
+import categoryService from "../../services/category.service";
+import placeService from "../../services/place.service";
 
 const NewPlace = () => {
   const [regions, setRegions] = useState([

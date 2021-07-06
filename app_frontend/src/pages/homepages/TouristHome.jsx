@@ -24,8 +24,8 @@ import {
   toggleNav,
   toggleSearchButton,
 } from "./../../helper";
-import favService from "../../services/favservice";
-import recentlyViewedService from "../../services/recentlyviewedservice";
+import favService from "../../services/fav.service";
+import recentlyViewedService from "../../services/recentlyviewed.service";
 const TouristHome = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [favs, setFavs] = useState([]);

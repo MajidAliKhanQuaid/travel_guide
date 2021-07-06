@@ -9,7 +9,7 @@ import {
   toggleBreadcrumb,
   toggleNav,
 } from "./../../helper";
-import accountService from "../../services/accountservice";
+import accountService from "../../services/account.service";
 
 const ListAccount = () => {
   const location = useLocation();

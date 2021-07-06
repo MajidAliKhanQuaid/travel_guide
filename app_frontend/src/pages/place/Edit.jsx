@@ -11,7 +11,7 @@ import {
 } from "./../../helper";
 import { Container, Form, Button, Figure } from "react-bootstrap";
 import { regions } from "./../../conts";
-import placeService from "../../services/placeservice";
+import placeService from "../../services/place.service";
 
 const EditPlace = () => {
   const [categories, setCategories] = useState([]);

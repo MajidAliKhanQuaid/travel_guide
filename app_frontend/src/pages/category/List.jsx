@@ -12,7 +12,7 @@ import {
   toggleNav,
 } from "./../../helper";
 import { Link } from "react-router-dom";
-import categoryService from "../../services/categoryservice";
+import categoryService from "../../services/category.service";
 
 const ListCategory = () => {
   const location = useLocation();
@@ -113,9 +113,13 @@ const ListCategory = () => {
                     >
                       Delete
                     </Button>
-                    <Button className="float-right" variant="success">
+                    <Link
+                      to={`/categories/edit/${x._id}`}
+                      className="float-right"
+                      variant="success"
+                    >
                       Edit
-                    </Button>
+                    </Link>
                   </>
                 )}
               </td>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
-import placeservice from "./../../services/placeservice";
+import placeservice from "./../../services/place.service";
 import { Link } from "react-router-dom";
 
 export const Gilgit = () => {

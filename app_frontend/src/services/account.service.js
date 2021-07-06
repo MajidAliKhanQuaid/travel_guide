@@ -1,4 +1,4 @@
-import axios from "./../interceptor";
+import axios from "../interceptor";
 import authService from "../authService";
 
 const accountService = {

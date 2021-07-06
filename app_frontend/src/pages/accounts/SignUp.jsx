@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import history from "./../../History";
 import { Alert } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import accountService from "../../services/accountservice";
+import accountService from "../../services/account.service";
 import {
   toggleNav,
   toggleSpinner,

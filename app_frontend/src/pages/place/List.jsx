@@ -10,7 +10,7 @@ import axios from "./../../interceptor";
 import { Card, Modal, Pagination, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import placeService from "../../services/placeservice";
+import placeService from "../../services/place.service";
 
 import jwt_decode from "jwt-decode";
 
@@ -75,13 +75,15 @@ const ListPlaces = () => {
   if (places.length == 0)
     return (
       <>
-        <Link
-          to="/places/new"
-          className="btn btn-success float-right"
-          style={{ margin: "20px 0px" }}
-        >
-          New Place
-        </Link>
+        {roles.indexOf("admin") > -1 && (
+          <Link
+            to="/places/new"
+            className="btn btn-success float-right"
+            style={{ margin: "20px 0px" }}
+          >
+            New Place
+          </Link>
+        )}
         <h1>No places saved !</h1>
       </>
     );
@@ -104,13 +106,24 @@ const ListPlaces = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Link
-        to="/places/new"
-        className="btn btn-success float-right"
-        style={{ margin: "20px 0px" }}
-      >
-        New Place
-      </Link>
+      {roles.indexOf("admin") > -1 && (
+        <>
+          <Link
+            to="/categories/new"
+            className="btn btn-success float-right"
+            style={{ margin: "20px 20px" }}
+          >
+            New Category
+          </Link>
+          <Link
+            to="/places/new"
+            className="btn btn-success float-right"
+            style={{ margin: "20px 0px" }}
+          >
+            New Place
+          </Link>
+        </>
+      )}
       <h1>List of Places</h1>
       <div
         style={{

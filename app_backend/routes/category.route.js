@@ -3,6 +3,20 @@ const express = require("express"),
   router = express.Router(),
   Category = require("../models/category.model");
 
+router.get("/:identifier", async function (req, res, next) {
+  try {
+    console.log("Identifier is ", req.params.identifier);
+    const category = await Category.findOne({
+      deleted: false,
+      _id: req.params.identifier,
+    }).exec();
+    res.status(200).json(category);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: true, message: err });
+  }
+});
+
 router.get("/", async function (req, res, next) {
   let categories = {};
   try {
@@ -21,11 +35,12 @@ router.post("/update", async function (req, res, next) {
   }
   try {
     const category = await Category.updateOne(
-      { _id: id },
+      { _id: _id },
       { $set: { name: name } }
     );
     res.status(200).json({ success: true, result: category });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ success: false, message: err });
   }
 });

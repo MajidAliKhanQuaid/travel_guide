@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Container, Pagination } from "react-bootstrap";
-import favService from "../services/favservice";
+import favService from "../services/fav.service";
 import { Link } from "react-router-dom";
 const Favourites = () => {
   useEffect(async () => {

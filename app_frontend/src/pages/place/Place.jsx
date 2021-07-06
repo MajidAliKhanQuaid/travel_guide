@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import favService from "../../services/favservice";
+import favService from "../../services/fav.service";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleNav,
@@ -20,7 +20,7 @@ import {
 } from "./../../helper";
 import { useParams } from "react-router";
 
-import placeService from "../../services/placeservice";
+import placeService from "../../services/place.service";
 import reviewService from "../../services/review.service";
 import YourReviews from "../../components/YourReviews";
 import Rating from "react-rating";

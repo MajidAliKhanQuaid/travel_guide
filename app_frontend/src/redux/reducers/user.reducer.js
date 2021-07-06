@@ -1,5 +1,5 @@
 import store from "./../store";
-import accountService from "../../services/accountservice";
+import accountService from "../../services/account.service";
 import axios from "./../../interceptor";
 let initalState = {};
 if (localStorage.getItem("token")) {

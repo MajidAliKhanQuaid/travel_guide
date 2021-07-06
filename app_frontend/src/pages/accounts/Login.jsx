@@ -13,8 +13,8 @@ import {
 } from "./../../helper";
 import { Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import accountService from "./../../services/accountservice";
-import categoryService from "./../../services/categoryservice";
+import accountService from "./../../services/account.service";
+import categoryService from "./../../services/category.service";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -73,6 +73,7 @@ const Login = () => {
         text: loginResult.message,
         class: "danger",
       });
+      toggleSpinner(dispatch, false);
     }
   };
 

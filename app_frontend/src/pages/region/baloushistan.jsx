@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
-import placeservice from "./../../services/placeservice";
+import placeservice from "./../../services/place.service";
 import axios from "axios";
 
 export const Balouchistan = () => {

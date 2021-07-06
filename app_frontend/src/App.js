@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import {
   Carousel,
   CarouselItem,
@@ -63,8 +63,9 @@ import SignUp from "./pages/accounts/SignUp";
 
 import ListCategory from "./pages/category/List";
 import NewCategory from "./pages/category/New";
+import EditCategory from "./pages/category/Edit";
 
-import categoryService from "./services/categoryservice";
+import categoryService from "./services/category.service";
 
 import {
   toggleNav,
@@ -195,6 +196,7 @@ function App() {
           <Route path="/region/kashmir" component={Kashmir} />
           <Route path="/region/khyber" component={Khyber} />
 
+          <Route path="/categories/edit/:identifier" component={EditCategory} />
           <Route path="/categories/new" exact component={NewCategory} />
           <Route path="/categories" exact component={ListCategory} />
 

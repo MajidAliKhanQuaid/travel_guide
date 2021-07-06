@@ -1,5 +1,5 @@
 import store from "./../store";
-import categoryService from "../../services/categoryservice";
+import categoryService from "../../services/category.service";
 
 const initialState = {
   showNav: true,

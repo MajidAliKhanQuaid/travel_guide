@@ -1,3 +1,4 @@
+import "./NavbarComponent.style.scss";
 import { Nav, Navbar, NavDropdown, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -8,8 +9,6 @@ import { regions } from "../conts";
 
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
-
-import style from "../style";
 
 const NavbarComponent = ({
   user,
@@ -54,22 +53,20 @@ const NavbarComponent = ({
               Mosques
              </Link>*/}
 
-            {roles.indexOf("admin") > -1 &&
-              categories &&
-              categories.length > 0 && (
-                <>
-                  <NavDropdown title={"Categories "} id="user-nav-dropdown">
-                    {categories.map((x) => (
-                      <Link
-                        to={`/places/category/${x._id}`}
-                        className="dropdown-item"
-                      >
-                        {x.name}
-                      </Link>
-                    ))}
-                  </NavDropdown>
-                </>
-              )}
+            {categories && (
+              <>
+                <NavDropdown title={"Categories "} id="user-nav-dropdown">
+                  {categories.map((x) => (
+                    <Link
+                      to={`/places/category/${x._id}`}
+                      className="dropdown-item"
+                    >
+                      {x.name}
+                    </Link>
+                  ))}
+                </NavDropdown>
+              </>
+            )}
 
             {regions && regions.length > 0 && (
               <>

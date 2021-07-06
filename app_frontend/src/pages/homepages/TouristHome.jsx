@@ -54,9 +54,13 @@ const TouristHome = () => {
   }, []);
 
   return (
-    <Container>
-      <h1>
-        Welcome <span className="bg-succces">{name}</span>
+    <>
+      <h1 style={{ margin: "25px 0px" }}>
+        <span>Welcome </span>
+        <span style={{ color: "#05386b", fontWeight: "bold" }}>
+          {name}
+        </span>{" "}
+        <span style={{ color: "#379683" }}>!!</span>
       </h1>
       <div className="row">
         <div className="col-md-12">
@@ -69,7 +73,7 @@ const TouristHome = () => {
           <ProfileViews />
         </div>
       </div> */}
-    </Container>
+    </>
   );
 };
 

@@ -4,14 +4,12 @@ import { Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
 
 const RecentlyViewedPlaces = ({ places }) => {
-  if (places.length == 0) return <></>;
-
   return (
     <>
       {places && places.length > 0 && (
         <>
           <div className="row">
-            <h1 className="col-md-6">Recently Viewed Places</h1>
+            <h2 className="col-md-6">Recently Viewed Places</h2>
             <Link to="" className="col-md-6 text-right">
               See all
             </Link>
@@ -35,11 +33,11 @@ const RecentlyViewedPlaces = ({ places }) => {
                 key={"region-cards" + i}
               >
                 <Animated
-                  animationIn="wobble"
+                  animationIn="jello"
                   animationOut="fadeOut"
                   isVisible={true}
                 >
-                  <Card className="card-region" x={x.text}>
+                  <Card className="glass card-region" x={x.text}>
                     <Card.Img
                       variant="top"
                       src={

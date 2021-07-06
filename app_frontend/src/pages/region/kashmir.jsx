@@ -12,22 +12,74 @@ export const Kashmir = () => {
 
   return (
     <>
-      <h1 style={{ margin: "35px" }}>Kashmir</h1>
+      <div className="row">
+        <div className="col-md-8">
+          <Figure>
+            <Figure.Image
+              style={{ width: "100%" }}
+              alt={`lepa-valley.jpg`}
+              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+            />
+          </Figure>
+        </div>
+        <div className="col-md-4 d-none d-lg-block d-md-block">
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "calc(100% - (2 * 35px))",
-          height: "70vh",
-          margin: "35px",
-          padding: "35px",
-          fontSize: "20px",
-          textAlign: "justify",
-          backgroundColor: "#fce354",
-          borderRadius: "10px",
-        }}
-      >
+      <h1 style={{ margin: "15px 0px" }}>Kashmir</h1>
+
+      <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
         Kashmiris the northernmost geographical region of the Indian
         subcontinent. Until the mid-19th century, the term "Kashmir" denoted
         only the Kashmir Valley between the Great Himalayas and the Pir Panjal
@@ -43,10 +95,6 @@ export const Kashmir = () => {
         Mughal Empire from 1586 to 1751 ,and thereafter, until 1820, of the
         Afghan Durrani Empire. That year, the Sikh Empire, under Ranjit Singh,
         annexed Kashmir.
-        <img
-          style={{ margin: "10px", width: "30%" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Pahalgam_Valley.jpg"
-        />
       </div>
 
       <div

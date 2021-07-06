@@ -12,23 +12,75 @@ export const Gilgit = () => {
 
   return (
     <>
-      <h1 style={{ margin: "35px" }}>Gilgit</h1>
+      <div className="row">
+        <div className="col-md-8">
+          <Figure>
+            <Figure.Image
+              style={{ width: "100%" }}
+              alt={`lepa-valley.jpg`}
+              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+            />
+          </Figure>
+        </div>
+        <div className="col-md-4 d-none d-lg-block d-md-block">
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "calc(100% - (2 * 35px))",
-          height: "70vh",
-          margin: "35px",
-          padding: "35px",
-          fontSize: "20px",
-          textAlign: "justify",
-          backgroundColor: "#fce354",
-          borderRadius: "10px",
-        }}
-      >
-        ilgit-Baltistan (Urdu: گِلگِت بَلتِسْتان‎,Balti: རྒྱལ་སྐྱིད་
+      <h1 style={{ margin: "15px 0px" }}>Gilgit</h1>
+
+      <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
+        Gilgit-Baltistan (Urdu: گِلگِت بَلتِسْتان‎,Balti: རྒྱལ་སྐྱིད་
         སྦལྟི་ཡུལ།[citation needed]), formerly known as the Northern Areas, is a
         region administered by Pakistan as an administrative territory, and
         constitutes the northern portion of the larger Kashmir region, which has
@@ -39,10 +91,6 @@ export const Gilgit = () => {
         Afghanistan to the north, the Xinjiang region of China, to the east and
         northeast, and the Indian-administered union territories Jammu and
         Kashmir and Ladakh to the southeast.
-        <img
-          style={{ margin: "10px", width: "30%" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Aqua_Ambulance.jpg"
-        />
       </div>
       <div
         style={{

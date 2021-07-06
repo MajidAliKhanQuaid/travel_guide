@@ -75,6 +75,8 @@ import {
   addCategories,
 } from "./helper";
 
+import style from "./style";
+
 function App() {
   // location
   let location = useLocation();
@@ -147,7 +149,7 @@ function App() {
         categories={categories}
       />
       {toggleBreadcrumb && (
-        <Breadcrumb style={{ margin: "10px" }}>
+        <Breadcrumb style={{ margin: "10px", backgroundColor: "red" }}>
           {breadcrumbItems && breadcrumbItems.length > 0 ? (
             breadcrumbItems.map((x, i) => (
               <li
@@ -170,43 +172,45 @@ function App() {
         </Breadcrumb>
       )}
 
-      <Switch>
-        <ProtectedRoute
-          path="/"
-          exact
-          user={user}
-          rolesAllowed={[]}
-          successComponent={TouristHome}
-          failureComponent={AnonymousHome}
-        />
+      <Container>
+        <Switch>
+          <ProtectedRoute
+            path="/"
+            exact
+            user={user}
+            rolesAllowed={[]}
+            successComponent={TouristHome}
+            failureComponent={AnonymousHome}
+          />
 
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/logout" component={Logout} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/logout" component={Logout} />
 
-        <Route path="/region/balouchistan" component={Balouchistan} />
-        <Route path="/region/sindh" component={Sindh} />
-        <Route path="/region/punjab" component={Punjab} />
-        <Route path="/region/gilgit" component={Gilgit} />
-        <Route path="/region/kashmir" component={Kashmir} />
-        <Route path="/region/khyber" component={Khyber} />
+          <Route path="/region/balouchistan" component={Balouchistan} />
+          <Route path="/region/sindh" component={Sindh} />
+          <Route path="/region/punjab" component={Punjab} />
+          <Route path="/region/gilgit" component={Gilgit} />
+          <Route path="/region/kashmir" component={Kashmir} />
+          <Route path="/region/khyber" component={Khyber} />
 
-        <Route path="/categories/new" exact component={NewCategory} />
-        <Route path="/categories" exact component={ListCategory} />
+          <Route path="/categories/new" exact component={NewCategory} />
+          <Route path="/categories" exact component={ListCategory} />
 
-        <Route path="/places/new" exact component={NewPlace} />
-        <Route path="/places/search" component={SearchPlaces} />
-        <Route path="/places/edit/:identifier" component={EditPlace} />
-        <Route path="/places/category/:identifier" component={ListPlaces} />
-        <Route path="/places/:identifier" component={Place} />
-        <Route path="/places" component={ListPlaces} />
+          <Route path="/places/new" exact component={NewPlace} />
+          <Route path="/places/search" component={SearchPlaces} />
+          <Route path="/places/edit/:identifier" component={EditPlace} />
+          <Route path="/places/category/:identifier" component={ListPlaces} />
+          <Route path="/places/:identifier" component={Place} />
+          <Route path="/places" component={ListPlaces} />
 
-        <Route path="/accounts/new" component={NewAccount} />
-        <Route path="/accounts" component={ListAccout} />
-        <Route path="/test" component={Place} />
-        <Route path="/Favs" component={Favourites} />
-      </Switch>
+          <Route path="/accounts/new" component={NewAccount} />
+          <Route path="/accounts" component={ListAccout} />
+          <Route path="/test" component={Place} />
+          <Route path="/Favs" component={Favourites} />
+        </Switch>
+      </Container>
 
       <SearchComponent
         display={searchModalOptions.show}

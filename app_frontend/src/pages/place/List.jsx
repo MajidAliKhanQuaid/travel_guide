@@ -11,9 +11,12 @@ import { Card, Modal, Pagination, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import placeService from "../../services/placeservice";
+
+import jwt_decode from "jwt-decode";
+
 const ListPlaces = () => {
   const { identifier } = useParams();
-  const { categoryQuery, setCategoryQuery } = useState(identifier);
+  const [roles, setRoles] = useState([]);
   const [showDelModal, setShowDelModal] = useState({ show: false, id: null });
   const [places, setPlaces] = useState([]);
   const dispatch = useDispatch();
@@ -49,8 +52,7 @@ const ListPlaces = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("CALLING PARAMETERIZED USE EFFECT");
+  useEffect(async () => {
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "Places", url: "/places" },
@@ -58,12 +60,21 @@ const ListPlaces = () => {
     toggleBreadcrumb(dispatch, true);
     //toggleNav(dispatch, true);
 
-    loadPlaces();
+    await loadPlaces();
+
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      const tokenInfo = jwt_decode(token);
+      console.log("Token info ", tokenInfo);
+      const userRoles = tokenInfo.roles;
+      setRoles(userRoles);
+    }
   }, [identifier]);
 
   if (places.length == 0)
     return (
-      <Container>
+      <>
         <Link
           to="/places/new"
           className="btn btn-success float-right"
@@ -72,91 +83,113 @@ const ListPlaces = () => {
           New Place
         </Link>
         <h1>No places saved !</h1>
-      </Container>
+      </>
     );
 
   return (
     <>
-      <Container>
-        <Modal show={showDelModal.show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to delete place `{showDelModal.name}` ?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              No
-            </Button>
-            <Button variant="primary" onClick={handleDelete}>
-              Yes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-        <Link
-          to="/places/new"
-          className="btn btn-success float-right"
-          style={{ margin: "20px 0px" }}
-        >
-          New Place
-        </Link>
-        <h1>List of Places</h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexFlow: "flex-wrap",
-            flexWrap: "wrap",
-            justifyContent: "left",
-            marginTop: "50px",
-          }}
-        >
-          {places.map((x, y) => (
-            // <Card style={{ width: "20rem", flexGrow: "1" }}>
-            <Card
-              style={{
-                flex: "0 1 30%",
-                margin: "1.6%",
-              }}
-              key={x._id}
-            >
-              <Card.Img
-                variant="top"
-                src={
-                  x.images && x.images.length > 0
-                    ? `http://localhost:4000/uploads/${x.images[0]}`
-                    : ""
-                }
-              />
-              <Card.Body>
+      <Modal show={showDelModal.show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete place `{showDelModal.name}` ?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={handleDelete}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Link
+        to="/places/new"
+        className="btn btn-success float-right"
+        style={{ margin: "20px 0px" }}
+      >
+        New Place
+      </Link>
+      <h1>List of Places</h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexFlow: "flex-wrap",
+          flexWrap: "wrap",
+          justifyContent: "left",
+          marginTop: "50px",
+        }}
+      >
+        {places.map((x, y) => (
+          // <Card style={{ width: "20rem", flexGrow: "1" }}>
+          <Card
+            className="glass"
+            style={{
+              flex: "0 1 30%",
+              margin: "1.6%",
+            }}
+            key={x._id}
+          >
+            <Card.Img
+              variant="top"
+              src={
+                x.images && x.images.length > 0
+                  ? `http://localhost:4000/uploads/${x.images[0]}`
+                  : ""
+              }
+            />
+
+            <Card.Body>
+              {roles.indexOf("admin") > -1 && (
                 <Link to={"/places/edit/" + x._id} className="card-link">
-                  <Card.Title>{x.name}</Card.Title>
+                  <Card.Title style={{ textAlign: "center" }}>
+                    {x.name}
+                  </Card.Title>
                 </Link>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
-                </Card.Subtitle>
-                {/* <Card.Text>{x.description}</Card.Text> */}
+              )}
+
+              {roles.indexOf("admin") == -1 && (
                 <Link to={"/places/" + x._id} className="card-link">
-                  View
+                  <Card.Title style={{ textAlign: "center" }}>
+                    {x.name}
+                  </Card.Title>
                 </Link>
-                <Link to={"/places/edit/" + x._id} className="card-link">
-                  Edit
-                </Link>
-                <Card.Link
-                  className="card-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowDelModal({ id: x._id, show: true, name: x.name });
-                  }}
-                >
-                  Delete
-                </Card.Link>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
-      </Container>
+              )}
+
+              <Card.Subtitle className="mb-2 text-muted">
+                Card Subtitle
+              </Card.Subtitle>
+              {/* <Card.Text>{x.description}</Card.Text> */}
+
+              {roles.indexOf("admin") > -1 && (
+                <>
+                  <Link to={"/places/" + x._id} className="card-link">
+                    View
+                  </Link>
+                  <Link to={"/places/edit/" + x._id} className="card-link">
+                    Edit
+                  </Link>
+                  <Card.Link
+                    className="card-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowDelModal({
+                        id: x._id,
+                        show: true,
+                        name: x.name,
+                      });
+                    }}
+                  >
+                    Delete
+                  </Card.Link>
+                </>
+              )}
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </>
   );
 };

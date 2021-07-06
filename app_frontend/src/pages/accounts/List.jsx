@@ -85,54 +85,53 @@ const ListAccount = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Container>
-        {/* <Link
+      {/* <Link
           to="/accounts/new"
           className="btn btn-success float-right"
           style={{ margin: "20px 0px" }}
         >
           New User
         </Link> */}
-        <Table striped bordered hover>
-          <thead>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Username</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {accounts.map((x, index) => (
             <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Username</th>
-              <th></th>
+              <td>{index + 1}</td>
+              <td>{x.name}</td>
+              <td>{x.username}</td>
+              <td>
+                <Button
+                  className="float-right"
+                  variant="danger"
+                  style={{ marginLeft: "10px" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowDelModal({
+                      id: x._id,
+                      show: true,
+                      name: x.username,
+                    });
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button className="float-right" variant="success">
+                  Edit
+                </Button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {accounts.map((x, index) => (
-              <tr>
-                <td>{index + 1}</td>
-                <td>{x.name}</td>
-                <td>{x.username}</td>
-                <td>
-                  <Button
-                    className="float-right"
-                    variant="danger"
-                    style={{ marginLeft: "10px" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowDelModal({
-                        id: x._id,
-                        show: true,
-                        name: x.username,
-                      });
-                    }}
-                  >
-                    Delete
-                  </Button>
-                  <Button className="float-right" variant="success">
-                    Edit
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        {/* <Pagination>
+          ))}
+        </tbody>
+      </Table>
+      {/* <Pagination>
           <Pagination.First />
           <Pagination.Prev />
           <Pagination.Item>{1}</Pagination.Item>
@@ -149,7 +148,6 @@ const ListAccount = () => {
           <Pagination.Next />
           <Pagination.Last />
         </Pagination> */}
-      </Container>
     </>
   );
 };

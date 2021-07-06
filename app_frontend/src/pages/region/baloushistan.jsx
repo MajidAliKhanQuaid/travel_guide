@@ -24,22 +24,74 @@ export const Balouchistan = () => {
 
   return (
     <>
-      <h1 style={{ margin: "35px" }}>Balochistan</h1>
+      <div className="row">
+        <div className="col-md-8">
+          <Figure>
+            <Figure.Image
+              style={{ width: "100%" }}
+              alt={`lepa-valley.jpg`}
+              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+            />
+          </Figure>
+        </div>
+        <div className="col-md-4 d-none d-lg-block d-md-block">
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "calc(100% - (2 * 35px))",
-          height: "70vh",
-          margin: "35px",
-          padding: "35px",
-          fontSize: "20px",
-          textAlign: "justify",
-          backgroundColor: "#fce354",
-          borderRadius: "10px",
-        }}
-      >
+      <h1 style={{ margin: "15px 0px" }}>Balochistan</h1>
+
+      <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
         Balochistan( Balochi: بلوچِستان‎; also romanised as Baluchistan) is an
         arid desert and mountainous region in South and Western Asia. It
         comprises the Pakistani province of Balochistan, the Iranian province of
@@ -48,10 +100,6 @@ export const Balouchistan = () => {
         Pashtunistan region to the north, Sindh and Punjab to the east, and
         Persian regions to the west. South of its southern coastline, including
         the Makran Coast, are the Arabian Sea and the Gulf of Oman.
-        <img
-          style={{ margin: "10px", width: "30%" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/8/88/Quaid-e-Azam_Residancy_Ziarat_Balochistan_by_Balochlens.jpg"
-        />
       </div>
 
       <div

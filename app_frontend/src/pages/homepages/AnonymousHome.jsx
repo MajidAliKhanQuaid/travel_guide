@@ -68,7 +68,7 @@ const AnonymousHome = () => {
             className="card-region-link"
             key={"region-cards" + i}
           >
-            <Card className="card-region" x={x.text}>
+            <Card className="glass card-region" x={x.text}>
               <Card.Img variant="top" src={x.image} />
               <Card.Body>
                 <Card.Title className="mb-2 text-center">{x.text}</Card.Title>

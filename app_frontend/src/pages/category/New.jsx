@@ -44,25 +44,23 @@ const NewCategory = () => {
 
   return (
     <>
-      <Container>
-        <Form onSubmit={submitForm}>
-          <Form.Group controlId="name">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              name="name"
-              type="text"
-              placeholder="Enter Category ..."
-            />
-            {/* <Form.Text className="text-muted">
+      <Form onSubmit={submitForm}>
+        <Form.Group controlId="name">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            name="name"
+            type="text"
+            placeholder="Enter Category ..."
+          />
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };

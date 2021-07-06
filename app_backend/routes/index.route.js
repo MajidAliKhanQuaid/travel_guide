@@ -5,7 +5,8 @@ const express = require("express"),
   jwtHelper = require("../jwtHelper"),
   Place = require("../models/place.model"),
   Favourite = require("../models/favourite.model"),
-  RecentlyViewed = require("../models/recentlyviewed.model");
+  RecentlyViewed = require("../models/recentlyviewed.model"),
+  Review = require("../models/review.model");
 
 /* GET home page. */
 router.get("/"),

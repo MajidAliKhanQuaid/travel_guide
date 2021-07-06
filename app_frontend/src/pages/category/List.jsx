@@ -2,7 +2,9 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Container, Table, Button, Pagination, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import axios from "./../../interceptor";
+
+import jwt_decode from "jwt-decode";
+
 import {
   toggleSpinner,
   addBreadcrumbItems,
@@ -15,6 +17,7 @@ import categoryService from "../../services/categoryservice";
 const ListCategory = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const [roles, setRoles] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showDelModal, setShowDelModal] = useState({
     show: false,
@@ -32,16 +35,6 @@ const ListCategory = () => {
     const categories = await categoryService.getCategories();
     setCategories(categories);
     toggleSpinner(dispatch, false);
-
-    // return axios
-    //   .get("/category")
-    //   .then(function ({ data }) {
-    //     setCategories(data);
-    //     toggleSpinner(dispatch, false);
-    //   })
-    //   .catch(function (response) {
-    //     toggleSpinner(dispatch, false);
-    //   });
   };
 
   useEffect(() => {
@@ -49,9 +42,16 @@ const ListCategory = () => {
       { text: "Home", url: "/" },
       { text: "Accounts", url: location.pathname },
     ]);
+
     toggleBreadcrumb(dispatch, true);
-    //toggleNav(dispatch, true);
     loadCategories();
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      const tokenInfo = jwt_decode(token);
+      const userRoles = tokenInfo.roles;
+      setRoles(userRoles);
+    }
   }, []);
 
   return (
@@ -72,62 +72,58 @@ const ListCategory = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Container>
-        {
-          <Link
-            to="/categories/new"
-            className="btn btn-success float-right"
-            style={{ margin: "20px 0px" }}
-          >
-            New Category
-          </Link> /* <Link
-          to="/accounts/new"
-          className="btn btn-success float-right"
-          style={{ margin: "20px 0px" }}
-        >
-          New User
-        </Link> */
-        }
-        <Table striped bordered hover>
-          <thead>
+      <Link
+        to="/categories/new"
+        className="btn btn-success float-right"
+        style={{ margin: "20px 0px" }}
+      >
+        New Category
+      </Link>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Added By</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((x, index) => (
             <tr>
-              <th>#</th>
-              <th>Category</th>
-              <th>Added By</th>
-              <th></th>
+              <td>{index + 1}</td>
+              <td>{x.name}</td>
+              <td>{x.createdBy}</td>
+              <td>
+                {roles && (
+                  <>
+                    <Button
+                      className="float-right"
+                      variant="danger"
+                      style={{ marginLeft: "10px" }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowDelModal({
+                          id: x._id,
+                          show: true,
+                          name: x.name,
+                        });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    <Button className="float-right" variant="success">
+                      Edit
+                    </Button>
+                  </>
+                )}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {categories.map((x, index) => (
-              <tr>
-                <td>{index + 1}</td>
-                <td>{x.name}</td>
-                <td>{x.createdBy}</td>
-                <td>
-                  <Button
-                    className="float-right"
-                    variant="danger"
-                    style={{ marginLeft: "10px" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowDelModal({
-                        id: x._id,
-                        show: true,
-                        name: x.name,
-                      });
-                    }}
-                  >
-                    Delete
-                  </Button>
-                  <Button className="float-right" variant="success">
-                    Edit
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        {/* <Pagination>
+          ))}
+        </tbody>
+      </Table>
+      {/* <Pagination>
           <Pagination.First />
           <Pagination.Prev />
           <Pagination.Item>{1}</Pagination.Item>
@@ -144,7 +140,6 @@ const ListCategory = () => {
           <Pagination.Next />
           <Pagination.Last />
         </Pagination> */}
-      </Container>
     </>
   );
 };

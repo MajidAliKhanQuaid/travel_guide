@@ -22,18 +22,16 @@ const Profile = () => {
     //toggleNav(dispatch, true);
   }, []);
   return (
-    <Container>
+    <div>
+      <h1>John Doe</h1>
       <div>
-        <h1>John Doe</h1>
-        <div>
-          <ul>
-            {bookings.map((x) => (
-              <li>{x.name}</li>
-            ))}
-          </ul>
-        </div>
+        <ul>
+          {bookings.map((x) => (
+            <li>{x.name}</li>
+          ))}
+        </ul>
       </div>
-    </Container>
+    </div>
   );
 };
 export default Profile;

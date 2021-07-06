@@ -9,6 +9,8 @@ import { regions } from "../conts";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 
+import style from "../style";
+
 const NavbarComponent = ({
   user,
   showNav,
@@ -16,6 +18,8 @@ const NavbarComponent = ({
   toggleSearchBtn,
   categories,
 }) => {
+  useEffect(() => {}, []);
+
   const [roles, setRoles] = useState([]);
   let userInfo = localStorage.getItem("userInfo");
   if (!userInfo) {
@@ -35,7 +39,7 @@ const NavbarComponent = ({
 
   return (
     showNav && (
-      <Navbar bg="light" expand="lg">
+      <Navbar expand="lg">
         <Navbar.Brand href="/">Travel Guide</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -54,7 +58,7 @@ const NavbarComponent = ({
               categories &&
               categories.length > 0 && (
                 <>
-                  <NavDropdown title={"Types "} id="user-nav-dropdown">
+                  <NavDropdown title={"Categories "} id="user-nav-dropdown">
                     {categories.map((x) => (
                       <Link
                         to={`/places/category/${x._id}`}
@@ -131,7 +135,11 @@ const NavbarComponent = ({
           {toggleSearchBtn && (
             <>
               <Form inline>
-                <Button onClick={searchClick} variant="default">
+                <Button
+                  onClick={searchClick}
+                  className="btn-search"
+                  variant="none"
+                >
                   <FontAwesomeIcon icon={faSearchLocation} /> &nbsp; Search
                 </Button>
               </Form>

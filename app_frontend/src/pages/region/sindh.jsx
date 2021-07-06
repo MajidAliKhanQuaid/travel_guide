@@ -12,22 +12,74 @@ export const Sindh = () => {
 
   return (
     <>
-      <h1 style={{ margin: "35px" }}>Sindh</h1>
+      <div className="row">
+        <div className="col-md-8">
+          <Figure>
+            <Figure.Image
+              style={{ width: "100%" }}
+              alt={`lepa-valley.jpg`}
+              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+            />
+          </Figure>
+        </div>
+        <div className="col-md-4 d-none d-lg-block d-md-block">
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "calc(100% - (2 * 35px))",
-          height: "70vh",
-          margin: "35px",
-          padding: "35px",
-          fontSize: "20px",
-          textAlign: "justify",
-          backgroundColor: "#fce354",
-          borderRadius: "10px",
-        }}
-      >
+      <h1 style={{ margin: "15px 0px" }}>Sindh</h1>
+
+      <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
         Sindh (Sindhi: سنڌ‎; Urdu: سندھ‎, pronounced [sɪnd̪ʰ];historically
         romanised as Sind) is one of the four provinces of Pakistan. Located in
         the southeast of the country, it is the home of the Sindhi people.[5][6]
@@ -39,10 +91,6 @@ export const Sindh = () => {
         plains flanking the Indus River, the Thar desert in the eastern portion
         of the province closest to the border with India and the Kirthar
         Mountains in the western part of Sindh.
-        <img
-          style={{ margin: "10px", width: "30%" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Jinnah_Mausoleum.JPG"
-        />
       </div>
       <div
         style={{

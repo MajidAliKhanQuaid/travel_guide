@@ -4,7 +4,9 @@ const express = require("express"),
   path = require("path"),
   Place = require("../models/place.model"),
   Favourite = require("../models/favourite.model"),
-  RecentlyViewed = require("../models/recentlyviewed.model");
+  RecentlyViewed = require("../models/recentlyviewed.model"),
+  Comment = require("../models/comment.model"),
+  Review = require("../models/review.model");
 
 const _collection = "places";
 
@@ -72,13 +74,30 @@ router.get("/", async function (req, res, next) {
 router.get("/get", async function (req, res, next) {
   try {
     let place = await Place.findById(req.query.id).exec();
+
+    let reviews = await Review.find({
+      deleted: false,
+      place: place._id,
+    }).exec();
+
+    let comments = await Comment.find({
+      deleted: false,
+      place: place._id,
+    }).exec();
+
     let fav = await Favourite.findOne({
       place: req.query.id,
       username: req.user.username,
     });
+
     // POINT
     // if you don't use .toJSON(), it'll spread the mongoose object
-    place = { ...place.toJSON(), is_fav: fav ? true : false };
+    place = {
+      ...place.toJSON(),
+      comments: comments,
+      reviews: reviews,
+      is_fav: fav ? true : false,
+    };
     if (req.query.view) {
       try {
         await RecentlyViewed.findOneAndUpdate(
@@ -101,7 +120,6 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { name, description, location, category, region } = req.body;
-    console.log(req.body);
     const formData = req.body;
     let images = [];
     if (req.files) {
@@ -158,7 +176,6 @@ router.delete("/delete", async function (req, res, next) {
 
 // used for search filter
 router.post("/search", async function (req, res, next) {
-  console.log("SEARCH | Request", req.body);
   try {
     const places = await Place.find({
       deleted: false,
@@ -178,7 +195,6 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { _id, name, description, location, category, region } = req.body;
-    console.log(req.body);
     let images = [];
     if (req.files) {
       for (var fileIndex in req.files) {
@@ -237,7 +253,7 @@ router.post("/recentlyviewed", async function (req, res, next) {
     .populate("place")
     .exec();
 
-  const result = recent.filter((x) => x.place);
+  const result = recent.filter((x) => x.place && !x.place.deleted);
   res.status(200).json(result);
 });
 

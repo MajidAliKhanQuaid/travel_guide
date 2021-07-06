@@ -42,61 +42,59 @@ const NewAccount = () => {
 
   return (
     <>
-      <Container>
-        <Form onSubmit={submitForm}>
-          <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              name="username"
-              type="text"
-              placeholder="Enter Username ..."
-            />
-            {/* <Form.Text className="text-muted">
+      <Form onSubmit={submitForm}>
+        <Form.Group controlId="username">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            name="username"
+            type="text"
+            placeholder="Enter Username ..."
+          />
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Form.Group controlId="firstname">
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              name="firstname"
-              type="text"
-              placeholder="Enter First Name ..."
-            />
-            {/* <Form.Text className="text-muted">
+        <Form.Group controlId="firstname">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            name="firstname"
+            type="text"
+            placeholder="Enter First Name ..."
+          />
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Form.Group controlId="lastname">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              name="lastname"
-              type="text"
-              placeholder="Enter Last Name ..."
-            />
-            {/* <Form.Text className="text-muted">
+        <Form.Group controlId="lastname">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            name="lastname"
+            type="text"
+            placeholder="Enter Last Name ..."
+          />
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Enter Password ..."
-            />
-            {/* <Form.Text className="text-muted">
+        <Form.Group controlId="password">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            placeholder="Enter Password ..."
+          />
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };

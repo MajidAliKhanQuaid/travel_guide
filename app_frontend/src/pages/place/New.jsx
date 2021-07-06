@@ -82,97 +82,91 @@ const NewPlace = () => {
 
   return (
     <>
-      <Container>
-        <Form onSubmit={submitForm}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
+      <Form onSubmit={submitForm}>
+        <Form.Group controlId="name">
+          <Form.Label>Name</Form.Label>
+          <Form.Control name="name" type="text" placeholder="Enter Name ..." />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="description">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            name="description"
+            as="textarea"
+            rows={3}
+            placeholder="Enter Description ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="category">
+          <Form.Label>Category</Form.Label>
+          <Form.Control name="category" as="select">
+            {categories.map((x) => (
+              <option value={x._id}>{x.name}</option>
+            ))}
+          </Form.Control>
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="region">
+          <Form.Label>Region</Form.Label>
+          <Form.Control name="region" as="select">
+            {regions.map((x) => (
+              <option value={x.key}>{x.value}</option>
+            ))}
+          </Form.Control>
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="location">
+          <Form.Label>Location</Form.Label>
+          <Form.Control
+            name="location"
+            type="text"
+            placeholder="Enter Location ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="attachments">
+          <Form.Label>Gallery</Form.Label>
+          <div className="galleryContainer">
             <Form.Control
-              name="name"
-              type="text"
-              placeholder="Enter Name ..."
+              name="attachments"
+              className="galleryImage"
+              type="file"
+              placeholder="Add Image file ..."
+              multiple="multiple"
             />
-            {/* <Form.Text className="text-muted">
+          </div>
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          <Form.Group controlId="description">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              name="description"
-              as="textarea"
-              rows={3}
-              placeholder="Enter Description ..."
-            />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control name="category" as="select">
-              {categories.map((x) => (
-                <option value={x._id}>{x.name}</option>
-              ))}
-            </Form.Control>
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="region">
-            <Form.Label>Region</Form.Label>
-            <Form.Control name="region" as="select">
-              {regions.map((x) => (
-                <option value={x.key}>{x.value}</option>
-              ))}
-            </Form.Control>
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="location">
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              name="location"
-              type="text"
-              placeholder="Enter Location ..."
-            />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="attachments">
-            <Form.Label>Gallery</Form.Label>
-            <div className="galleryContainer">
-              <Form.Control
-                name="attachments"
-                className="galleryImage"
-                type="file"
-                placeholder="Add Image file ..."
-                multiple="multiple"
-              />
-            </div>
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          {/* <Form.Group controlId="formBasicPassword">
+        {/* <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group> */}
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };

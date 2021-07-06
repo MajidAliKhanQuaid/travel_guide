@@ -107,170 +107,168 @@ const EditPlace = () => {
 
   return (
     <>
-      <Container>
-        <Form onSubmit={submitForm}>
-          <input type="hidden" name="_id" value={place._id} />
-          <Form.Group controlId="txtName">
-            <Form.Label>Name</Form.Label>
+      <Form onSubmit={submitForm}>
+        <input type="hidden" name="_id" value={place._id} />
+        <Form.Group controlId="txtName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            name="name"
+            type="text"
+            value={place.name}
+            onChange={(e) => {
+              setPlace({ ...place, name: e.target.value });
+            }}
+            placeholder="Enter Name ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtDescription">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            name="description"
+            as="textarea"
+            rows={3}
+            value={place.description}
+            onChange={(e) => {
+              setPlace({ ...place, description: e.target.value });
+            }}
+            placeholder="Enter Description ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="category">
+          <Form.Label>Category</Form.Label>
+          <Form.Control
+            name="category"
+            as="select"
+            value={place.category}
+            onChange={(e) => {
+              setPlace({ ...place, category: e.target.value });
+            }}
+          >
+            {categories.map((x) => (
+              <option value={x._id}>{x.name}</option>
+            ))}
+          </Form.Control>
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="region">
+          <Form.Label>Region</Form.Label>
+          <Form.Control
+            name="region"
+            as="select"
+            value={place.region}
+            onChange={(e) => {
+              setPlace({ ...place, region: e.target.value });
+            }}
+          >
+            {regions.map((x) => (
+              <option value={x.key}>{x.text}</option>
+            ))}
+          </Form.Control>
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtLocation">
+          <Form.Label>Location</Form.Label>
+          <Form.Control
+            name="location"
+            type="text"
+            value={place.location}
+            onChange={(e) => {
+              setPlace({ ...place, location: e.target.value });
+            }}
+            placeholder="Enter Location ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="attachments">
+          <Form.Label>Gallery</Form.Label>
+          <div className="galleryContainer">
             <Form.Control
-              name="name"
-              type="text"
-              value={place.name}
-              onChange={(e) => {
-                setPlace({ ...place, name: e.target.value });
-              }}
-              placeholder="Enter Name ..."
+              name="attachments"
+              className="galleryImage"
+              type="file"
+              placeholder="Add Image file ..."
+              multiple="multiple"
             />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="txtDescription">
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              name="description"
-              as="textarea"
-              rows={3}
-              value={place.description}
-              onChange={(e) => {
-                setPlace({ ...place, description: e.target.value });
-              }}
-              placeholder="Enter Description ..."
-            />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="category">
-            <Form.Label>Category</Form.Label>
-            <Form.Control
-              name="category"
-              as="select"
-              value={place.category}
-              onChange={(e) => {
-                setPlace({ ...place, category: e.target.value });
-              }}
-            >
-              {categories.map((x) => (
-                <option value={x._id}>{x.name}</option>
-              ))}
-            </Form.Control>
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="region">
-            <Form.Label>Region</Form.Label>
-            <Form.Control
-              name="region"
-              as="select"
-              value={place.region}
-              onChange={(e) => {
-                setPlace({ ...place, region: e.target.value });
-              }}
-            >
-              {regions.map((x) => (
-                <option value={x.key}>{x.text}</option>
-              ))}
-            </Form.Control>
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="txtLocation">
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              name="location"
-              type="text"
-              value={place.location}
-              onChange={(e) => {
-                setPlace({ ...place, location: e.target.value });
-              }}
-              placeholder="Enter Location ..."
-            />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
-          </Form.Group>
-
-          <Form.Group controlId="attachments">
-            <Form.Label>Gallery</Form.Label>
-            <div className="galleryContainer">
-              <Form.Control
-                name="attachments"
-                className="galleryImage"
-                type="file"
-                placeholder="Add Image file ..."
-                multiple="multiple"
-              />
-              {place.images.map((imageName) => (
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <div style={{ position: "absolute" }}>
-                    <Button
-                      style={{
-                        position: "relative",
-                        fontSize: "10px",
-                        padding: "5px 10px",
-                        borderRadius: "50%",
-                        left: "85px",
-                        top: "-5px",
-                      }}
-                      onClick={async () => {
-                        // alert x
-                        const response = await placeService.deletePic(
-                          place._id,
-                          imageName
-                        );
-                        // const response = await axios.post(`/places/deletepic`, {
-                        //   identifier: place._id,
-                        //   image: imageName,
-                        // });
-                        if (response.data.success) {
-                          setPlace({
-                            ...place,
-                            images: place.images.filter((x) => x != imageName),
-                          });
-                          alert("Image has been deleted");
-                        } else {
-                          alert("Image could not be deleted");
-                        }
-                      }}
-                    >
-                      x
-                    </Button>
-                  </div>
-
-                  <Figure style={{ margin: "10px 10px 0px 0px" }}>
-                    <Figure.Image
-                      style={{ height: "80px", width: "100px" }}
-                      alt={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
-                      src={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
-                    />
-                  </Figure>
+            {place.images.map((imageName) => (
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <div style={{ position: "absolute" }}>
+                  <Button
+                    style={{
+                      position: "relative",
+                      fontSize: "10px",
+                      padding: "5px 10px",
+                      borderRadius: "50%",
+                      left: "85px",
+                      top: "-5px",
+                    }}
+                    onClick={async () => {
+                      // alert x
+                      const response = await placeService.deletePic(
+                        place._id,
+                        imageName
+                      );
+                      // const response = await axios.post(`/places/deletepic`, {
+                      //   identifier: place._id,
+                      //   image: imageName,
+                      // });
+                      if (response.data.success) {
+                        setPlace({
+                          ...place,
+                          images: place.images.filter((x) => x != imageName),
+                        });
+                        alert("Image has been deleted");
+                      } else {
+                        alert("Image could not be deleted");
+                      }
+                    }}
+                  >
+                    x
+                  </Button>
                 </div>
-              ))}
-            </div>
-            {/* <Form.Text className="text-muted">
+
+                <Figure style={{ margin: "10px 10px 0px 0px" }}>
+                  <Figure.Image
+                    style={{ height: "80px", width: "100px" }}
+                    alt={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
+                    src={`${process.env.REACT_APP_API_BASE_URL}/uploads/${imageName}`}
+                  />
+                </Figure>
+              </div>
+            ))}
+          </div>
+          {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text> */}
-          </Form.Group>
+        </Form.Group>
 
-          {/* <Form.Group controlId="formBasicPassword">
+        {/* <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group> */}
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </Container>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };

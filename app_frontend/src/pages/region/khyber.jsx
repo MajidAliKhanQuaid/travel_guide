@@ -12,21 +12,74 @@ export const Khyber = () => {
 
   return (
     <>
-      <h1 style={{ margin: "35px" }}>Khyber Pakhtunkhwa</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "calc(100% - (2 * 35px))",
-          height: "70vh",
-          margin: "35px",
-          padding: "35px",
-          fontSize: "20px",
-          textAlign: "justify",
-          backgroundColor: "#fce354",
-          borderRadius: "10px",
-        }}
-      >
+      <div className="row">
+        <div className="col-md-8">
+          <Figure>
+            <Figure.Image
+              style={{ width: "100%" }}
+              alt={`lepa-valley.jpg`}
+              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+            />
+          </Figure>
+        </div>
+        <div className="col-md-4 d-none d-lg-block d-md-block">
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+            <div className="col-md-6">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <Figure>
+                <Figure.Image
+                  style={{ width: "100%" }}
+                  alt={`lepa-valley.jpg`}
+                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                />
+              </Figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h1 style={{ margin: "15px 0px" }}>Khyber Pakhtunkhwa</h1>
+
+      <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
         Khyber Pakhtunkhwa (Pashto: خیبر پښتونخوا‎; Urdu: خیبر پختونخوا‎), often
         abbreviated as KP or KPK and formerly known as the North-West Frontier
         Province, is one of the four provinces of Pakistan. It is located in the
@@ -40,10 +93,6 @@ export const Khyber = () => {
         Within Pakistan, Khyber Pakhtunkhwa shares a border with the Islamabad
         Capital Territory, Punjab, Balochistan, and the Pakistani-administered
         territories of Gilgit-Baltistan and Azad Jammu and Kashmir.
-        <img
-          style={{ margin: "10px", width: "30%" }}
-          src="https://upload.wikimedia.org/wikipedia/commons/6/67/Bab-e-Khyber.jpg"
-        />
       </div>
 
       <div

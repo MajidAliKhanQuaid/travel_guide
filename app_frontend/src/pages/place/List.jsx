@@ -1,3 +1,4 @@
+import "./List.style.scss";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -171,32 +172,36 @@ const ListPlaces = () => {
                 </Link>
               )}
 
-              <Card.Subtitle className="mb-2 text-muted">
+              {/* <Card.Subtitle className="mb-2 text-muted">
                 Card Subtitle
-              </Card.Subtitle>
+              </Card.Subtitle> */}
               {/* <Card.Text>{x.description}</Card.Text> */}
 
               {roles.indexOf("admin") > -1 && (
                 <>
-                  <Link to={"/places/" + x._id} className="card-link">
-                    View
-                  </Link>
-                  <Link to={"/places/edit/" + x._id} className="card-link">
-                    Edit
-                  </Link>
-                  <Card.Link
-                    className="card-link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowDelModal({
-                        id: x._id,
-                        show: true,
-                        name: x.name,
-                      });
-                    }}
+                  <div
+                    style={{ textAlign: "center", margin: "15px 0px 0px 0px" }}
                   >
-                    Delete
-                  </Card.Link>
+                    <Link to={"/places/" + x._id} className="card-link">
+                      View
+                    </Link>
+                    <Link to={"/places/edit/" + x._id} className="card-link">
+                      Edit
+                    </Link>
+                    <Card.Link
+                      className="card-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowDelModal({
+                          id: x._id,
+                          show: true,
+                          name: x.name,
+                        });
+                      }}
+                    >
+                      Delete
+                    </Card.Link>
+                  </div>
                 </>
               )}
             </Card.Body>

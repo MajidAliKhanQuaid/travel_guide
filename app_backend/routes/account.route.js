@@ -61,15 +61,15 @@ router.post("/login", async function (req, res, next) {
       });
       res.status(200).json({
         name: account.name,
-        isValid: true,
+        success: true,
         token: token,
         refreshToken: refreshToken,
       });
     } else {
       console.log("Account not found");
       return res.status(200).json({
-        isValid: false,
-        errorMessage: "Enter valid credentials",
+        success: false,
+        message: "Enter valid credentials",
       });
     }
   } catch (err) {
@@ -139,7 +139,20 @@ router.post("/register", async function (req, res, next) {
       username: result.username,
       roles: roles,
     });
-    res.status(201).json({ success: true, token: token, user: result });
+
+    const refreshToken = jwtHelper.generateRefreshToken({
+      _id: result._id,
+      name: result.name,
+      username: result.username,
+      roles: result.roles,
+      refresh: "is_refresh_token",
+    });
+
+    res.status(201).json({
+      success: true,
+      token: token,
+      refreshToken: refreshToken,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

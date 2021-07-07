@@ -1,3 +1,4 @@
+import "./RecentlyViewedPlaces.style.scss";
 import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -50,9 +51,9 @@ const RecentlyViewedPlaces = ({ places }) => {
                       <Card.Title className="mb-2 text-center">
                         {x.place.name}
                       </Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted text-center">
+                      {/* <Card.Subtitle className="mb-2 text-muted text-center">
                         Card Subtitle
-                      </Card.Subtitle>
+                      </Card.Subtitle> */}
                     </Card.Body>
                   </Card>
                 </Animated>

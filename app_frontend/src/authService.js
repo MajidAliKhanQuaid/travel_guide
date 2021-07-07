@@ -27,17 +27,54 @@ class AuthService {
 
   async login(username, password) {
     try {
-      const user = await authaxios.post("/account/login", {
+      const response = await authaxios.post("/account/login", {
         username: username,
         password: password,
       });
-      if (user.data.isValid && user.data.token) {
-        this.setToken(user.data);
-        return { result: true, message: "", token: user.data.token };
+      const payload = response.data;
+      if (payload.success && payload.token) {
+        this.setToken(payload);
+        return { result: true, message: "", token: payload.token };
       } else
         return {
           result: false,
-          message: "Enter valid Username/Password",
+          message: payload.message,
+        };
+    } catch (error) {
+      return { result: false, message: "Failed due to system error" };
+    }
+
+    // return authaxios
+    //   .post("/login", {
+    //     Username: username,
+    //     Password: password,
+    //   })
+    //   .then(({ data }) => {
+    //     if (data.isValid && data.token) {
+    //       this.setToken(data);
+    //       // localStorage.setItem("user", "loggedas" + username);
+    //       return Promise.resolve(data);
+    //     } else {
+    //       return Promise.resolve(data);
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Promise broken");
+    //     return Promise.reject(error);
+    //   });
+  }
+
+  async register(_data) {
+    try {
+      const response = await authaxios.post("/account/register", _data);
+      const payload = response.data;
+      if (payload.success) {
+        this.setToken(payload);
+        return { result: true, message: "", token: payload.token };
+      } else
+        return {
+          result: false,
+          message: payload.message,
         };
     } catch (error) {
       return { result: false, message: "Failed due to system error" };

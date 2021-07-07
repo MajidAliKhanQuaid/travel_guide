@@ -16,8 +16,8 @@ export const Punjab = () => {
           <Figure>
             <Figure.Image
               style={{ width: "100%" }}
-              alt={`lepa-valley.jpg`}
-              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+              alt={`punjab-1.jpg`}
+              src={`${process.env.PUBLIC_URL}/assets/images/punjab-1.jpg`}
             />
           </Figure>
         </div>
@@ -27,8 +27,8 @@ export const Punjab = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`punjab-2.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/punjab-2.jpg`}
                 />
               </Figure>
             </div>
@@ -36,8 +36,8 @@ export const Punjab = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`punjab-3.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/punjab-3.jpg`}
                 />
               </Figure>
             </div>
@@ -47,8 +47,8 @@ export const Punjab = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`punjab-4.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/punjab-4.jpg`}
                 />
               </Figure>
             </div>
@@ -56,8 +56,8 @@ export const Punjab = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`punjab-5.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/punjab-5.jpg`}
                 />
               </Figure>
             </div>
@@ -67,8 +67,8 @@ export const Punjab = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`punjab-1.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/punjab-1.jpg`}
                 />
               </Figure>
             </div>

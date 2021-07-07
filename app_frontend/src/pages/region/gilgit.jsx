@@ -17,8 +17,8 @@ export const Gilgit = () => {
           <Figure>
             <Figure.Image
               style={{ width: "100%" }}
-              alt={`lepa-valley.jpg`}
-              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+              alt={`gilgit-1.jpg`}
+              src={`${process.env.PUBLIC_URL}/assets/images/gilgit-1.jpg`}
             />
           </Figure>
         </div>
@@ -28,8 +28,8 @@ export const Gilgit = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`gilgit-2.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-2.jpg`}
                 />
               </Figure>
             </div>
@@ -37,8 +37,8 @@ export const Gilgit = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`gilgit-3.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-3.jpg`}
                 />
               </Figure>
             </div>
@@ -48,8 +48,8 @@ export const Gilgit = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`gilgit-4.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-4.jpg`}
                 />
               </Figure>
             </div>
@@ -57,8 +57,8 @@ export const Gilgit = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`gilgit-5.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-5.jpg`}
                 />
               </Figure>
             </div>
@@ -68,8 +68,8 @@ export const Gilgit = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`gilgit-1.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-1.jpg`}
                 />
               </Figure>
             </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
 import placeservice from "./../../services/place.service";
-import axios from "axios";
 
 export const Balouchistan = () => {
   const [places, setPlaces] = useState([]);
@@ -29,8 +28,8 @@ export const Balouchistan = () => {
           <Figure>
             <Figure.Image
               style={{ width: "100%" }}
-              alt={`lepa-valley.jpg`}
-              src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+              alt={`balouchistan-1.jpg`}
+              src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-1.jpg`}
             />
           </Figure>
         </div>
@@ -40,8 +39,8 @@ export const Balouchistan = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`balouchistan-2.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-2.jpg`}
                 />
               </Figure>
             </div>
@@ -49,8 +48,8 @@ export const Balouchistan = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`balouchistan-3.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-3.jpg`}
                 />
               </Figure>
             </div>
@@ -60,8 +59,8 @@ export const Balouchistan = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`balouchistan-4.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-4.jpg`}
                 />
               </Figure>
             </div>
@@ -69,8 +68,8 @@ export const Balouchistan = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`balouchistan-5.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-5.jpg`}
                 />
               </Figure>
             </div>
@@ -80,8 +79,8 @@ export const Balouchistan = () => {
               <Figure>
                 <Figure.Image
                   style={{ width: "100%" }}
-                  alt={`lepa-valley.jpg`}
-                  src={`${process.env.PUBLIC_URL}/lepa-valley.jpg`}
+                  alt={`balouchistan-1.jpg`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/balouchistan-1.jpg`}
                 />
               </Figure>
             </div>

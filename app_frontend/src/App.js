@@ -77,6 +77,7 @@ import {
 } from "./helper";
 
 import style from "./style";
+import Main from "./pages/accounts/Main";
 
 function App() {
   // location
@@ -184,10 +185,11 @@ function App() {
             failureComponent={AnonymousHome}
           />
 
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={Main} />
           <Route path="/signup" component={SignUp} />
           <Route path="/profile" component={Profile} />
           <Route path="/logout" component={Logout} />
+          <Route path="/login1" component={Main} />
 
           <Route path="/region/balouchistan" component={Balouchistan} />
           <Route path="/region/sindh" component={Sindh} />

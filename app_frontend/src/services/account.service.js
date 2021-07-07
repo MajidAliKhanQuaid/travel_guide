@@ -13,8 +13,9 @@ const accountService = {
   // },
 
   register: async (_data) => {
-    const payload = await axios.post("/account/register", _data);
-    return payload.data;
+    const result = authService.register(_data);
+    // const payload = await axios.post("/account/register", _data);
+    return result;
   },
 
   deleteAccount: async (_identifier) => {

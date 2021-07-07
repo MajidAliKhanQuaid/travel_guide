@@ -12,7 +12,7 @@ const Favourites = () => {
     <>
       <h1>Favourites</h1>
       <div
-        className="padded"
+        className=""
         style={{
           display: "flex",
           flexDirection: "row",
@@ -22,6 +22,7 @@ const Favourites = () => {
       >
         {favs.map((x) => (
           <Card
+            className="glass rounded-corners"
             style={{
               flex: "0 1 30%",
               margin: "1.6%",
@@ -35,13 +36,13 @@ const Favourites = () => {
                   : ""
               }
             />
-            <Card.Body>
+            <Card.Body style={{ textAlign: "center" }}>
               <Link to={`/places/${x._id}`}>
                 <Card.Title>{x.name}</Card.Title>
               </Link>
-              <Card.Subtitle className="mb-2 text-muted">
+              {/* <Card.Subtitle className="mb-2 text-muted">
                 {x.category}
-              </Card.Subtitle>
+              </Card.Subtitle> */}
               <Card.Link
                 onClick={async () => {
                   const result = await favService.removeFromFavs(x._id);

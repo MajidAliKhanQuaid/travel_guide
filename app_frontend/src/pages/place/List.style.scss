@@ -1,0 +1,17 @@
+.glass {
+  padding: 15px !important;
+  background: white !important;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  ) !important;
+}
+
+.rounded-borders {
+  border-radius: 5% !important;
+}
+
+.glass img {
+  border-radius: 15% !important;
+}

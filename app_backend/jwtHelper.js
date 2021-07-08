@@ -32,14 +32,16 @@ module.exports.authenticateAccessToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
     res.header("www-authenticate", "invalid_token");
+    console.log("-> TOKEN FAILED [401]", token);
     return res.sendStatus(401); // if there isn't any token
   }
-  // console.log("Token is ", token);
+
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     console.log(err);
     if (err) {
       // this should be expired token
       res.header("www-authenticate", "invalid_token");
+      console.log("-> TOKEN FAILED [401]", token);
       return res.sendStatus(401);
     }
 

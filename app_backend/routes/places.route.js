@@ -1,52 +1,12 @@
 const express = require("express"),
   mongoose = require("mongoose"),
   router = express.Router(),
-  path = require("path"),
+  upload = require("./../server/multer_config"),
   Place = require("../models/place.model"),
   Favourite = require("../models/favourite.model"),
   RecentlyViewed = require("../models/recentlyviewed.model"),
   Comment = require("../models/comment.model"),
   Review = require("../models/review.model");
-
-const _collection = "places";
-
-// multer is used for processing file attachements
-const multer = require("multer");
-var storage = multer.diskStorage({
-  // multers disk storage settings
-  destination: function (req, file, cb) {
-    cb(null, "./public/uploads/");
-  },
-  filename: function (req, file, cb) {
-    var datetimestamp = Date.now();
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        datetimestamp +
-        "." +
-        file.originalname.split(".")[file.originalname.split(".").length - 1]
-    );
-  },
-});
-
-const upload = multer({
-  //multer settings
-  storage: storage,
-  fileFilter: function (req, file, callback) {
-    var ext = path.extname(file.originalname);
-    if (
-      (ext === ".png" || ext === ".jpg" || ext === ".gif" || ext === ".jpeg") ==
-      false
-    ) {
-      return callback(new Error("Only images are allowed"));
-    }
-    callback(null, true);
-  },
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
-});
 
 // loads all places
 router.get("/", async function (req, res, next) {
@@ -120,6 +80,16 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { name, description, location, category, region } = req.body;
+    const ePlace = Place.findOne({
+      name: name,
+      deleted: false,
+    }).exec();
+    if (ePlace) {
+      res
+        .status(200)
+        .json({ success: false, message: `Place '${name}' already exists` });
+      return;
+    }
     const formData = req.body;
     let images = [];
     if (req.files) {
@@ -142,7 +112,7 @@ router.post(
     });
     try {
       var response = await place.save();
-      res.status(201).json({ success: true, created: response });
+      res.status(201).json({ success: true, result: response });
     } catch (err) {
       console.log(err);
       res.status(500).json({ success: false, err });
@@ -195,6 +165,18 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { _id, name, description, location, category, region } = req.body;
+    const ePlace = await Place.findOne({
+      _id: { $ne: _id },
+      name: name,
+      deleted: false,
+    }).exec();
+
+    if (ePlace) {
+      res
+        .status(200)
+        .json({ success: false, message: `Place '${name}' already exists` });
+      return;
+    }
     let images = [];
     if (req.files) {
       for (var fileIndex in req.files) {
@@ -222,7 +204,7 @@ router.post(
           },
         }
       );
-      res.status(200).json(result);
+      res.status(200).json({ success: true, result });
     } catch (err) {
       res.status(500).json(err);
     }

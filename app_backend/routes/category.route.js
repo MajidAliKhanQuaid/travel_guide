@@ -34,6 +34,17 @@ router.post("/update", async function (req, res, next) {
     return;
   }
   try {
+    let eCat = await Category.findOne({
+      _id: { $ne: _id },
+      name: name.toLowerCase(),
+    }).exec();
+    if (eCat) {
+      res
+        .status(200)
+        .json({ success: false, message: `Category '${name}' already exists` });
+      return;
+    }
+
     const category = await Category.updateOne(
       { _id: _id },
       { $set: { name: name } }
@@ -57,7 +68,7 @@ router.post("/create", async function (req, res, next) {
     if (category) {
       res
         .status(200)
-        .json({ success: false, message: `Category ${name} already exists` });
+        .json({ success: false, message: `Category '${name}' already exists` });
       return;
     }
   } catch (err) {

@@ -19,16 +19,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const AdminHome = () => {
   const menus = [
-    { title: "Users", url: "/accounts", icon: faUser },
+    { title: "Accounts", url: "/accounts", icon: faUser },
     { title: "Places", url: "/places", icon: faSearchLocation },
-    { title: "Food", url: "/food", icon: faEgg },
-    { title: "Culture", url: "/culture", icon: faEgg },
-    { title: "Mosque", url: "/mosque", icon: faMosque },
-    { title: "Gallery", url: "/gallery", icon: faImages },
-    { title: "Suggestion", url: "/suggestion", icon: faImages },
-    { title: "In Sights", url: "/insights", icon: faInfoCircle },
-    { title: "Logs", url: "/logs", icon: faChartPie },
-    { title: "test", url: "/test", icon: faSearchLocation },
+    { title: "Categories", url: "/categories", icon: faEgg },
+    // { title: "Culture", url: "/culture", icon: faEgg },
+    // { title: "Mosque", url: "/mosque", icon: faMosque },
+    // { title: "Gallery", url: "/gallery", icon: faImages },
+    // { title: "Suggestion", url: "/suggestion", icon: faImages },
+    // { title: "In Sights", url: "/insights", icon: faInfoCircle },
+    // { title: "Logs", url: "/logs", icon: faChartPie },
+    // { title: "test", url: "/test", icon: faSearchLocation },
   ];
   return (
     <>
@@ -38,11 +38,19 @@ const AdminHome = () => {
           flexDirection: "row",
           flexFlow: "flex-wrap",
           flexWrap: "wrap",
+          justifyContent: "left",
+          marginTop: "50px",
         }}
       >
         {menus.map((x) => (
-          <Link to={x.url}>
-            <Card style={{ width: "10rem", textAlign: "center" }}>
+          <Link
+            to={x.url}
+            style={{
+              flex: "0 1 30%",
+              margin: "1.6%",
+            }}
+          >
+            <Card className="glass">
               <Card.Body>
                 <FontAwesomeIcon icon={x.icon} style={{ fontSize: "50px" }} />
                 <Card.Title>{x.title}</Card.Title>

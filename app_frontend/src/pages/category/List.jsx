@@ -10,6 +10,7 @@ import {
   addBreadcrumbItems,
   toggleBreadcrumb,
   toggleNav,
+  addCategories,
 } from "./../../helper";
 import { Link } from "react-router-dom";
 import categoryService from "../../services/category.service";
@@ -34,6 +35,7 @@ const ListCategory = () => {
   const loadCategories = async () => {
     const categories = await categoryService.getCategories();
     setCategories(categories);
+    addCategories(dispatch, categories);
     toggleSpinner(dispatch, false);
   };
 

@@ -9,11 +9,16 @@ import {
   toggleBreadcrumb,
   addBreadcrumbItems,
 } from "./../../helper";
-import { Container, Form, Button, Figure } from "react-bootstrap";
+import { Container, Form, Button, Figure, Alert } from "react-bootstrap";
 import { regions } from "./../../conts";
 import placeService from "../../services/place.service";
 
 const EditPlace = () => {
+  const [alert, setAlert] = useState({
+    show: false,
+    class: "danger",
+    text: "",
+  });
   const [categories, setCategories] = useState([]);
   const { identifier } = useParams();
   const dispatch = useDispatch();
@@ -72,10 +77,33 @@ const EditPlace = () => {
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then(function (response) {
+      .then(function ({ data }) {
         //handle success
-        console.log(response);
-        history.push("/places");
+        console.log(data);
+        if (data.success) {
+          setAlert({
+            ...alert,
+            show: true,
+            text: "New place created",
+            class: "success",
+          });
+          history.push("/places");
+        } else {
+          setAlert({
+            ...alert,
+            show: true,
+            text: data.message,
+            class: "danger",
+          });
+        }
+        // } else {
+        //   setAlert({
+        //     ...alert,
+        //     show: true,
+        //     text: response.message,
+        //     class: "danger",
+        //   });
+        // }
       })
       .catch(function (response) {
         //handle error
@@ -83,30 +111,16 @@ const EditPlace = () => {
       });
   };
 
-  const imageRemoveContainer = (x) => {
-    return (
-      <>
-        <Button
-          onClick={() => {
-            // delete x
-            console.log("TEST");
-          }}
-        >
-          x
-        </Button>
-        <Figure style={{ margin: "10px 10px 0px 0px" }}>
-          <Figure.Image
-            style={{ height: "80px", width: "100px" }}
-            alt={"http://localhost:4000/uploads/" + x}
-            src={"http://localhost:4000/uploads/" + x}
-          />
-        </Figure>
-      </>
-    );
-  };
-
   return (
     <>
+      <Alert
+        show={alert.show}
+        onClose={() => setAlert({ ...alert, show: false })}
+        dismissible
+        variant={alert.class}
+      >
+        {alert.text}
+      </Alert>
       <Form onSubmit={submitForm}>
         <input type="hidden" name="_id" value={place._id} />
         <Form.Group controlId="txtName">
@@ -228,7 +242,7 @@ const EditPlace = () => {
                       //   identifier: place._id,
                       //   image: imageName,
                       // });
-                      if (response.data.success) {
+                      if (response.success) {
                         setPlace({
                           ...place,
                           images: place.images.filter((x) => x != imageName),

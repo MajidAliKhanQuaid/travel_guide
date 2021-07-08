@@ -8,7 +8,6 @@ const express = require("express"),
   RecentlyViewed = require("../models/recentlyviewed.model"),
   Review = require("../models/review.model");
 
-/* GET home page. */
 router.get("/"),
   async function (req, res, next) {
     let name = "Guest";

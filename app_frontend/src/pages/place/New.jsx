@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +14,11 @@ import categoryService from "../../services/category.service";
 import placeService from "../../services/place.service";
 
 const NewPlace = () => {
+  const [alert, setAlert] = useState({
+    show: false,
+    class: "danger",
+    text: "",
+  });
   const [regions, setRegions] = useState([
     {
       key: "fed",
@@ -67,7 +72,22 @@ const NewPlace = () => {
     }
 
     const response = await placeService.savePlace(formData);
-    history.push("/places");
+    if (response.success) {
+      setAlert({
+        ...alert,
+        show: true,
+        text: "New category created",
+        class: "success",
+      });
+      history.push("/places");
+    } else {
+      setAlert({
+        ...alert,
+        show: true,
+        text: response.message,
+        class: "danger",
+      });
+    }
   };
 
   useEffect(() => {
@@ -82,6 +102,15 @@ const NewPlace = () => {
 
   return (
     <>
+      <Alert
+        show={alert.show}
+        onClose={() => setAlert({ ...alert, show: false })}
+        dismissible
+        variant={alert.class}
+      >
+        {alert.text}
+      </Alert>
+
       <Form onSubmit={submitForm}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>

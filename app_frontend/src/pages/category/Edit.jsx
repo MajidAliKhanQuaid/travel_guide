@@ -1,4 +1,4 @@
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import axios from "../../interceptor";
 import history from "../../History";
 import { useEffect, useState } from "react";
@@ -16,6 +16,11 @@ import categoryService from "../../services/category.service";
 import { useParams } from "react-router";
 
 const EditCategory = () => {
+  const [alert, setAlert] = useState({
+    show: false,
+    class: "danger",
+    text: "",
+  });
   const location = useLocation();
   const dispatch = useDispatch();
   const { identifier } = useParams();
@@ -31,7 +36,20 @@ const EditCategory = () => {
 
     const result = await categoryService.updateCategory(object);
     if (result.success) {
+      setAlert({
+        ...alert,
+        show: true,
+        text: "Category has been updated",
+        class: "success",
+      });
       history.push("/categories");
+    } else {
+      setAlert({
+        ...alert,
+        show: true,
+        text: result.message,
+        class: "danger",
+      });
     }
   };
 
@@ -49,6 +67,15 @@ const EditCategory = () => {
 
   return (
     <>
+      <Alert
+        show={alert.show}
+        onClose={() => setAlert({ ...alert, show: false })}
+        dismissible
+        variant={alert.class}
+      >
+        {alert.text}
+      </Alert>
+
       <Form onSubmit={submitForm}>
         <Form.Control name="_id" type="hidden" value={category._id} />
         <Form.Group controlId="name">

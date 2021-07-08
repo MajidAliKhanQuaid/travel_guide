@@ -5,6 +5,7 @@ import authService from "./../authService";
 import jwt_decode from "jwt-decode";
 import AdminHome from "../pages/homepages/AdminHome";
 import TouristHome from "../pages/homepages/TouristHome";
+import TourGuideHome from "../pages/homepages/TourGuideHome";
 
 const ProtectedRoute = ({
   successComponent: SuccessComponent,
@@ -19,26 +20,16 @@ const ProtectedRoute = ({
       {...rest}
       render={(props) => {
         if (user) {
-          // var decoded = jwt_decode(user.token);
-          // console.log("#### DECODED", decoded);
-          // if (decoded.roles && decoded.roles.indexOf("") - 1) {
-          //   return <TouristHome />;
-          // } else {
-          //   return <AdminHome />;
-          // }
-          // alert(decoded);
-          // alert(JSON.stringify(user));
-          // if (
-          //   rolesAllowed &&
-          //   rolesAllowed.length > 0 &&
-          //   rolesAllowed.filter((x) => user.roles.indexOf(x) > -1).length == 0
-          // ) {
-          //   return <NotAllowed />;
-          // }
-          return <SuccessComponent {...rest} {...props} />;
-        } else {
-          return <FailureComponent {...rest} {...props} />;
+          var decoded = jwt_decode(user.token);
+          if (decoded.roles && decoded.roles.indexOf("admin") > -1) {
+            return <AdminHome {...rest} {...props} />;
+          } else if (decoded.roles && decoded.roles.indexOf("guide") > -1) {
+            return <TourGuideHome {...rest} {...props} />;
+          } else if (decoded.roles && decoded.roles.indexOf("tourist") > -1) {
+            return <TouristHome {...rest} {...props} />;
+          }
         }
+        return <FailureComponent {...rest} {...props} />;
       }}
     />
   );

@@ -76,7 +76,7 @@ const ListPlaces = () => {
   if (places.length == 0)
     return (
       <>
-        {roles.indexOf("admin") > -1 && (
+        {roles.filter((x) => x == "admin" || x == "guide").length > 0 && (
           <Link
             to="/places/new"
             className="btn btn-success float-right"
@@ -107,7 +107,7 @@ const ListPlaces = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {roles.indexOf("admin") > -1 && (
+      {roles.filter((x) => x == "admin" || x == "guide").length > 0 && (
         <>
           <Link
             to="/categories/new"
@@ -156,7 +156,7 @@ const ListPlaces = () => {
             />
 
             <Card.Body>
-              {roles.indexOf("admin") > -1 && (
+              {roles.filter((x) => x == "admin" || x == "guide").length > 0 && (
                 <Link to={"/places/edit/" + x._id} className="card-link">
                   <Card.Title style={{ textAlign: "center" }}>
                     {x.name}

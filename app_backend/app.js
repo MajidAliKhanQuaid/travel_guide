@@ -1,7 +1,6 @@
 var express = require("express"),
   createError = require("http-errors"),
   cors = require("cors"),
-  bodyParser = require("body-parser"),
   path = require("path"),
   cookieParser = require("cookie-parser"),
   logger = require("morgan"),
@@ -55,7 +54,7 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Expose-Headers", "www-authenticate");
   next();
 });
-app.use(logger("dev"));
+app.use(logger("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

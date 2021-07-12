@@ -10,10 +10,10 @@ const RecentlyViewedPlaces = ({ places }) => {
       {places && places.length > 0 && (
         <>
           <div className="row">
-            <h2 className="col-md-6">Recently Viewed Places</h2>
-            <Link to="" className="col-md-6 text-right">
-              See all
-            </Link>
+            <h1 className="col-md-6" style={{ marginTop: "35px" }}>
+              Recently Viewed Places
+            </h1>
+            <Link to="" className="col-md-6 text-right"></Link>
           </div>
           <div
             style={{

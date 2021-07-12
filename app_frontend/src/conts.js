@@ -10,6 +10,13 @@ export const commonStyles = {
   },
 };
 export const regions = [
+  ,
+  {
+    url: "/region/federal",
+    key: "fed",
+    text: "Federal",
+    image: "lepa-valley.jpg",
+  },
   {
     url: "/region/balouchistan",
     key: "bl",

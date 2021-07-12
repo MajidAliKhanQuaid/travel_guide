@@ -145,10 +145,10 @@ const NavbarComponent = ({
           {/* {searchButton(toggleSearchBtn, searchClick)} */}
           {user && (
             <NavDropdown title={userInfo.name} id="user-nav-dropdown">
-              <Link to="/profile" className="dropdown-item">
+              {/* <Link to="/profile" className="dropdown-item">
                 Profile
-              </Link>
-              <NavDropdown.Divider />
+              </Link> */}
+              {/* <NavDropdown.Divider /> */}
               <Link to="/logout" className="dropdown-item">
                 Logout
               </Link>

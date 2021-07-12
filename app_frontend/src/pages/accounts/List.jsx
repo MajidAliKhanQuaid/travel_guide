@@ -123,9 +123,6 @@ const ListAccount = () => {
                 >
                   Delete
                 </Button>
-                <Button className="float-right" variant="success">
-                  Edit
-                </Button>
               </td>
             </tr>
           ))}

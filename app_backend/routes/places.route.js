@@ -80,7 +80,7 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { name, description, location, category, region } = req.body;
-    const ePlace = Place.findOne({
+    const ePlace = await Place.findOne({
       name: name,
       deleted: false,
     }).exec();

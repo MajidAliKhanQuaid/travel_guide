@@ -43,7 +43,8 @@ const RecentlyViewedPlaces = ({ places }) => {
                       variant="top"
                       src={
                         x.place.images && x.place.images.length > 0
-                          ? `http://localhost:4000/uploads/${x.place.images[0]}`
+                          ? `${process.env.REACT_APP_API_BASE_URL}
+/uploads/${x.place.images[0]}`
                           : ""
                       }
                     />

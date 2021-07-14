@@ -68,8 +68,16 @@ app.all("*", (req, res, next) => {
     "/account/auth/facebook",
     "/uploads",
   ];
+
+  console.log("req.path ", req.path);
   var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
-  if (matchingRoutes.length > 0) {
+  if (
+    matchingRoutes.length > 0 ||
+    req.path == "/" ||
+    req.path == "/alam" ||
+    req.path == "/favicon.ico" ||
+    req.path == "/stylesheets/style.css"
+  ) {
     return next();
   }
 

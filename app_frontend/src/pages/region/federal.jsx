@@ -1,27 +1,39 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
 import placeservice from "./../../services/place.service";
-import { Link } from "react-router-dom";
-
+import { regions } from "./../../conts";
 import { ReactPhotoCollage } from "react-photo-collage";
-export const Kashmir = () => {
+export const Federal = () => {
   const [setting, setCollagSetting] = useState({
     width: "100%",
     height: ["250px", "170px"],
     layout: [1, 4],
     photos: [
-      { source: `/assets/images/kashmir/1.jpg` },
-      { source: `/assets/images/kashmir/2.jpg` },
-      { source: `/assets/images/kashmir/3.jpg` },
-      { source: `/assets/images/kashmir/4.jpg` },
-      { source: `/assets/images/kashmir/5.jpg` },
+      { source: `/assets/images/federal/1.jpg` },
+      { source: `/assets/images/federal/2.jpg` },
+      { source: `/assets/images/federal/3.jpg` },
+      { source: `/assets/images/federal/4.jpg` },
+      { source: `/assets/images/federal/5.jpg` },
     ],
     showNumOfRemainingPhotos: true,
   });
   const [places, setPlaces] = useState([]);
+  const [region, setRegion] = useState("");
   useEffect(async () => {
-    const rPlaces = await placeservice.getPlacesByRegion("kh");
-    setPlaces(rPlaces);
+    // const CancelToken = axios.CancelToken;
+    // const source = CancelToken.source();
+
+    try {
+      // const rPlaces = await placeservice.getPlacesByRegion("bl", source);
+      const rPlaces = await placeservice.getPlacesByRegion("fed");
+      setPlaces(rPlaces);
+    } catch (err) {
+      console.log(err);
+    }
+
+    return () => {
+      // source.cancel();
+    };
   }, []);
 
   return (
@@ -29,25 +41,17 @@ export const Kashmir = () => {
       <div className="row">
         <ReactPhotoCollage {...setting} />
       </div>
-
-      <h1 style={{ margin: "15px 0px" }}>Kashmir</h1>
+      <h1 style={{ margin: "15px 0px" }}>Federal</h1>
 
       <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
-        Kashmiris the northernmost geographical region of the Indian
-        subcontinent. Until the mid-19th century, the term "Kashmir" denoted
-        only the Kashmir Valley between the Great Himalayas and the Pir Panjal
-        Range. Today, the term encompasses a larger area that includes the
-        Indian-administered territories of Jammu and Kashmir and Ladakh, the
-        Pakistani-administered territories of Azad Kashmir and Gilgit-Baltistan,
-        and the Chinese-administered territories of Aksai Chin and the
-        Trans-Karakoram Tract . In the first half of the first millennium, the
-        Kashmir region became an important centre of Hinduism and later of
-        Buddhism; later still, in the ninth century, Kashmir Shaivism arose. In
-        1339, Shah Mir became the first Muslim ruler of Kashmir, inaugurating
-        the Salatin-i-Kashmir or Shah Mir dynasty. The region was part of the
-        Mughal Empire from 1586 to 1751 ,and thereafter, until 1820, of the
-        Afghan Durrani Empire. That year, the Sikh Empire, under Ranjit Singh,
-        annexed Kashmir.
+        Balochistan( Balochi: بلوچِستان‎; also romanised as Baluchistan) is an
+        arid desert and mountainous region in South and Western Asia. It
+        comprises the Pakistani province of Balochistan, the Iranian province of
+        Sistan and Baluchestan, and the southern areas of Afghanistan, including
+        Nimruz, Helmand and Kandahar provinces.Balochistan borders the
+        Pashtunistan region to the north, Sindh and Punjab to the east, and
+        Persian regions to the west. South of its southern coastline, including
+        the Makran Coast, are the Arabian Sea and the Gulf of Oman.
       </div>
 
       <div

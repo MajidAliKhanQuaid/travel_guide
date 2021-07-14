@@ -150,7 +150,8 @@ const ListPlaces = () => {
               variant="top"
               src={
                 x.images && x.images.length > 0
-                  ? `http://localhost:4000/uploads/${x.images[0]}`
+                  ? `${process.env.REACT_APP_API_BASE_URL}
+/uploads/${x.images[0]}`
                   : ""
               }
             />

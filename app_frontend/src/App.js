@@ -61,6 +61,7 @@ import NewAccount from "./pages/accounts/New";
 import Profile from "./pages/accounts/Profile";
 import SignUp from "./pages/accounts/SignUp";
 
+import { Region } from "./pages/Region";
 import ListCategory from "./pages/category/List";
 import NewCategory from "./pages/category/New";
 import EditCategory from "./pages/category/Edit";
@@ -78,6 +79,7 @@ import {
 
 import style from "./style";
 import Main from "./pages/accounts/Main";
+import { Federal } from "./pages/region/federal";
 
 function App() {
   // location
@@ -191,12 +193,14 @@ function App() {
           <Route path="/logout" component={Logout} />
           <Route path="/login1" component={Main} />
 
-          <Route path="/region/balouchistan" component={Balouchistan} />
-          <Route path="/region/sindh" component={Sindh} />
-          <Route path="/region/punjab" component={Punjab} />
-          <Route path="/region/gilgit" component={Gilgit} />
-          <Route path="/region/kashmir" component={Kashmir} />
-          <Route path="/region/khyber" component={Khyber} />
+          {/* <Route path="/region/:region" component={Region} /> */}
+          <Route path="/region/fed" component={Federal} />
+          <Route path="/region/bl" component={Balouchistan} />
+          <Route path="/region/sd" component={Sindh} />
+          <Route path="/region/pu" component={Punjab} />
+          <Route path="/region/gb" component={Gilgit} />
+          <Route path="/region/kh" component={Kashmir} />
+          <Route path="/region/kp" component={Khyber} />
 
           <Route path="/categories/edit/:identifier" component={EditCategory} />
           <Route path="/categories/new" exact component={NewCategory} />

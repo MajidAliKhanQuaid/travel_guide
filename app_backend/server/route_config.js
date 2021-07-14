@@ -10,7 +10,7 @@ var indexRouter = require("./../routes/index.route"),
   reviewsRouter = require("./../routes/review.route");
 
 module.exports = function (app) {
-  app.use("/", indexRouter);
+  // app.use("/", indexRouter);
   app.use("/category", categoryRouter);
   app.use("/account", accountRouter);
   app.use("/places", placesRouter);
@@ -18,5 +18,12 @@ module.exports = function (app) {
   app.use("/comments", commentsRouter);
   app.use("/reviews", reviewsRouter);
 
+  app.use("/", async function (req, res, next) {
+    // console.log("TEST");
+    // res.status(200).json({ name: "10" });
+    let name = "Guest";
+    if (req.user) name = req.user.name;
+    res.render("index", { title: name });
+  });
   return app;
 };

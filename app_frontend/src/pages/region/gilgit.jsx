@@ -3,7 +3,21 @@ import { Col, Figure, Row, Card } from "react-bootstrap";
 import placeservice from "./../../services/place.service";
 import { Link } from "react-router-dom";
 
+import { ReactPhotoCollage } from "react-photo-collage";
 export const Gilgit = () => {
+  const [setting, setCollagSetting] = useState({
+    width: "100%",
+    height: ["250px", "170px"],
+    layout: [1, 4],
+    photos: [
+      { source: `/assets/images/gilgit/1.jpg` },
+      { source: `/assets/images/gilgit/2.jpg` },
+      { source: `/assets/images/gilgit/3.jpg` },
+      { source: `/assets/images/gilgit/4.jpg` },
+      { source: `/assets/images/gilgit/5.jpg` },
+    ],
+    showNumOfRemainingPhotos: true,
+  });
   const [places, setPlaces] = useState([]);
   useEffect(async () => {
     const rPlaces = await placeservice.getPlacesByRegion("gt");
@@ -13,68 +27,7 @@ export const Gilgit = () => {
   return (
     <>
       <div className="row">
-        <div className="col-md-8">
-          <Figure>
-            <Figure.Image
-              style={{ width: "100%" }}
-              alt={`gilgit-1.jpg`}
-              src={`${process.env.PUBLIC_URL}/assets/images/gilgit-1.jpg`}
-            />
-          </Figure>
-        </div>
-        <div className="col-md-4 d-none d-lg-block d-md-block">
-          <div className="row">
-            <div className="col-md-6">
-              <Figure>
-                <Figure.Image
-                  style={{ width: "100%" }}
-                  alt={`gilgit-2.jpg`}
-                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-2.jpg`}
-                />
-              </Figure>
-            </div>
-            <div className="col-md-6">
-              <Figure>
-                <Figure.Image
-                  style={{ width: "100%" }}
-                  alt={`gilgit-3.jpg`}
-                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-3.jpg`}
-                />
-              </Figure>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6">
-              <Figure>
-                <Figure.Image
-                  style={{ width: "100%" }}
-                  alt={`gilgit-4.jpg`}
-                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-4.jpg`}
-                />
-              </Figure>
-            </div>
-            <div className="col-md-6">
-              <Figure>
-                <Figure.Image
-                  style={{ width: "100%" }}
-                  alt={`gilgit-5.jpg`}
-                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-5.jpg`}
-                />
-              </Figure>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <Figure>
-                <Figure.Image
-                  style={{ width: "100%" }}
-                  alt={`gilgit-1.jpg`}
-                  src={`${process.env.PUBLIC_URL}/assets/images/gilgit-1.jpg`}
-                />
-              </Figure>
-            </div>
-          </div>
-        </div>
+        <ReactPhotoCollage {...setting} />
       </div>
 
       <h1 style={{ margin: "15px 0px" }}>Gilgit</h1>
@@ -105,6 +58,7 @@ export const Gilgit = () => {
         {places.map((x, y) => (
           // <Card style={{ width: "20rem", flexGrow: "1" }}>
           <Card
+            className="glass rounded-corners"
             style={{
               flex: "0 1 30%",
               margin: "1.6%",
@@ -115,7 +69,8 @@ export const Gilgit = () => {
               variant="top"
               src={
                 x.images && x.images.length > 0
-                  ? `http://localhost:4000/uploads/${x.images[0]}`
+                  ? `${process.env.REACT_APP_API_BASE_URL}
+/uploads/${x.images[0]}`
                   : ""
               }
             />

@@ -1,30 +1,52 @@
 import { useEffect, useState } from "react";
 import { Col, Figure, Row, Card } from "react-bootstrap";
-import placeservice from "./../../services/place.service";
-
+import { useParams } from "react-router";
+import placeservice from "./../services/place.service";
+import { regions } from "../conts";
 import { ReactPhotoCollage } from "react-photo-collage";
-export const Balouchistan = () => {
+import history from "./../History";
+export const Region = () => {
+  const { region } = useParams();
+  const [places, setPlaces] = useState([]);
+  const [reg, setReg] = useState({});
   const [setting, setCollagSetting] = useState({
     width: "100%",
     height: ["250px", "170px"],
     layout: [1, 4],
     photos: [
-      { source: `/assets/images/balouchistan/1.jpg` },
-      { source: `/assets/images/balouchistan/2.jpg` },
-      { source: `/assets/images/balouchistan/3.jpg` },
-      { source: `/assets/images/balouchistan/4.jpg` },
-      { source: `/assets/images/balouchistan/5.jpg` },
+      // { source: `/assets/images/federal/1.jpg` },
+      // { source: `/assets/images/federal/2.jpg` },
+      // { source: `/assets/images/federal/3.jpg` },
+      // { source: `/assets/images/federal/4.jpg` },
+      // { source: `/assets/images/federal/5.jpg` },
     ],
     showNumOfRemainingPhotos: true,
   });
-  const [places, setPlaces] = useState([]);
   useEffect(async () => {
     // const CancelToken = axios.CancelToken;
     // const source = CancelToken.source();
+    const rg = regions.find((x) => x.key == region);
+    if (!rg) {
+      history.push("/");
+    }
+
+    setReg(rg);
+    const images = [1, 2, 3, 4, 5].map((x) => {
+      return {
+        source: `/assets/images/${rg.dir}/${1}.jpg`,
+        // source: `/assets/images/balouchistan/1.jpg`,
+      };
+    });
+    console.log("IMAGES", images);
+    setCollagSetting({
+      ...setting,
+      photos: [...images],
+    });
+    console.log("SETTING ", setting);
 
     try {
       // const rPlaces = await placeservice.getPlacesByRegion("bl", source);
-      const rPlaces = await placeservice.getPlacesByRegion("bl");
+      const rPlaces = await placeservice.getPlacesByRegion(rg.key);
       setPlaces(rPlaces);
     } catch (err) {
       console.log(err);
@@ -33,7 +55,7 @@ export const Balouchistan = () => {
     return () => {
       // source.cancel();
     };
-  }, []);
+  }, [region]);
 
   return (
     <>
@@ -41,17 +63,10 @@ export const Balouchistan = () => {
         <ReactPhotoCollage {...setting} />
       </div>
 
-      <h1 style={{ margin: "15px 0px" }}>Balochistan</h1>
+      <h1 style={{ margin: "15px 0px" }}>{reg.text}</h1>
 
       <div style={{ textAlign: "justify", textJustify: "inter-word" }}>
-        Balochistan( Balochi: بلوچِستان‎; also romanised as Baluchistan) is an
-        arid desert and mountainous region in South and Western Asia. It
-        comprises the Pakistani province of Balochistan, the Iranian province of
-        Sistan and Baluchestan, and the southern areas of Afghanistan, including
-        Nimruz, Helmand and Kandahar provinces.Balochistan borders the
-        Pashtunistan region to the north, Sindh and Punjab to the east, and
-        Persian regions to the west. South of its southern coastline, including
-        the Makran Coast, are the Arabian Sea and the Gulf of Oman.
+        {reg.info}
       </div>
 
       <div
@@ -67,7 +82,6 @@ export const Balouchistan = () => {
         {places.map((x, y) => (
           // <Card style={{ width: "20rem", flexGrow: "1" }}>
           <Card
-            className="glass rounded-corners"
             style={{
               flex: "0 1 30%",
               margin: "1.6%",

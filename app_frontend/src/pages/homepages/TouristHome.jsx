@@ -107,7 +107,7 @@ const AnonymousHome = () => {
         {regions.map((x, i) => (
           <Link
             style={{ flex: "0 1 30%", margin: "1.6%" }}
-            to={x.url}
+            to={`/region/${x.key}`}
             className="card-region-link"
             key={"region-cards" + i}
           >
@@ -115,9 +115,9 @@ const AnonymousHome = () => {
               <Card.Img variant="top" src={x.image} />
               <Card.Body>
                 <Card.Title className="mb-2 text-center">{x.text}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted text-center">
+                {/* <Card.Subtitle className="mb-2 text-muted text-center">
                   Card Subtitle
-                </Card.Subtitle>
+                </Card.Subtitle> */}
               </Card.Body>
             </Card>
           </Link>

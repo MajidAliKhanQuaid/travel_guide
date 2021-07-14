@@ -72,7 +72,7 @@ const NavbarComponent = ({
               <>
                 <NavDropdown title={"Regions "} id="user-nav-dropdown">
                   {regions.map((x) => (
-                    <Link to={`${x.url}`} className="dropdown-item">
+                    <Link to={`/region/${x.key}`} className="dropdown-item">
                       {x.text}
                     </Link>
                   ))}

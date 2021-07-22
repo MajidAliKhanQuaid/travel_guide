@@ -80,6 +80,47 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { name, description, location, category, region } = req.body;
+
+    if (!name) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid name, must be at least 3 characters long`,
+      });
+      return;
+    }
+
+    if (!description) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid description, must be at least 3 characters long`,
+      });
+      return;
+    }
+
+    if (!location) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid location`,
+      });
+      return;
+    }
+
+    if (!region) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid region`,
+      });
+      return;
+    }
+
+    if (!category) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid category`,
+      });
+      return;
+    }
+
     const ePlace = await Place.findOne({
       name: name,
       deleted: false,
@@ -165,6 +206,39 @@ router.post(
   upload.array("attachments"),
   async function (req, res, next) {
     const { _id, name, description, location, category, region } = req.body;
+
+    if (!name) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid name, must be at least 3 characters long`,
+      });
+      return;
+    }
+
+    if (!description) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid description, must be at least 3 characters long`,
+      });
+      return;
+    }
+
+    if (!location) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid location`,
+      });
+      return;
+    }
+
+    if (!region) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid region`,
+      });
+      return;
+    }
+
     const ePlace = await Place.findOne({
       _id: { $ne: _id },
       name: name,

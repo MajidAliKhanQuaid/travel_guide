@@ -177,7 +177,7 @@ router.post("/auth/facebook", async function (req, res, next) {
       _id: result._id,
       name: result.name,
       username: result.username,
-      roles: roles,
+      roles: result.roles,
     });
     console.log("Result ", result);
     res.status(201).json({ success: true, token: token, user: result });

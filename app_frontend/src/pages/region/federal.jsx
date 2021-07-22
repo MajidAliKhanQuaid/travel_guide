@@ -3,6 +3,8 @@ import { Col, Figure, Row, Card } from "react-bootstrap";
 import placeservice from "./../../services/place.service";
 import { regions } from "./../../conts";
 import { ReactPhotoCollage } from "react-photo-collage";
+
+import { Link } from "react-router-dom";
 export const Federal = () => {
   const [setting, setCollagSetting] = useState({
     width: "100%",
@@ -74,22 +76,20 @@ export const Federal = () => {
             }}
             key={x._id}
           >
-            <Card.Img
-              variant="top"
-              src={
-                x.images && x.images.length > 0
-                  ? `${process.env.REACT_APP_API_BASE_URL}
+            <Link to={`/places/${x._id}`}>
+              <Card.Img
+                variant="top"
+                src={
+                  x.images && x.images.length > 0
+                    ? `${process.env.REACT_APP_API_BASE_URL}
 /uploads/${x.images[0]}`
-                  : ""
-              }
-            />
-            <Card.Body>
-              <Card.Title>{x.name}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                Card Subtitle
-              </Card.Subtitle>
-              <Card.Text>{x.description}</Card.Text>
-            </Card.Body>
+                    : ""
+                }
+              />
+              <Card.Body>
+                <Card.Title>{x.name}</Card.Title>
+              </Card.Body>
+            </Link>
           </Card>
         ))}
       </div>

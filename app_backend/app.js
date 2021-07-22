@@ -73,10 +73,13 @@ app.all("*", (req, res, next) => {
   var matchingRoutes = anonymousRoutes.filter((x) => req.path.startsWith(x));
   if (
     matchingRoutes.length > 0 ||
-    req.path == "/" ||
-    req.path == "/alam" ||
-    req.path == "/favicon.ico" ||
-    req.path == "/stylesheets/style.css"
+    req.path.endsWith(".ico") ||
+    req.path.endsWith(".jpeg") ||
+    req.path.endsWith(".jpg") ||
+    req.path.endsWith(".png") ||
+    req.path.endsWith(".gif") ||
+    req.path.endsWith(".css") ||
+    req.path == "/"
   ) {
     return next();
   }

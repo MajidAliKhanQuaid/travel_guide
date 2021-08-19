@@ -14,7 +14,7 @@ import { regions } from "./../../conts";
 import placeService from "../../services/place.service";
 
 const EditPlace = () => {
-  const [alert, setAlert] = useState({
+  const [alertMessage, setAlertMessage] = useState({
     show: false,
     class: "danger",
     text: "",
@@ -81,16 +81,16 @@ const EditPlace = () => {
         //handle success
         console.log(data);
         if (data.success) {
-          setAlert({
-            ...alert,
+          setAlertMessage({
+            ...alertMessage,
             show: true,
             text: "New place created",
             class: "success",
           });
           history.push("/places");
         } else {
-          setAlert({
-            ...alert,
+          setAlertMessage({
+            ...alertMessage,
             show: true,
             text: data.message,
             class: "danger",
@@ -114,10 +114,10 @@ const EditPlace = () => {
   return (
     <>
       <Alert
-        show={alert.show}
-        onClose={() => setAlert({ ...alert, show: false })}
+        show={alertMessage.show}
+        onClose={() => setAlertMessage({ ...alertMessage, show: false })}
         dismissible
-        variant={alert.class}
+        variant={alertMessage.class}
       >
         {alert.text}
       </Alert>

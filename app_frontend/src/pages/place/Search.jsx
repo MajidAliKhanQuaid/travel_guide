@@ -24,8 +24,14 @@ const SearchPlaces = (props) => {
     if (searchText) {
       toggleSpinner(dispatch, true);
       const response = await placeService.search(searchText);
-      console.error("Search Text ", response);
-      setPlaces(response);
+      const lPlaces = response.map((x) => {
+        return {
+          ...x,
+          location: `<iframe src="https://maps.google.com/maps?q=${x.latitude},${x.longitude}&amp;hl=es;z=15&amp;output=embed"></iframe>`,
+        };
+      });
+      console.error("Search Text ", lPlaces);
+      setPlaces(lPlaces);
       toggleSpinner(dispatch, false);
     } else {
       console.error("Search Text ", searchText);

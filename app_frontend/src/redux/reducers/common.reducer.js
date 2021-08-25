@@ -9,6 +9,7 @@ const initialState = {
   toggleBreadcrumb: false,
   breadcrumbItems: [],
   categories: [],
+  location: { lat: 0, lan: 0 },
 };
 
 categoryService
@@ -20,6 +21,24 @@ categoryService
     });
   })
   .catch((err) => {});
+
+navigator.geolocation.getCurrentPosition(function (position) {
+  console.log("UPDATED_LOCATION", {
+    lat: position.coords.latitude,
+    lon: position.coords.longitude,
+  });
+  store.dispatch({
+    type: "UPDATE_LOCATION",
+    payload: {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+    },
+  });
+  console.log("1# UPDATED_LOCATION", {
+    lat: position.coords.latitude,
+    lon: position.coords.longitude,
+  });
+});
 
 export default function commonReducer(state = initialState, action) {
   //console.log("common.reducer  [state]", state, " [action] ", action);
@@ -61,6 +80,11 @@ export default function commonReducer(state = initialState, action) {
   if (action.type == "SET_CATEGORIES") {
     const { payload } = action;
     return { ...state, categories: payload };
+  }
+
+  if (action.type == "UPDATE_LOCATION") {
+    const { payload } = action;
+    return { ...state, location: payload };
   }
 
   return state;

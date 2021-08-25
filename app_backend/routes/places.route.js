@@ -8,6 +8,28 @@ const express = require("express"),
   Comment = require("../models/comment.model"),
   Review = require("../models/review.model");
 
+const RADIUS = 50; // km
+
+function calcCrow(lat1, lon1, lat2, lon2) {
+  var R = 6371; // km
+  var dLat = toRad(lat2 - lat1);
+  var dLon = toRad(lon2 - lon1);
+  var lat1 = toRad(lat1);
+  var lat2 = toRad(lat2);
+
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d;
+}
+
+// Converts numeric degrees to radians
+function toRad(Value) {
+  return (Value * Math.PI) / 180;
+}
+
 // loads all places
 router.get("/", async function (req, res, next) {
   let places;
@@ -33,7 +55,77 @@ router.get("/", async function (req, res, next) {
 // loads one place, based on query parameter `id`
 router.get("/get", async function (req, res, next) {
   try {
+    let nearbyPlaces = [];
+    //
+    // if (req.query.lon && req.query.lat) {
+    //   console.log("Query ", req.query);
+    //   let pl = await Place.find({
+    //     deleted: false,
+    //     _id: { $ne: req.query.id },
+    //     longitude: { $ne: undefined },
+    //     longitude: { $gt: 0 },
+    //     latitude: { $ne: undefined },
+    //     latitude: { $gt: 0 },
+    //   }).exec();
+
+    //   let inRadius = pl.filter((x) => {
+    //     let rad = calcCrow(
+    //       req.query.lat,
+    //       req.query.lon,
+    //       x.latitude,
+    //       x.longitude
+    //     );
+    //     // console.log("RADIUS IS ", rad, " PLACE ", x);
+    //     if (rad <= RADIUS) return true;
+    //     return false;
+    //   });
+    //   nearbyPlaces = inRadius;
+    // console.log("InRadius ", inRadius);
+    // nearbyPlaces = inRadius.map((x) => {
+    //   let distance = calcCrow(
+    //     req.query.lat,
+    //     req.query.lon,
+    //     x.latitude,
+    //     x.longitude
+    //   );
+    //   return { ...x, distance };
+    // });
+
+    //   console.log("Nearby Places ", nearbyPlaces);
+    //   console.log("VALID PLACES ", pl.length, "In Radius ", inRadius.length);
+    // }
+    //
     let place = await Place.findById(req.query.id).exec();
+
+    if (
+      place.longitude &&
+      place.longitude > 0 &&
+      place.latitude &&
+      place.latitude > 0
+    ) {
+      console.log("PLACE ", place.longitude, place.latitude);
+      let pl = await Place.find({
+        deleted: false,
+        _id: { $ne: req.query.id },
+        longitude: { $ne: undefined },
+        longitude: { $gt: 0 },
+        latitude: { $ne: undefined },
+        latitude: { $gt: 0 },
+      }).exec();
+
+      let inRadius = pl.filter((x) => {
+        let rad = calcCrow(
+          place.latitude,
+          place.longitude,
+          x.latitude,
+          x.longitude
+        );
+        // console.log("RADIUS IS ", rad, " PLACE ", x);
+        if (rad <= RADIUS) return true;
+        return false;
+      });
+      nearbyPlaces = inRadius;
+    }
 
     let reviews = await Review.find({
       deleted: false,
@@ -54,6 +146,7 @@ router.get("/get", async function (req, res, next) {
     // if you don't use .toJSON(), it'll spread the mongoose object
     place = {
       ...place.toJSON(),
+      nearbyPlaces,
       comments: comments,
       reviews: reviews,
       is_fav: fav ? true : false,
@@ -79,7 +172,15 @@ router.post(
   "/save",
   upload.array("attachments"),
   async function (req, res, next) {
-    const { name, description, location, category, region } = req.body;
+    const {
+      name,
+      description,
+      location,
+      longitude,
+      latitude,
+      category,
+      region,
+    } = req.body;
 
     if (!name) {
       res.status(200).json({
@@ -97,10 +198,18 @@ router.post(
       return;
     }
 
-    if (!location) {
+    if (!longitude) {
       res.status(200).json({
         success: false,
-        message: `Please enter valid location`,
+        message: `Please enter valid longitude`,
+      });
+      return;
+    }
+
+    if (!latitude) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid latitude`,
       });
       return;
     }
@@ -144,6 +253,8 @@ router.post(
       name: name,
       description: description,
       location: location,
+      longitude: longitude,
+      latitude: latitude,
       category: category,
       region: region,
       images: images,
@@ -205,7 +316,16 @@ router.post(
   "/update",
   upload.array("attachments"),
   async function (req, res, next) {
-    const { _id, name, description, location, category, region } = req.body;
+    const {
+      _id,
+      name,
+      description,
+      location,
+      longitude,
+      latitude,
+      category,
+      region,
+    } = req.body;
 
     if (!name) {
       res.status(200).json({
@@ -223,10 +343,18 @@ router.post(
       return;
     }
 
-    if (!location) {
+    if (!longitude) {
       res.status(200).json({
         success: false,
-        message: `Please enter valid location`,
+        message: `Please enter valid longitude`,
+      });
+      return;
+    }
+
+    if (!latitude) {
+      res.status(200).json({
+        success: false,
+        message: `Please enter valid latitude`,
       });
       return;
     }
@@ -266,6 +394,8 @@ router.post(
             name: name,
             description: description,
             location: location,
+            longitude: longitude,
+            latitude: latitude,
             category: category,
             region: region,
             updatedBy: req.user.username,

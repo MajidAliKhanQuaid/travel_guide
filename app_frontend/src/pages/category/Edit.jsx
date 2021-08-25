@@ -76,10 +76,12 @@ const EditCategory = () => {
         {alert.text}
       </Alert>
 
+      <h1>Category</h1>
+
       <Form onSubmit={submitForm}>
         <Form.Control name="_id" type="hidden" value={category._id} />
         <Form.Group controlId="name">
-          <Form.Label>Category</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             name="name"
             type="text"

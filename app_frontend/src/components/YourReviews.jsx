@@ -7,8 +7,9 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
-
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Rating from "react-rating";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const YourReviews = ({ placeId, reviews, saveCallback, removeCallback }) => {
   const [review, setReview] = useState({ text: "", rating: 0 });
@@ -17,6 +18,24 @@ const YourReviews = ({ placeId, reviews, saveCallback, removeCallback }) => {
       <div className="row">
         <div className="col-md-12">
           <Rating
+            style={{ marginBottom: "15px" }}
+            placeholderSymbol={
+              <FontAwesomeIcon
+                icon={faStar}
+                color={"yellow"}
+                style={{ fontSize: "30px" }}
+              />
+            }
+            emptySymbol={
+              <FontAwesomeIcon icon={faStar} style={{ fontSize: "30px" }} />
+            }
+            fullSymbol={
+              <FontAwesomeIcon
+                icon={faStar}
+                color={"yellow"}
+                style={{ fontSize: "30px" }}
+              />
+            }
             placeholderRating={review.rating}
             onChange={async (value) => {
               setReview({ ...review, rating: value });
@@ -52,7 +71,31 @@ const YourReviews = ({ placeId, reviews, saveCallback, removeCallback }) => {
           <>
             <div className="col-md-12">
               <div>
-                <Rating placeholderRating={x.rating} readonly />
+                <Rating
+                  style={{ marginBottom: "15px" }}
+                  placeholderSymbol={
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      color={"yellow"}
+                      style={{ fontSize: "30px" }}
+                    />
+                  }
+                  emptySymbol={
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      style={{ fontSize: "30px" }}
+                    />
+                  }
+                  fullSymbol={
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      color={"yellow"}
+                      style={{ fontSize: "30px" }}
+                    />
+                  }
+                  placeholderRating={x.rating}
+                  readonly
+                />
               </div>
               <Alert
                 variant="info"

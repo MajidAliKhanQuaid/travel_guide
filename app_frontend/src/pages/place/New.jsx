@@ -111,6 +111,9 @@ const NewPlace = () => {
         {alert.text}
       </Alert>
 
+      <h1>Place</h1>
+      <br />
+
       <Form onSubmit={submitForm}>
         <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
@@ -163,6 +166,30 @@ const NewPlace = () => {
             name="location"
             type="text"
             placeholder="Enter Location ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtLatitude">
+          <Form.Label>Latitude</Form.Label>
+          <Form.Control
+            name="latitude"
+            type="text"
+            placeholder="Enter Latitude ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtLongitude">
+          <Form.Label>Longitude</Form.Label>
+          <Form.Control
+            name="longitude"
+            type="text"
+            placeholder="Enter Longitude ..."
           />
           {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.

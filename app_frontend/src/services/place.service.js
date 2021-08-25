@@ -30,9 +30,15 @@ const placeService = {
     return payload.data;
   },
 
-  getPlaceById: async (_identifier, _view) => {
+  getPlaceById: async (_identifier, _view, _coordinates) => {
     let url = `/places/get?id=${_identifier}`;
-    if (_view) url += "&view=1";
+    if (_view) {
+      url += "&view=1";
+    }
+    if (_coordinates) {
+      url += `&lon=${_coordinates.lon}&lat=${_coordinates.lat}`;
+      console.log("Coordinates ", _coordinates, url);
+    }
     const payload = await axios.get(url);
     return payload.data;
   },

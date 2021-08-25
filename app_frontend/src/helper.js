@@ -39,3 +39,10 @@ export const addCategories = (_dispatch, _categories) => {
     payload: _categories,
   });
 };
+
+export const updateLocation = (_dispatch, _location) => {
+  _dispatch({
+    type: "UPDATE_LOCATION",
+    payload: _location,
+  });
+};

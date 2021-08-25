@@ -50,7 +50,7 @@ const AdminHome = () => {
               margin: "1.6%",
             }}
           >
-            <Card className="glass">
+            <Card className="glass" style={{ borderRadius: "25% 0" }}>
               <Card.Body>
                 <FontAwesomeIcon icon={x.icon} style={{ fontSize: "50px" }} />
                 <Card.Title>{x.title}</Card.Title>

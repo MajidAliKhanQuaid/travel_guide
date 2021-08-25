@@ -4,6 +4,8 @@ const placeSchema = mongoose.Schema({
   name: String,
   description: String,
   location: String,
+  longitude: Number,
+  latitude: Number,
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   region: String,
   images: [String],

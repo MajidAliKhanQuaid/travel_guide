@@ -71,9 +71,11 @@ const NewCategory = () => {
         {alert.text}
       </Alert>
 
+      <h1>Category</h1>
+
       <Form onSubmit={submitForm}>
         <Form.Group controlId="name">
-          <Form.Label>Category</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             name="name"
             type="text"

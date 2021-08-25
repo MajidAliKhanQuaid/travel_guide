@@ -8,7 +8,6 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import favService from "../../services/fav.service";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,20 +16,32 @@ import {
   toggleSpinner,
   toggleBreadcrumb,
   addBreadcrumbItems,
+  updateLocation,
 } from "./../../helper";
 import { useParams } from "react-router";
 
 import placeService from "../../services/place.service";
 import reviewService from "../../services/review.service";
 import YourReviews from "../../components/YourReviews";
-import Rating from "react-rating";
+import jwt_decode from "jwt-decode";
+
 // var Rating = require();
 
 import { commonStyles } from "../../conts";
+import NearbyPlaces from "../../components/NearbyPlaces";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Place = () => {
   const { identifier } = useParams();
+  const [roles, setRoles] = useState([]);
+  // const userLocation = useSelector((x) => x.commonState.location);
+  const [userLocation, setUserLocation] = useState({ lon: 0, lat: 0 });
   const loggedInUser = useSelector((x) => x.userState.user);
-  const [place, setPlace] = useState({ images: [], comments: [], reviews: [] });
+  const [place, setPlace] = useState({
+    images: [],
+    comments: [],
+    reviews: [],
+    nearbyPlaces: [],
+  });
   const [alert, setAlert] = useState({
     show: false,
     message: "",
@@ -38,15 +49,18 @@ const Place = () => {
   });
 
   const [dp, setDp] = useState("");
+  // const [loc, setLoc] = useState({});
   const location = useLocation();
   const dispatch = useDispatch();
 
   const loadPlace = async () => {
+    console.log("#2 LOADING PLACE");
     toggleSpinner(dispatch, true);
-
-    const place = await placeService.getPlaceById(identifier, true);
+    let place = await placeService.getPlaceById(identifier, true, userLocation);
+    place.location = `<iframe src="https://maps.google.com/maps?q=${place.latitude},${place.longitude}&amp;hl=es;z=15&amp;output=embed"></iframe>`;
     console.log("Place ", place);
     setPlace(place);
+    // setLoc({ ...loc, lon: place.longitude, lat: place.latitude });
     if (place.images && place.images.length > 0) {
       setDp(`${process.env.REACT_APP_API_BASE_URL}/uploads/${place.images[0]}`);
     }
@@ -74,13 +88,41 @@ const Place = () => {
   };
 
   useEffect(async () => {
+    if (userLocation.lon == 0) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        console.log("UPDATED_LOCATION", {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+        // update state
+        setUserLocation({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+      });
+    }
+    console.log("USER LOCATION () ", userLocation);
+
     addBreadcrumbItems(dispatch, [
       { text: "Home", url: "/" },
       { text: "Place", url: location.pathname },
     ]);
-    await loadPlace();
+
+    if (userLocation.lon > 0) {
+      await loadPlace();
+    }
+
     toggleBreadcrumb(dispatch, true);
-  }, []);
+
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (token) {
+      const tokenInfo = jwt_decode(token);
+      console.log("Token info ", tokenInfo);
+      const userRoles = tokenInfo.roles;
+      setRoles(userRoles);
+    }
+  }, [userLocation]);
 
   const toggle = async () => {
     let isAddCall = false;
@@ -107,7 +149,6 @@ const Place = () => {
     } else if (response.deleted) {
       setAlert({
         ...alert,
-        class: "danger",
         show: true,
         message: "Place removed from favourites",
       });
@@ -128,14 +169,38 @@ const Place = () => {
 
       <h1 style={commonStyles.heading}>
         {place.name}{" "}
-        <Button onClick={toggle} style={{ marginBottom: "15px" }}>
-          {place.is_fav ? "Remove from Favourites" : "Add To Favourites"}
-        </Button>
+        {roles.filter((x) => x != "admin").length > 0 && (
+          <Button
+            onClick={toggle}
+            variant={"default"}
+            style={{ marginBottom: "15px", outline: "none", boxShadow: "none" }}
+          >
+            <>
+              {place.is_fav ? (
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  color={"red"}
+                  style={{ fontSize: "50px" }}
+                />
+              ) : (
+                <FontAwesomeIcon icon={faHeart} style={{ fontSize: "50px" }} />
+              )}
+
+              {/* <p>
+                {place.is_fav ? "Remove from Favourites" : "Add To Favourites"}
+              </p> */}
+            </>
+          </Button>
+        )}
       </h1>
 
       <div className="row">
         <div className="col-sm-6 map-container">
-          <div dangerouslySetInnerHTML={{ __html: place.location }} />
+          {place.longitude && place.latitude ? (
+            <div dangerouslySetInnerHTML={{ __html: place.location }} />
+          ) : (
+            <h1>Lon/Lat not available</h1>
+          )}
         </div>
         <div className="col-sm-6">
           {dp && (
@@ -179,12 +244,16 @@ const Place = () => {
       </div>
       {/* <TravelPackages isLoggedIn={loggedInUser} /> */}
 
-      <YourReviews
-        placeId={place._id}
-        reviews={place.reviews}
-        saveCallback={saveReview}
-        removeCallback={removeReview}
-      />
+      {roles.filter((x) => x != "admin").length > 0 && (
+        <YourReviews
+          placeId={place._id}
+          reviews={place.reviews}
+          saveCallback={saveReview}
+          removeCallback={removeReview}
+        />
+      )}
+
+      <NearbyPlaces places={place.nearbyPlaces} />
     </>
   );
 };

@@ -79,12 +79,12 @@ const EditPlace = () => {
     })
       .then(function ({ data }) {
         //handle success
-        console.log(data);
+        console.log("data is ", data);
         if (data.success) {
           setAlertMessage({
             ...alertMessage,
             show: true,
-            text: "New place created",
+            text: "Place updated successfully",
             class: "success",
           });
           history.push("/places");
@@ -119,7 +119,7 @@ const EditPlace = () => {
         dismissible
         variant={alertMessage.class}
       >
-        {alert.text}
+        {alertMessage.text}
       </Alert>
       <Form onSubmit={submitForm}>
         <input type="hidden" name="_id" value={place._id} />
@@ -204,6 +204,38 @@ const EditPlace = () => {
               setPlace({ ...place, location: e.target.value });
             }}
             placeholder="Enter Location ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtLatitude">
+          <Form.Label>Latitude</Form.Label>
+          <Form.Control
+            name="latitude"
+            type="text"
+            value={place.latitude}
+            onChange={(e) => {
+              setPlace({ ...place, latitude: e.target.value });
+            }}
+            placeholder="Enter Latitude ..."
+          />
+          {/* <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text> */}
+        </Form.Group>
+
+        <Form.Group controlId="txtLongitude">
+          <Form.Label>Longitude</Form.Label>
+          <Form.Control
+            name="longitude"
+            type="text"
+            value={place.longitude}
+            onChange={(e) => {
+              setPlace({ ...place, longitude: e.target.value });
+            }}
+            placeholder="Enter Longitude ..."
           />
           {/* <Form.Text className="text-muted">
               We'll never share your email with anyone else.

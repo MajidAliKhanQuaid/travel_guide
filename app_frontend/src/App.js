@@ -75,6 +75,7 @@ import {
   toggleBreadcrumb,
   addBreadcrumbItems,
   addCategories,
+  updateLocation,
 } from "./helper";
 
 import style from "./style";
@@ -130,6 +131,17 @@ function App() {
         addCategories(dispatch, lCats);
       }
     }
+
+    // if ("geolocation" in navigator) {
+    //   navigator.geolocation.getCurrentPosition(function (position) {
+    //     updateLocation(dispatch, {
+    //       lat: position.coords.latitude,
+    //       lon: position.coords.longitude,
+    //     });
+    //     console.log("Latitude is :", position.coords.latitude);
+    //     console.log("Longitude is :", position.coords.longitude);
+    //   });
+    // }
   }, [location.pathname]);
 
   const searchPlaces = () => {
@@ -208,6 +220,7 @@ function App() {
 
           <Route path="/places/new" exact component={NewPlace} />
           <Route path="/places/search" component={SearchPlaces} />
+          <Route path="/places/view/:identifier" component={Place} />
           <Route path="/places/edit/:identifier" component={EditPlace} />
           <Route path="/places/category/:identifier" component={ListPlaces} />
           <Route path="/places/:identifier" component={Place} />
